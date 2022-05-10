@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.rememberme.screens.DetailScreen
 import com.example.rememberme.screens.HomeScreen
 import com.example.rememberme.ui.theme.RememberMeTheme
+import com.example.rememberme.widgets.RememberRow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HomeScreen()
+
+                    //HomeScreen()
+                    DetailScreen()
+                    //RememberRow()
                 }
             }
         }
