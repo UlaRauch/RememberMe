@@ -1,23 +1,20 @@
 package com.example.rememberme.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.models.getReminders
+import com.example.rememberme.navigation.RememberScreens
+import com.example.rememberme.widgets.RememberRow
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -26,20 +23,36 @@ fun HomeScreen() {
         }
     ) {
         MainContent(
+            navController = navController
         )
     }
 }
 
 @Composable
-fun MainContent(reminders: List<Reminder> = getReminders()) {
+fun MainContent(
+    navController: NavController,
+    reminders: List<Reminder> = getReminders(),
+) {
     LazyColumn() {
         items(reminders) { reminder ->
+            RememberRow(
+                reminder = reminder,
+            )
+            { reminderID ->
+                //navController.navigate("HomeScreen")
+                navController.navigate(RememberScreens.DetailScreen.name + "/$reminderID")
+                Log.d("Navigation", "Reminder clicked. ID: ${reminder.id}")
+            }
+
+            /*
             Card() {
                 Column() {
                     Text(text = reminder.title)
                     Text(text = reminder.text)
                 }
             }
+
+             */
         }
 
     }

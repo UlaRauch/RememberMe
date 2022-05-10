@@ -6,14 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.rememberme.screens.DetailScreen
-import com.example.rememberme.screens.HomeScreen
+import com.example.rememberme.navigation.RememberNavigation
 import com.example.rememberme.ui.theme.RememberMeTheme
-import com.example.rememberme.widgets.RememberRow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +23,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    //HomeScreen()
-                    DetailScreen()
-                    //RememberRow()
+                    RememberNavigation()
                 }
             }
         }
@@ -39,6 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     RememberMeTheme {
-        HomeScreen()
+        //HomeScreen(navController = n)
     }
 }
