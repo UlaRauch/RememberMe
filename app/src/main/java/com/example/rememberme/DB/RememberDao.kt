@@ -21,4 +21,6 @@ interface RememberDao {
 
     @Query("SELECT * from reminders where id=:id")
     fun getReminderByID(id: Long): Reminder
+
+    //TODO: add functions for editReminder etc.
 }
