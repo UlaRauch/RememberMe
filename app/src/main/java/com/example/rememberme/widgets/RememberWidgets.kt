@@ -20,7 +20,8 @@ import com.example.rememberme.screens.reminderFilter
 
 @Composable
 fun RememberRow(
-    reminder: Reminder = reminderFilter(reminderID = "1"),
+    //reminder: Reminder = reminderFilter(reminderID = "1"),
+    reminder: Reminder,
     onItemClick: (String) -> Unit = {}
     ){
 //    val reminder= reminderFilter(reminderId = "1")

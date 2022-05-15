@@ -36,6 +36,7 @@ fun RememberNavigation() {
             DetailScreen(
                 reminderID = backStackEntry.arguments?.getString("reminderID"),
                 navController = navController,
+                viewModel = rememberViewModel
             )
         }
     }

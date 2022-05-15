@@ -25,12 +25,6 @@ fun HomeScreen(
             )
         }
     ) {
-        viewModel.addReminder( //TODO: remove this, just a test
-            Reminder(
-                "3",
-                "added reminder",
-                2, 3, 2022, 7, 23,
-                "this is text"))
         MainContent(
             navController = navController,
             reminders = viewModel.reminders
