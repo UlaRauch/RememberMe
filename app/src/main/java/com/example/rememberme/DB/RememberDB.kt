@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.rememberme.models.reminders
+import com.example.rememberme.models.Reminder
 
 @Database(
-    entities = [reminders::class], //add entities here
+    entities = [Reminder::class], //add entities here
     version = 1, //update with each change in db
     exportSchema = false
 )

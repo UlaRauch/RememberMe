@@ -10,7 +10,9 @@ class RememberRepository(private val dao: RememberDao) {
 
     fun deleteReminder(reminder: Reminder) = dao.deleteReminder(reminder = reminder)
 
-    fun getAllReminders(reminder: Reminder): Flow<List<Reminder>> = dao.getReminders()
+    fun getAllReminders(): Flow<List<Reminder>> = dao.getReminders()
+
+    fun filterReminder(id: Long) = dao.getReminderByID(id = id)
 
     //TODO: add functions here for editReminder oder deleteAllReminders
 }

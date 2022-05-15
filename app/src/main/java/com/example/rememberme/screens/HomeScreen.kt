@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
-import com.example.rememberme.models.getReminders
+//import com.example.rememberme.models.getReminders
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.viewmodels.RememberViewModel
 import com.example.rememberme.widgets.RememberRow
@@ -27,7 +27,7 @@ fun HomeScreen(
     ) {
         MainContent(
             navController = navController,
-            reminders = viewModel.reminders
+            reminders = viewModel.reminders.collect() //TODO: room video weiter anschaun bei ca. 54:00
         )
     }
 }
@@ -35,7 +35,7 @@ fun HomeScreen(
 @Composable
 fun MainContent(
     navController: NavController,
-    reminders: List<Reminder> = getReminders() //TODO: getReminders() nimmt dummy-reminders. provisorisch
+    reminders: List<Reminder>
 ) {
     LazyColumn() {
         items(reminders) { reminder ->

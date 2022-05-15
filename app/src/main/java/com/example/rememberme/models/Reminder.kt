@@ -1,37 +1,17 @@
 package com.example.rememberme.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "reminders")
 data class Reminder(
-    val id: String,
-    val title: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long? = null,
+    val title: String?,
     val day: Int,
     val month: Int,
     val year: Int,
-    val hour: Int,
-    val minute: Int,
-    val text: String
-)
-
-fun getReminders(): List<Reminder> {
-    return listOf(
-        Reminder(
-            id = "1",
-            title = "My first reminder",
-            day = 9,
-            month = 5,
-            year = 2022,
-            hour = 12,
-            minute = 0,
-            text = "Brush your teeth!"
-        ),
-        Reminder(
-            id = "2",
-            title = "My second reminder",
-            day = 9,
-            month = 5,
-            year = 2022,
-            hour = 12,
-            minute = 0,
-            text = "Floss like a boss!"
-        )
+    val hour: Int = 0,
+    val minute: Int = 0,
+    val text: String?
     )
-}

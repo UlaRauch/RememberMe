@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
-import com.example.rememberme.models.getReminders
+//import com.example.rememberme.models.getReminders
 import com.example.rememberme.viewmodels.RememberViewModel
 
 @Composable
 fun DetailScreen(
     navController: NavController,
     viewModel: RememberViewModel,
-    reminderID: String? = "1"
+    reminderID: Long = 1
 ) {
     val reminder = viewModel.filterReminders(id = reminderID)
     //val reminder= reminderFilter(reminderID = reminderID)
@@ -35,7 +35,7 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.title)
+                    Text(text = reminder.title!!) //TODO: geht das besser mit "?" ? - wie?
 
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -67,13 +67,17 @@ fun MainContentD(reminder:Reminder) {
                 Text(text = "${reminder.hour}:")
                 Text(text = "${reminder.minute}")
             }
-            Text(text = reminder.text)
+            //if (reminder.text != null)
+            Text(text = reminder.text!!) //TODO: geht das besser mit "?" ? - wie?
         }
     }
 }
 
 
 //TODO: not in use atm
+/*
 fun reminderFilter(reminderID: String?): Reminder {
     return getReminders().filter { reminder -> reminder.id == reminderID }[0]
 }
+
+ */
