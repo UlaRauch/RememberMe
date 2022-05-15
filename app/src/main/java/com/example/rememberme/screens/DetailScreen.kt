@@ -12,13 +12,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.models.getReminders
+import com.example.rememberme.viewmodels.RememberViewModel
 
 @Composable
 fun DetailScreen(
     navController: NavController,
+    viewModel: RememberViewModel,
     reminderID: String? = "1"
 ) {
-    val reminder= reminderFilter(reminderID = reminderID)
+    val reminder = viewModel.filterReminders(id = reminderID)
+    //val reminder= reminderFilter(reminderID = reminderID)
     Scaffold(
         topBar = {
             TopAppBar(){
@@ -70,6 +73,7 @@ fun MainContentD(reminder:Reminder) {
 }
 
 
+//TODO: not in use atm
 fun reminderFilter(reminderID: String?): Reminder {
     return getReminders().filter { reminder -> reminder.id == reminderID }[0]
 }
