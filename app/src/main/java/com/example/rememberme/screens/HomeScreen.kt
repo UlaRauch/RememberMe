@@ -20,6 +20,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: RememberViewModel
 ) {
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -27,7 +28,10 @@ fun HomeScreen(
             )
         }
     ) {
+        //viewModel.addReminder(Reminder(title = "next", day = 1, month = 1, year = 2023, hour = 22, minute = 0, text = "hello"))
+       //Log.i("HomeScreen", "reminder added")
         val reminders: List<Reminder> by viewModel.reminders.collectAsState()
+        Log.i("HomeScreen", "get reminders")
         MainContent(
             navController = navController,
             reminders = reminders

@@ -20,7 +20,7 @@ fun DetailScreen(
     viewModel: RememberViewModel,
     reminderID: Long = 1
 ) {
-    val reminder = viewModel.filterReminders(id = reminderID!!)
+    val reminder = viewModel.filterReminders(id = reminderID)
     //val reminder= reminderFilter(reminderID = reminderID)
     Scaffold(
         topBar = {
