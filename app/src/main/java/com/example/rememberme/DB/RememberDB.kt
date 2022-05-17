@@ -9,7 +9,7 @@ import com.example.rememberme.models.Reminder
 
 @Database(
     entities = [Reminder::class], //add entities here
-    version = 1, //update with each change in db
+    version = 2, //update with each change in db
     exportSchema = false
 )
 abstract class RememberDB : RoomDatabase() {

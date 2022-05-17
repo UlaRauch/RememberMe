@@ -52,15 +52,15 @@ fun RememberRow(
                     )
                     Row() {
                         Text(
-                            text = "Date: ${reminder.day}.",
+                            text = "Date: ${reminder.d}.",
                             style = MaterialTheme.typography.caption
                         )
                         Text(
-                            text = "${reminder.month}.",
+                            text = "${reminder.m}.",
                             style = MaterialTheme.typography.caption
                         )
                         Text(
-                            text = "${reminder.year}",
+                            text = "${reminder.y}",
                             style = MaterialTheme.typography.caption
                         )
                     }

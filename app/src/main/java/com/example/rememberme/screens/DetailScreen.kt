@@ -20,7 +20,7 @@ fun DetailScreen(
     viewModel: RememberViewModel,
     reminderID: Long = 1
 ) {
-    val reminder = viewModel.filterReminders(id = reminderID)
+    val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "hello")//TODO: use this: viewModel.filterReminders(id = reminderID)
     //val reminder= reminderFilter(reminderID = reminderID)
     Scaffold(
         topBar = {
@@ -35,7 +35,7 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.title!!) //TODO: geht das besser mit "?" ? - wie?
+                    Text(text = reminder.title) //TODO: geht das besser mit "?" ? - wie?
 
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -61,14 +61,14 @@ fun MainContentD(reminder:Reminder) {
     ) {
         Column() {
             Row() {
-                Text(text = "${reminder.day}.")
-                Text(text = "${reminder.month}.")
-                Text(text = "${reminder.year} ")
-                Text(text = "${reminder.hour}:")
-                Text(text = "${reminder.minute}")
+                Text(text = "${reminder.d}.")
+                Text(text = "${reminder.m}.")
+                Text(text = "${reminder.y} ")
+                Text(text = "${reminder.h}:")
+                Text(text = "${reminder.min}")
             }
             //if (reminder.text != null)
-            Text(text = reminder.text!!) //TODO: geht das besser mit "?" ? - wie?
+            Text(text = reminder.text) //TODO: geht das besser mit "?" ? - wie?
         }
     }
 }

@@ -28,10 +28,10 @@ fun HomeScreen(
             )
         }
     ) {
-        //viewModel.addReminder(Reminder(title = "next", day = 1, month = 1, year = 2023, hour = 22, minute = 0, text = "hello"))
-       //Log.i("HomeScreen", "reminder added")
+        //viewModel.deleteAll() //TODO: remove
+        //viewModel.addReminder(Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "hello"))
+        //Log.i("HomeScreen", "reminder deleted")
         val reminders: List<Reminder> by viewModel.reminders.collectAsState()
-        Log.i("HomeScreen", "get reminders")
         MainContent(
             navController = navController,
             reminders = reminders
