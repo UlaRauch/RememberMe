@@ -1,21 +1,31 @@
 package com.example.rememberme.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.rememberme.DB.RememberDB
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.screens.DetailScreen
 import com.example.rememberme.screens.HomeScreen
 import com.example.rememberme.viewmodels.RememberViewModel
+import com.example.rememberme.viewmodels.RememberViewModelFactory
 
 @Composable
 fun RememberNavigation() {
+    val context = LocalContext.current
+    val db = RememberDB.getDatabase(context = context)
+    val repository = RememberRepository(db.remindersDao())
     val navController = rememberNavController()
-    val rememberViewModel: RememberViewModel = viewModel()
+    val rememberViewModel: RememberViewModel = viewModel(
+        factory = RememberViewModelFactory(repository = repository)
+    )
     rememberViewModel.reminders
+
 
     NavHost(
         navController = navController,
@@ -28,13 +38,13 @@ fun RememberNavigation() {
         composable(
             route = RememberScreens.DetailScreen.name + "/{reminderID}",
             arguments = listOf(navArgument("reminderID") {
-                type = NavType.StringType
+                type = NavType.LongType
             })
         ) {
             //get argument from backstack and pass as argument to detailscreen
                 backStackEntry ->
             DetailScreen(
-                reminderID = backStackEntry.arguments?.getString("reminderID"),
+                reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
                 navController = navController,
                 viewModel = rememberViewModel
             )

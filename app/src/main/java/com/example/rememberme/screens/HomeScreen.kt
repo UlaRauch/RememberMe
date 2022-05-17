@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
@@ -25,9 +27,10 @@ fun HomeScreen(
             )
         }
     ) {
+        val reminders: List<Reminder> by viewModel.reminders.collectAsState()
         MainContent(
             navController = navController,
-            reminders = viewModel.reminders.collect() //TODO: room video weiter anschaun bei ca. 54:00
+            reminders = reminders
         )
     }
 }
@@ -44,8 +47,10 @@ fun MainContent(
             )
             { reminderID ->
                 //navController.navigate("HomeScreen")
-                navController.navigate(RememberScreens.DetailScreen.name + "/$reminderID")
-                Log.d("Navigation", "Reminder clicked. ID: ${reminder.id}")
+                if (reminderID != null) {
+                    navController.navigate(RememberScreens.DetailScreen.name + "/$reminderID")
+                    Log.d("Navigation", "Reminder clicked. ID: ${reminder.id}")
+                } else Log.d("Navigation", "No ID")
             }
 
             /*

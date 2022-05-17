@@ -1,5 +1,6 @@
 package com.example.rememberme.widgets
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -16,14 +17,15 @@ import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.rememberme.models.Reminder
-import com.example.rememberme.screens.reminderFilter
+//import com.example.rememberme.screens.reminderFilter
 
 @Composable
 fun RememberRow(
     //reminder: Reminder = reminderFilter(reminderID = "1"),
     reminder: Reminder,
-    onItemClick: (String) -> Unit = {}
+    onItemClick: (Long?) -> Unit = {}
     ){
+    Log.d("RememberWidgets", "Reminder widget called")
 //    val reminder= reminderFilter(reminderId = "1")
     Card(
         modifier = Modifier
@@ -44,7 +46,7 @@ fun RememberRow(
                 Column() {
 
                     Text(
-                        text = reminder.title,
+                        text = reminder.title!!,
                         style = MaterialTheme.typography.h6,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )

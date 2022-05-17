@@ -4,7 +4,7 @@ import android.provider.CalendarContract
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.rememberme.models.Reminder
-import com.example.rememberme.models.getReminders
+//import com.example.rememberme.models.getReminders
 import com.example.rememberme.repositories.RememberRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,10 +22,12 @@ class RememberViewModel(
     //get() = _reminders
 
     init {
-
+/*
         _reminders.addAll(
             getReminders() //TODO: nimmt dummy-reminders. provisorisch! nach room video ersetzen
         )
+
+ */
     }
 
     fun addReminder(reminder: Reminder) {

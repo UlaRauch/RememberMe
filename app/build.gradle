@@ -32,6 +32,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+       // freeCompilerArgs = {'-Xjvm-default=compatibility'}
     }
     buildFeatures {
         compose true
@@ -62,7 +63,6 @@ dependencies {
 
     //Navigation Component
     implementation "androidx.navigation:navigation-compose:$nav_version"
-<<<<<<< HEAD
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -72,11 +72,8 @@ dependencies {
     //TODO: kapt is in maintenance mode. use KSP instead?
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-||||||| 13d68ec
-=======
 
     // ViewModel utilities for Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
->>>>>>> viewmodel
 }
