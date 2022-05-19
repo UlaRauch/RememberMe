@@ -13,6 +13,8 @@ import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.screens.AddScreen
 import com.example.rememberme.screens.DetailScreen
 import com.example.rememberme.screens.HomeScreen
+import com.example.rememberme.viewmodels.AddRememberViewModel
+import com.example.rememberme.viewmodels.AddRememberViewModelFactory
 import com.example.rememberme.viewmodels.RememberViewModel
 import com.example.rememberme.viewmodels.RememberViewModelFactory
 
@@ -25,7 +27,11 @@ fun RememberNavigation() {
     val rememberViewModel: RememberViewModel = viewModel(
         factory = RememberViewModelFactory(repository = repository)
     )
+    val addViewModel: AddRememberViewModel = viewModel(
+        factory = AddRememberViewModelFactory(repository = repository)
+    )
     rememberViewModel.reminders
+    addViewModel.reminder
 
 
     NavHost(
@@ -51,7 +57,7 @@ fun RememberNavigation() {
             )
         }
         composable(RememberScreens.AddScreen.name) {
-            AddScreen(navController = navController, viewModel = rememberViewModel)
+            AddScreen(navController = navController, addViewModel = addViewModel)
         }
 
     }

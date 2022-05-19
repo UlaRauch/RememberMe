@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.ui.theme.Purple200
+import com.example.rememberme.ui.theme.Purple600
 //import com.example.rememberme.models.getReminders
 import com.example.rememberme.viewmodels.RememberViewModel
 
@@ -25,7 +26,7 @@ fun DetailScreen(
     //val reminder= reminderFilter(reminderID = reminderID)
     Scaffold(
         topBar = {
-            TopAppBar(backgroundColor = Purple200){
+            TopAppBar(backgroundColor = Purple600){
                 Row {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,

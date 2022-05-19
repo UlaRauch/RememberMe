@@ -13,5 +13,5 @@ data class Reminder(
     val y: Int,
     val h: Int = 0,
     val min: Int = 0,
-    val text: String
+    var text: String
     )

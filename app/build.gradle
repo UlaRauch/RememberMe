@@ -76,4 +76,7 @@ dependencies {
     // ViewModel utilities for Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
+    //Live Data
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
 }
