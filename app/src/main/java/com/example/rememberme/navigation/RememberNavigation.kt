@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.rememberme.DB.RememberDB
 import com.example.rememberme.repositories.RememberRepository
+import com.example.rememberme.screens.AddScreen
 import com.example.rememberme.screens.DetailScreen
 import com.example.rememberme.screens.HomeScreen
 import com.example.rememberme.viewmodels.RememberViewModel
@@ -49,5 +50,9 @@ fun RememberNavigation() {
                 viewModel = rememberViewModel
             )
         }
+        composable(RememberScreens.AddScreen.name) {
+            AddScreen(navController = navController, viewModel = rememberViewModel)
+        }
+
     }
 }
