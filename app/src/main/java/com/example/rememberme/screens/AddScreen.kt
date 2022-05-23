@@ -1,6 +1,7 @@
 package com.example.rememberme.screens
 
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -32,7 +33,7 @@ fun AddScreen(
     navController: NavController,
     addViewModel: AddRememberViewModel
 ) {
-    val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
+    //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Purple600, contentColor = Color.White
@@ -56,6 +57,7 @@ fun AddScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 addViewModel.addReminder()
+                navController.navigate(route = RememberScreens.HomeScreen.name)
             },
                 backgroundColor = Green600,
                 modifier = Modifier.size(80.dp)
@@ -76,7 +78,7 @@ fun AddScreen(
     }
 
 }
-
+/* Von mir mit leon bearbeitet
 @Composable
 fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwas geaendert muss ich mir genauer anschauen!!
     //var text by remember { mutableStateOf("") }
@@ -92,8 +94,26 @@ fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwa
     )
 
 }
-
+ */
+/* von leons Branch*/
 @Composable
-fun ReminderCalendar(){
+fun ReminderCard(addViewModel: AddRememberViewModel){
+    var text by remember { mutableStateOf("") }
+    // add more properties if you need
+    var date by remember { mutableStateOf("") }
+    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
+    OutlinedTextField(
+        //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
+        value = text,
+        leadingIcon = { Icon(imageVector = Icons.Default.Edit, contentDescription = "EditIcon") },
+        // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
+        // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
+        onValueChange = { value ->
+            text = value    // update text value inside field
+            addViewModel.setText(value) // update value in viewmodel
+        },
+        label = { Text(text = "Reminder") },
+        placeholder = { Text(text = "Enter Text") },
+    )
 
 }
