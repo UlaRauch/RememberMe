@@ -34,11 +34,6 @@ class RememberViewModel(
         }
     }
 
-    fun removeReminder(reminder: Reminder) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteReminder(reminder)
-        }
-    }
 
     fun getAllReminders(): Flow<List<Reminder>>{ //TODO: brauchen wir das noch?
         return repository.getAllReminders()

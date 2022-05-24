@@ -23,4 +23,11 @@ class DetailRememberViewModel(
         }
     }
 
+
+    fun removeReminder(reminder: Reminder) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteReminder(reminder)
+        }
+    }
+
 }

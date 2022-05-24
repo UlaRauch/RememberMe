@@ -1,5 +1,6 @@
 package com.example.rememberme.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -44,6 +45,8 @@ fun DetailScreen(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
                         modifier = Modifier.clickable {
+                            viewModel.removeReminder(reminder = reminder.value!!)
+                            Log.d("Detail", "${reminder.value!!.text}")
                             //TODO
                         }
                     )
@@ -72,7 +75,7 @@ fun MainContentD(reminder:Reminder) {
                 Text(text = "${reminder.min}")
             }
             //if (reminder.text != null)
-            Text(text = reminder.text) //TODO: geht das besser mit "?" ? - wie?
+            Text(text = reminder.text)
         }
     }
 }
