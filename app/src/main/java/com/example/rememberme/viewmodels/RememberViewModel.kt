@@ -62,11 +62,13 @@ class RememberViewModel(
     fun getAllReminders(): Flow<List<Reminder>>{ //TODO: brauch ich das wirklich?
         return repository.getAllReminders()
     }
-
+/*
     fun filterReminders(id: Long = 1) : Reminder {
         //TODO: run as coroutine - how return id?
         return repository.filterReminder(id) //{ reminder -> reminder.id == id }[0] //TODO: WHY? without the [0] type mismatch - why
     }
+
+ */
 
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {

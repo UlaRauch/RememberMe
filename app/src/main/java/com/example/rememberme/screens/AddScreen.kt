@@ -98,14 +98,14 @@ fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwa
 fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     var text by remember { mutableStateOf("") }
     // add more properties if you need
-    var date = remember { mutableStateOf("") }
+    var date by remember { mutableStateOf("") }
     /*var mDay = remember { mutableStateOf("") }
     var mMonth = remember { mutableStateOf("") }
     var mYear = remember { mutableStateOf("") }
      */
-    val y: Int
-    val m: Int
-    val d: Int
+    var y: Int
+    var m: Int
+    var d: Int
     val now = Calendar.getInstance()
 
     y = now.get(Calendar.YEAR)
@@ -118,8 +118,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
             val cal = Calendar.getInstance()
             cal.set(year, month, dayOfMonth)
-
-            date.value = "$dayOfMonth/$month/$year"
+            y = year
+            m = month+1
+            d = dayOfMonth
+            addViewModel.setDate(d = d,m = m, y = y)
+            //date = "$dayOfMonth/$month/$year"
         }, y, m, d
     )
 
@@ -137,7 +140,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         }
         Spacer(modifier = Modifier.size(16.dp))
 
-        addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
+        //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
         //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
     }
 
