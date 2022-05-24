@@ -19,7 +19,7 @@ class DetailRememberViewModel(
 
     fun getReminderbyID(reminderID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine
+            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
         }
     }
 
