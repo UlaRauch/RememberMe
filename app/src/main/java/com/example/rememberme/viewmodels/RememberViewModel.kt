@@ -21,11 +21,6 @@ class RememberViewModel(
     private var _reminders = MutableStateFlow<List<Reminder>>(emptyList())
     val reminders = _reminders.asStateFlow()
 
-
-    //private val _reminders = mutableStateListOf<Reminder>() //TODO: WHY? Kapselpaatern. wie funktiontiert das mit _ und get()?
-    //val reminders: List<Reminder>
-    //get() = _reminders
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllReminders().collect { listofReminders ->
@@ -37,19 +32,6 @@ class RememberViewModel(
                 }
             }
         }
-/*
-        _reminders.addAll(
-            getReminders() //TODO: nimmt dummy-reminders. provisorisch! nach room video ersetzen
-        )
-
- */
-    }
-
-    fun addReminder(reminder: Reminder) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addReminder(reminder = reminder)
-            Log.d("ViewModel", "reminder added")
-        }
     }
 
     fun removeReminder(reminder: Reminder) {
@@ -58,22 +40,13 @@ class RememberViewModel(
         }
     }
 
-    fun getAllReminders(): Flow<List<Reminder>>{ //TODO: brauch ich das wirklich?
+    fun getAllReminders(): Flow<List<Reminder>>{ //TODO: brauchen wir das noch?
         return repository.getAllReminders()
     }
-/*
-    fun filterReminders(id: Long = 1) : Reminder {
-        //TODO: run as coroutine - how return id?
-        return repository.filterReminder(id) //{ reminder -> reminder.id == id }[0] //TODO: WHY? without the [0] type mismatch - why
-    }
-
- */
 
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
         }
     }
-
-    //TODO: function for editReminder etc.
 }

@@ -23,7 +23,6 @@ fun DetailScreen(
     viewModel: DetailRememberViewModel,
     reminderID: Long = 1
 ) {
-    //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "hello")//TODO: use this: viewModel.filterReminders(id = reminderID)
     viewModel.getReminderbyID(reminderID = reminderID)
     val reminder = viewModel.reminder
     Scaffold(
@@ -39,12 +38,13 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.value!!.title) //TODO: geht das besser mit "?" ? - wie?
+                    Text(text = reminder.value!!.title)
 
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
                         modifier = Modifier.clickable {
+                            //TODO
                         }
                     )
                 }
