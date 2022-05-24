@@ -8,9 +8,9 @@ data class Reminder(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val title: String,
-    val d: Int,
-    val m: Int,
-    val y: Int,
+    var d: Int,
+    var m: Int,
+    var y: Int,
     val h: Int = 0,
     val min: Int = 0,
     var text: String

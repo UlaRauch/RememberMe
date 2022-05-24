@@ -40,6 +40,12 @@ class AddRememberViewModel(
     fun setText(text: String) {
         _reminder.value?.text = text //wenn string übergeben wird wird geschaut ob eh nicht null
     }
+    fun setDate(d: Int, m: Int, y: Int) {
+        _reminder.value?.d = d.toInt() //wenn string übergeben wird wird geschaut ob eh nicht null
+        _reminder.value?.m = m.toInt()
+        _reminder.value?.y = y.toInt()
+    }
+
 
     fun addReminder() { //brauche keinen parameter weil alles im viewmodel is
 

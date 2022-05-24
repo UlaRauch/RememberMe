@@ -1,12 +1,13 @@
 package com.example.rememberme.screens
 
-import android.util.Log
-import android.widget.RemoteViews
+import android.app.DatePickerDialog
+import android.content.Context
+import android.icu.util.Calendar
+import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
@@ -14,24 +15,21 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.ui.theme.Green600
-import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.AddRememberViewModel
-import com.example.rememberme.viewmodels.RememberViewModel
-import org.w3c.dom.Text
+import java.util.*
 
 
 @Composable
 fun AddScreen(
     navController: NavController,
-    addViewModel: AddRememberViewModel
+    addViewModel: AddRememberViewModel,
+    context: Context
 ) {
     //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
@@ -74,7 +72,7 @@ fun AddScreen(
             }
         }
     ){
-        ReminderCard(addViewModel = addViewModel)
+        ReminderCard(addViewModel = addViewModel, context = context)
     }
 
 }
@@ -95,12 +93,57 @@ fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwa
 
 }
  */
-/* von leons Branch*/
+
 @Composable
-fun ReminderCard(addViewModel: AddRememberViewModel){
+fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     var text by remember { mutableStateOf("") }
     // add more properties if you need
-    var date by remember { mutableStateOf("") }
+    var date = remember { mutableStateOf("") }
+    /*var mDay = remember { mutableStateOf("") }
+    var mMonth = remember { mutableStateOf("") }
+    var mYear = remember { mutableStateOf("") }
+     */
+    val y: Int
+    val m: Int
+    val d: Int
+    val now = Calendar.getInstance()
+
+    y = now.get(Calendar.YEAR)
+    m = now.get(Calendar.MONTH)
+    d = now.get(Calendar.DAY_OF_MONTH)
+    now.time = Date()
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            val cal = Calendar.getInstance()
+            cal.set(year, month, dayOfMonth)
+
+            date.value = "$dayOfMonth/$month/$year"
+        }, y, m, d
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp,30.dp),
+        verticalArrangement = Arrangement.Center,
+        // horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            datePickerDialog.show()
+        }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Open Date Picker")
+        }
+        Spacer(modifier = Modifier.size(16.dp))
+
+        addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
+        //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
+    }
+
+    //DatePickerDemo(context = context, addViewModel = addViewModel)
+
+    /* von leons Branch*/
     val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
@@ -114,6 +157,9 @@ fun ReminderCard(addViewModel: AddRememberViewModel){
         },
         label = { Text(text = "Reminder") },
         placeholder = { Text(text = "Enter Text") },
+        modifier = Modifier
+            .padding(20.dp, 80.dp)
+            .fillMaxWidth()
     )
 
 }
