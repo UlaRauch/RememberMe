@@ -1,5 +1,7 @@
 package com.example.rememberme.DB
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,7 +22,7 @@ interface RememberDao {
     fun getReminders(): Flow<List<Reminder>> //Flow: stream of data, can be read continuously
 
     @Query("SELECT * from reminders where id=:id")
-    fun getReminderByID(id: Long): Reminder
+    fun getReminderByID(id: Long): Reminder?
 
     @Query("DELETE FROM reminders")
     fun deleteAll()

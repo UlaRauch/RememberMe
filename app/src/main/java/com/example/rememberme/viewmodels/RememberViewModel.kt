@@ -46,7 +46,6 @@ class RememberViewModel(
     }
 
     fun addReminder(reminder: Reminder) {
-
         viewModelScope.launch(Dispatchers.IO) {
             repository.addReminder(reminder = reminder)
             Log.d("ViewModel", "reminder added")

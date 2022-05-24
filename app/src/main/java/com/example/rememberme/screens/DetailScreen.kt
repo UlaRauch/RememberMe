@@ -13,17 +13,19 @@ import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
+import com.example.rememberme.viewmodels.DetailRememberViewModel
 //import com.example.rememberme.models.getReminders
 import com.example.rememberme.viewmodels.RememberViewModel
 
 @Composable
 fun DetailScreen(
     navController: NavController,
-    viewModel: RememberViewModel,
+    viewModel: DetailRememberViewModel,
     reminderID: Long = 1
 ) {
-    val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "hello")//TODO: use this: viewModel.filterReminders(id = reminderID)
-    //val reminder= reminderFilter(reminderID = reminderID)
+    //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "hello")//TODO: use this: viewModel.filterReminders(id = reminderID)
+    viewModel.getReminderbyID(reminderID = reminderID)
+    val reminder = viewModel.reminder
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Purple600){
@@ -37,7 +39,7 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.title) //TODO: geht das besser mit "?" ? - wie?
+                    Text(text = reminder.value!!.title) //TODO: geht das besser mit "?" ? - wie?
 
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -49,7 +51,7 @@ fun DetailScreen(
             }
         }) {
         MainContentD(
-            reminder = reminder
+            reminder = reminder.value!!
         )
     }
 }
