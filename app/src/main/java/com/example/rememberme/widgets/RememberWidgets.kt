@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.HorizontalAlignmentLine
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.rememberme.models.Reminder
 //import com.example.rememberme.screens.reminderFilter
 
@@ -47,27 +49,44 @@ fun RememberRow(
 
                     Text(
                         text = reminder.title!!,
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
                     )
                     Row() {
                         Text(
                             text = "Date: ${reminder.d}.",
-                            style = MaterialTheme.typography.caption
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Light
                         )
                         Text(
                             text = "${reminder.m}.",
-                            style = MaterialTheme.typography.caption
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Light
                         )
                         Text(
                             text = "${reminder.y}",
-                            style = MaterialTheme.typography.caption
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                    Row() {
+                        Text(
+                            text = "Time: ${reminder.h}:",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Text(
+                            text = "${reminder.min}",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Light
                         )
                     }
 
+
                     Text(
                         text = "Text: ${reminder.text}",
-                        style = MaterialTheme.typography.caption
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Light
                     )
                 }
             }

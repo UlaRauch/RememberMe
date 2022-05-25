@@ -99,14 +99,30 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     var text by remember { mutableStateOf("") }
     // add more properties if you need
     var date by remember { mutableStateOf("") }
-    /*var mDay = remember { mutableStateOf("") }
-    var mMonth = remember { mutableStateOf("") }
-    var mYear = remember { mutableStateOf("") }
-     */
+    var title by remember { mutableStateOf("") }
+
     var y: Int
     var m: Int
     var d: Int
     val now = Calendar.getInstance()
+
+    OutlinedTextField(
+        //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
+        value = title,
+        leadingIcon = { Icon(imageVector = Icons.Default.Edit, contentDescription = "EditIcon") },
+        // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
+        // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
+        onValueChange = { value ->
+            title = value    // update text value inside field
+            addViewModel.setTitle(value) // update value in viewmodel
+        },
+        label = { Text(text = "Title of your Reminder") },
+        placeholder = { Text(text = "Enter Title") },
+        modifier = Modifier
+            .padding(20.dp,30.dp)
+            .fillMaxWidth()
+    )
+
 
     y = now.get(Calendar.YEAR)
     m = now.get(Calendar.MONTH)
@@ -129,7 +145,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp,30.dp),
+            .padding(20.dp,110.dp),
         verticalArrangement = Arrangement.Center,
         // horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -143,6 +159,10 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
         //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
     }
+
+
+
+
 
     //DatePickerDemo(context = context, addViewModel = addViewModel)
 
@@ -161,7 +181,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         label = { Text(text = "Reminder") },
         placeholder = { Text(text = "Enter Text") },
         modifier = Modifier
-            .padding(20.dp, 80.dp)
+            .padding(20.dp, 155.dp)
             .fillMaxWidth()
     )
 

@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AddRememberViewModel(
@@ -46,6 +44,9 @@ class AddRememberViewModel(
         _reminder.value?.y = y.toInt()
     }
 
+    fun setTitle(title: String) {
+        _reminder.value?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
+    }
 
     fun addReminder() { //brauche keinen parameter weil alles im viewmodel is
 
