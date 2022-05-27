@@ -15,14 +15,20 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.ui.theme.Green600
 import com.example.rememberme.ui.theme.Purple600
+import com.example.rememberme.utils.RememberWorker
 import com.example.rememberme.viewmodels.AddRememberViewModel
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @Composable
@@ -184,5 +190,5 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             .padding(20.dp, 155.dp)
             .fillMaxWidth()
     )
-
 }
+

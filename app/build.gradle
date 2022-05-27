@@ -79,4 +79,6 @@ dependencies {
     //Live Data
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    // workmanager Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 }

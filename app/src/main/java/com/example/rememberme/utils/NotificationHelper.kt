@@ -29,7 +29,7 @@ class NotificationHelper(val context: Context) {
             }
         }
 
-    private fun createNotification(title: String, message: String) {
+    public fun createNotification(title: String, message: String) {
         createNotificationChannel()
         //calls Mainactivity when user taps on notification
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -38,7 +38,7 @@ class NotificationHelper(val context: Context) {
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
         //TODO: set icon necessary?
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(androidx.core.R.drawable.notification_bg_normal)
+            .setSmallIcon(androidx.core.R.drawable.notification_icon_background) //TODO: find better icon?
             .setContentTitle(title)
             .setContentText(message)
             .setContentIntent(pendingIntent)
