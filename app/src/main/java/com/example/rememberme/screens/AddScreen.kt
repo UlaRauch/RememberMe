@@ -3,6 +3,7 @@ package com.example.rememberme.screens
 import android.app.DatePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.work.OneTimeWorkRequestBuilder
@@ -61,6 +61,19 @@ fun AddScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 addViewModel.addReminder()
+
+                val delayInSeconds = getDelayInSeconds(
+                    addViewModel.reminder.value!!.y,
+                    addViewModel.reminder.value!!.m -1, //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+                    addViewModel.reminder.value!!.d,
+                    addViewModel.reminder.value!!.h,
+                    addViewModel.reminder.value!!.min,
+                    )
+                createWorkRequest(
+                    addViewModel.reminder.value!!.title,
+                    addViewModel.reminder.value!!.text,
+                    delayInSeconds,
+                    context)
                 navController.navigate(route = RememberScreens.HomeScreen.name)
             },
                 backgroundColor = Green600,
@@ -141,7 +154,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             val cal = Calendar.getInstance()
             cal.set(year, month, dayOfMonth)
             y = year
-            m = month+1
+            m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
             addViewModel.setDate(d = d,m = m, y = y)
             //date = "$dayOfMonth/$month/$year"
@@ -192,3 +205,28 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     )
 }
 
+/**
+ * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+ */
+private fun createWorkRequest(title: String, message: String, timeDelayInSeconds: Long, context: Context) {
+    val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
+        .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
+        .setInputData(
+            workDataOf(
+                "title" to title,
+                "message" to message
+            )
+        )
+        .build()
+    WorkManager.getInstance(context).enqueue(workRequest)
+}
+
+fun getDelayInSeconds(year: Int, month: Int, day: Int, hour: Int, min: Int): Long {
+    val userDateTime = Calendar.getInstance()
+    userDateTime.set(year, month, day, hour, min)
+    val now = Calendar.getInstance()
+    return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
+}
+/**
+ * End
+ */

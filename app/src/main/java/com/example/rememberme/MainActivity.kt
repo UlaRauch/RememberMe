@@ -33,23 +33,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    /**
-     * Begin by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
-     */
-    private fun createWorkRequest(title: String, message: String, timeDelayInSeconds: Long) {
-        val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
-            .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
-            .setInputData(workDataOf(
-                "title" to title,
-                "message" to message
-            ))
-            .build()
-        WorkManager.getInstance(this).enqueue(workRequest)
-    }
-    /**
-     * End
-     */
 }
 
 

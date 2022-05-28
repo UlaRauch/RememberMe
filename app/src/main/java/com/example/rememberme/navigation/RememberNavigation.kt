@@ -1,5 +1,6 @@
 package com.example.rememberme.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -8,12 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.rememberme.DB.RememberDB
 import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.screens.AddScreen
 import com.example.rememberme.screens.DetailScreen
 import com.example.rememberme.screens.HomeScreen
+import com.example.rememberme.utils.RememberWorker
 import com.example.rememberme.viewmodels.*
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun RememberNavigation() {
@@ -63,3 +69,4 @@ fun RememberNavigation() {
 
     }
 }
+
