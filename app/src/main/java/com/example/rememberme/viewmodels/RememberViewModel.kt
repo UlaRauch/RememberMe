@@ -25,6 +25,7 @@ class RememberViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllReminders().collect { listofReminders ->
                 if(listofReminders.isNullOrEmpty()) {
+                    _reminders.value = emptyList()
                     Log.d("ViewModel", "No reminders")
                 } else {
                     _reminders.value = listofReminders
@@ -42,6 +43,9 @@ class RememberViewModel(
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
+
+            Thread.sleep(1000)
+            Log.i("ViewModel", "reminders left in list: ${reminders.value}")
         }
     }
 }

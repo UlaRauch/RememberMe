@@ -46,8 +46,6 @@ fun DetailScreen(
                         contentDescription = "Delete",
                         modifier = Modifier.clickable {
                             viewModel.removeReminder(reminder = reminder.value!!)
-                            Log.d("Detail", "${reminder.value!!.text}")
-                            //TODO
                         }
                     )
                 }
