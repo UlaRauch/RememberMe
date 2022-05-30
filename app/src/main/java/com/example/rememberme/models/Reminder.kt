@@ -11,7 +11,7 @@ data class Reminder(
     var d: Int,
     var m: Int,
     var y: Int,
-    val h: Int = 0,
-    val min: Int = 0,
+    var h: Int = 0,
+    var min: Int = 0,
     var text: String
     )

@@ -39,9 +39,14 @@ class AddRememberViewModel(
         _reminder.value?.text = text //wenn string übergeben wird wird geschaut ob eh nicht null
     }
     fun setDate(d: Int, m: Int, y: Int) {
-        _reminder.value?.d = d.toInt() //wenn string übergeben wird wird geschaut ob eh nicht null
-        _reminder.value?.m = m.toInt()
-        _reminder.value?.y = y.toInt()
+        _reminder.value?.d = d //wenn string übergeben wird wird geschaut ob eh nicht null
+        _reminder.value?.m = m
+        _reminder.value?.y = y
+    }
+    fun setTime(h:Int, min: Int) {
+        _reminder.value?.h = h //wenn string übergeben wird wird geschaut ob eh nicht null
+        _reminder.value?.min = min
+
     }
 
     fun setTitle(title: String) {

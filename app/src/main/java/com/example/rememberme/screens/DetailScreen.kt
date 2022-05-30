@@ -1,5 +1,6 @@
 package com.example.rememberme.screens
 
+import android.text.Layout
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -8,8 +9,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.ui.theme.Purple200
@@ -65,15 +71,39 @@ fun MainContentD(reminder:Reminder) {
             .fillMaxWidth()
     ) {
         Column() {
+
+                Text(
+                    text = reminder.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                        .padding(0.dp, 10.dp)
+                )
+
             Row() {
-                Text(text = "${reminder.d}.")
-                Text(text = "${reminder.m}.")
-                Text(text = "${reminder.y} ")
-                Text(text = "${reminder.h}:")
-                Text(text = "${reminder.min}")
+                Text(
+                    text = "Date: ${reminder.d}.${reminder.m}.${reminder.y}",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.absolutePadding(10.dp,0.dp,0.dp,5.dp)
+                )
+            }
+            Row() {
+                Text(
+                    text = "Time: ${reminder.h}:${reminder.min}",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.absolutePadding(10.dp,0.dp,0.dp,0.dp)
+                )
+
             }
             //if (reminder.text != null)
-            Text(text = reminder.text) //TODO: geht das besser mit "?" ? - wie?
+            Divider(modifier = Modifier.padding(7.dp))
+            Text(
+                text = reminder.text,
+                modifier = Modifier.absolutePadding(10.dp,0.dp,0.dp,0.dp)
+            )
+        //TODO: geht das besser mit "?" ? - wie?
         }
     }
 }

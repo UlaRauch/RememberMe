@@ -42,52 +42,53 @@ fun RememberRow(
             Surface(
                 modifier = Modifier
                     .padding(12.dp)
-                    //.size(100.dp),
 
                 ) {
                 Column() {
 
                     Text(
                         text = reminder.title!!,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium
+                        fontSize = 23.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
                     Row() {
                         Text(
                             text = "Date: ${reminder.d}.",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
                         Text(
                             text = "${reminder.m}.",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
                         Text(
                             text = "${reminder.y}",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
                     }
                     Row() {
                         Text(
                             text = "Time: ${reminder.h}:",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
                         Text(
                             text = "${reminder.min}",
-                            fontSize = 15.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
                     }
 
-
+/*
                     Text(
                         text = "Text: ${reminder.text}",
-                        fontSize = 15.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Light
                     )
+
+ */
                 }
             }
         }

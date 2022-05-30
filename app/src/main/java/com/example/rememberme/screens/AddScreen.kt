@@ -1,9 +1,9 @@
 package com.example.rememberme.screens
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
-import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,8 +14,10 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.work.OneTimeWorkRequestBuilder
@@ -123,8 +125,9 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     var y: Int
     var m: Int
     var d: Int
-    val now = Calendar.getInstance()
+    val nowDate = Calendar.getInstance()
 
+    //Title
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
         value = title,
@@ -142,17 +145,17 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             .fillMaxWidth()
     )
 
-
-    y = now.get(Calendar.YEAR)
-    m = now.get(Calendar.MONTH)
-    d = now.get(Calendar.DAY_OF_MONTH)
-    now.time = Date()
+    //Date
+    y = nowDate.get(Calendar.YEAR)
+    m = nowDate.get(Calendar.MONTH)
+    d = nowDate.get(Calendar.DAY_OF_MONTH)
+    nowDate.time = Date()
 
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            val cal = Calendar.getInstance()
-            cal.set(year, month, dayOfMonth)
+            val calDate = Calendar.getInstance()
+            calDate.set(year, month, dayOfMonth)
             y = year
             m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
@@ -179,12 +182,62 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
     }
 
+    //Time
+    // Fetching local context
+    val mContext = LocalContext.current
+
+    // Declaring and initializing a calendar
+    val nowTime = Calendar.getInstance() //cal means Calendar
+    var h = nowTime[Calendar.HOUR_OF_DAY]
+    var min = nowTime[Calendar.MINUTE]
+
+    // Value for storing time as a string
+    val mTime = remember { mutableStateOf("") }
+
+    // Creating a TimePicker dialog
+    val mTimePickerDialog = TimePickerDialog(
+        mContext,
+        {_, mHour : Int, mMinute: Int ->
+            val calTime = Calendar.getInstance()
+            calTime.set(mHour,mMinute)
+            h = mHour
+            min = mMinute
+            addViewModel.setTime(h = h, min = min)
+        }, h, min, false
+    )
+
+/*
+    { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+        val cal = Calendar.getInstance()
+        cal.set(year, month, dayOfMonth)
+        y = year
+        m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+        d = dayOfMonth
+        addViewModel.setDate(d = d,m = m, y = y)
+        //date = "$dayOfMonth/$month/$year"
+    }, y, m, d
+
+ */
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp,155.dp),
+        verticalArrangement = Arrangement.Center,
+        // horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            mTimePickerDialog.show()
+        }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Open Time Picker")
+        }
+        Spacer(modifier = Modifier.size(16.dp))
+
+        //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
+        //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
+    }
 
 
-
-
-    //DatePickerDemo(context = context, addViewModel = addViewModel)
-
+    //Text
     /* von leons Branch*/
     val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
     OutlinedTextField(
@@ -200,7 +253,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         label = { Text(text = "Reminder") },
         placeholder = { Text(text = "Enter Text") },
         modifier = Modifier
-            .padding(20.dp, 155.dp)
+            .padding(20.dp, 200.dp)
             .fillMaxWidth()
     )
 }
