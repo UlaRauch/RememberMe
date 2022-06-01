@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
+import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.DetailRememberViewModel
@@ -34,6 +35,7 @@ fun DetailScreen(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Arrow Back",
                         modifier = Modifier.clickable {
+                            //navController.navigate(RememberScreens.HomeScreen.name)
                             navController.popBackStack()
                         }
                     )
