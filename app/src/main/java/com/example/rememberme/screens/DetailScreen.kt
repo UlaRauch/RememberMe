@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
+import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.DetailRememberViewModel
@@ -49,8 +51,16 @@ fun DetailScreen(
 
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = "Delete Reminder",
                         modifier = Modifier.clickable {
+                            //TODO
+                        }
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Reminder",
+                        modifier = Modifier.clickable {
+                            navController.navigate(route = RememberScreens.EditScreen.name)
                             //TODO
                         }
                     )
