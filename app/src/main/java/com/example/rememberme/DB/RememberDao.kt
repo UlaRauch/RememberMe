@@ -2,10 +2,7 @@ package com.example.rememberme.DB
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.rememberme.models.Reminder
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +14,9 @@ interface RememberDao {
 
     @Delete
     fun deleteReminder(reminder: Reminder)
+
+    @Update
+    fun updateReminder(reminder: Reminder)
 
     @Query("SELECT * from reminders")
     fun getReminders(): Flow<List<Reminder>> //Flow: stream of data, can be read continuously

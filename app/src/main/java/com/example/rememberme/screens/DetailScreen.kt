@@ -60,7 +60,7 @@ fun DetailScreen(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit Reminder",
                         modifier = Modifier.clickable {
-                            navController.navigate(route = RememberScreens.EditScreen.name)
+                            navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
                             //TODO
                         }
                     )
