@@ -12,13 +12,14 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.rememberme.MainActivity
 import com.example.rememberme.R
 
-/**
- * code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
- */
+
 class NotificationHelper(val context: Context) {
     private val CHANNEL_ID = "reminder_channel_id"
-    private val NOTIFICATION_ID = 1
+    //private val NOTIFICATION_ID = 1
 
+    /**
+     * code with minor adaptions by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+     */
     private fun createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT).apply {
@@ -29,7 +30,7 @@ class NotificationHelper(val context: Context) {
             }
         }
 
-    public fun createNotification(title: String, message: String) {
+    public fun createNotification(id: Int, title: String, message: String) {
         createNotificationChannel()
         //calls Mainactivity when user taps on notification
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -43,8 +44,9 @@ class NotificationHelper(val context: Context) {
             .setContentText(message)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
             .build()
 
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+        NotificationManagerCompat.from(context).notify(id, notification)
     }
 }

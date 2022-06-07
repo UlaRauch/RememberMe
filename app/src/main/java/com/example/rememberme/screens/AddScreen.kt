@@ -72,10 +72,11 @@ fun AddScreen(
                     addViewModel.reminder.value!!.min,
                     )
                 createWorkRequest(
-                    addViewModel.reminder.value!!.title,
-                    addViewModel.reminder.value!!.text,
-                    delayInSeconds,
-                    context)
+                    id = addViewModel.id.value!!,
+                    title = addViewModel.reminder.value!!.title,
+                    message = addViewModel.reminder.value!!.text,
+                    timeDelayInSeconds = delayInSeconds,
+                    context = context)
                 navController.navigate(route = RememberScreens.HomeScreen.name)
             },
                 backgroundColor = Green600,
@@ -261,7 +262,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
 /**
  * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
  */
-private fun createWorkRequest(title: String, message: String, timeDelayInSeconds: Long, context: Context) {
+private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long, context: Context) {
     val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
         .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
         .setInputData(
@@ -270,6 +271,7 @@ private fun createWorkRequest(title: String, message: String, timeDelayInSeconds
                 "message" to message
             )
         )
+        .addTag(id.toString())
         .build()
     WorkManager.getInstance(context).enqueue(workRequest)
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface RememberDao {
 
     @Insert
-    fun addReminder(reminder: Reminder)
+    fun addReminder(reminder: Reminder): Long
 
     @Delete
     fun deleteReminder(reminder: Reminder)

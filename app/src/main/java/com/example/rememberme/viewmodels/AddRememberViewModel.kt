@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AddRememberViewModel(
@@ -19,6 +20,10 @@ class AddRememberViewModel(
     private var _reminder: MutableLiveData<Reminder?> =
         MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
     val reminder: LiveData<Reminder?> = _reminder
+
+    private var _id: MutableLiveData<Long> = MutableLiveData(5)
+    val id: LiveData<Long> = _id
+
 /* von mir mit leon erarbeitet
     fun setText(text: String) {
         _reminder.value?.text = text //wenn string übergeben wird wird geschaut ob eh nicht null
@@ -58,8 +63,8 @@ class AddRememberViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             reminder.value?.let { // call block only if not null
                 if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-                    repository.addReminder(reminder.value!!)//
-                    Log.d("ViewModel", "reminder added")
+                    _id.postValue(repository.addReminder(reminder.value!!)) // Ula was here! TODO: writes id but prints too fast. works with delay.
+                    Log.d("ViewModel", "reminder added: id = ${id.value}")
                 }
             }
         }
