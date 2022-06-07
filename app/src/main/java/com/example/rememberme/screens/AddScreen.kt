@@ -83,13 +83,15 @@ fun AddScreen(
                 modifier = Modifier.size(80.dp)
             ) {
 
+                //if() { wenn bei zeit und datum nihts geklickt dann soll datum und zeit zum erstellpunkt genommen werden
 
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Add Button",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp)
-                )
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Add Button",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+              //  }
 
             }
         }
