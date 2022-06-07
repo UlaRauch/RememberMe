@@ -23,13 +23,13 @@ fun RememberNavigation() {
     val repository = RememberRepository(db.remindersDao())
     val navController = rememberNavController()
     val rememberViewModel: RememberViewModel = viewModel(
-        factory = RememberViewModelFactory(repository = repository)
+        factory = RememberViewModelFactory(repository = repository, context = context)
     )
     val addViewModel: AddRememberViewModel = viewModel(
         factory = AddRememberViewModelFactory(repository = repository)
     )
     val detailViewModel: DetailRememberViewModel = viewModel(
-        factory = DetailRememberViewModelFactory(repository = repository)
+        factory = DetailRememberViewModelFactory(repository = repository, context = context)
     )
 
     rememberViewModel.reminders

@@ -1,10 +1,12 @@
 package com.example.rememberme.viewmodels
 
+import android.content.Context
 import android.provider.CalendarContract
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 //import com.example.rememberme.models.getReminders
 import com.example.rememberme.repositories.RememberRepository
@@ -16,8 +18,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RememberViewModel(
-    private val repository: RememberRepository
-) : ViewModel() {
+    private val repository: RememberRepository,
+    private val context: Context //TODO: This field leaks a context object - was ist das Problem?
+    ) : ViewModel() {
     private var _reminders = MutableStateFlow<List<Reminder>>(emptyList())
     val reminders = _reminders.asStateFlow()
 
@@ -26,12 +29,12 @@ class RememberViewModel(
             repository.getAllReminders().collect { listofReminders ->
                 if(listofReminders.isNullOrEmpty()) {
                     _reminders.value = emptyList() //TODO: still causes app to crash after deleting single reminder when going back to homescreen
-                    Log.d("ViewModel", "No reminders")
+                    Log.d("Delete ViewModel", "No reminders")
                 } else {
                     _reminders.value = listofReminders
-                    Log.d("ViewModel", "reminder list init ok")
+                    Log.d("Delete ViewModel", "reminder list init ok")
                 }
-                Log.i("ViewModel", "reminders left in list: ${reminders.value}")
+                Log.i("Delete ViewModel", "reminders left in list: ${reminders.value}")
             }
         }
     }
@@ -44,8 +47,8 @@ class RememberViewModel(
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
-
             Thread.sleep(1000)
         }
+        WorkManager.getInstance(context).cancelAllWork()
     }
 }

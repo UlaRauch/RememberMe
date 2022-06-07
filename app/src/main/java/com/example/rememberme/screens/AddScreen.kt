@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -261,6 +262,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     )
 }
 
+//TODO: Move to viewmodel?
 /**
  * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
  */
@@ -276,6 +278,7 @@ private fun createWorkRequest(id: Long, title: String, message: String, timeDela
         .addTag(id.toString())
         .build()
     WorkManager.getInstance(context).enqueue(workRequest)
+    Log.i("Delete Add", "enqueuing work with tag: $id")
 }
 
 fun getDelayInSeconds(year: Int, month: Int, day: Int, hour: Int, min: Int): Long {

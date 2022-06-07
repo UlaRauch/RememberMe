@@ -1,17 +1,22 @@
 package com.example.rememberme.viewmodels
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
+import com.example.rememberme.utils.RememberWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailRememberViewModel(
-    private val repository: RememberRepository
+    private val repository: RememberRepository,
+    private val context: Context //TODO: This field leaks a context object - was ist das Problem?
 ) : ViewModel() {
     private var _reminder: MutableLiveData<Reminder?> =
         MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
@@ -24,10 +29,14 @@ class DetailRememberViewModel(
     }
 
 
-    fun removeReminder(reminder: Reminder) {
+    fun removeReminder(reminder: Reminder, tag: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteReminder(reminder)
         }
+        Log.i("Delete Detail", "deleting work with tag: $tag")
+        WorkManager.getInstance(context).cancelAllWorkByTag(tag) //TODO: funktioniert nicht...
+        val workinfo = WorkManager.getInstance(context).getWorkInfosByTag("5").toString()
+        Log.i("Delete Detail", "get info for for work nr $tag: $workinfo")
     }
 
 }

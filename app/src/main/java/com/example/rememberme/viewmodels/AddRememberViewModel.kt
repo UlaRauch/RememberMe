@@ -63,8 +63,10 @@ class AddRememberViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             reminder.value?.let { // call block only if not null
                 if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-                    _id.postValue(repository.addReminder(reminder.value!!)) // Ula was here! TODO: writes id but prints too fast. works with delay.
-                    Log.d("ViewModel", "reminder added: id = ${id.value}")
+                    val tempid = repository.addReminder(reminder.value!!)
+                    delay(2000)
+                    _id.postValue(tempid) // Ula was here! TODO: block until done? otherwise wrong id gets passed to workmanager.
+                    Log.d("Delete AddVM", "reminder added: id = ${id.value}")
                 }
             }
         }

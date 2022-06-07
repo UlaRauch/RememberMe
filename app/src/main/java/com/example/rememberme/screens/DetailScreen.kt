@@ -53,7 +53,7 @@ fun DetailScreen(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete Reminder",
                         modifier = Modifier.clickable {
-                            //TODO
+                            viewModel.removeReminder(reminder = reminder.value!!, tag = reminder.value!!.id.toString())
                         }
                     )
                     Icon(
