@@ -31,6 +31,9 @@ fun RememberNavigation() {
     val detailViewModel: DetailRememberViewModel = viewModel(
         factory = DetailRememberViewModelFactory(repository = repository, context = context)
     )
+    val editViewModel: EditRememberViewModel = viewModel(
+        factory = EditRememberViewModelFactory(repository = repository)
+    )
 
     rememberViewModel.reminders
     addViewModel.reminder
@@ -74,7 +77,7 @@ fun RememberNavigation() {
             EditScreen(
                 reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
                 navController = navController,
-                viewModel = detailViewModel,
+                editViewModel = editViewModel,
                 context = context
             )
         }
