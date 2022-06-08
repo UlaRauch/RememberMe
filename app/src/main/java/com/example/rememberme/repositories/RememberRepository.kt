@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class RememberRepository(private val dao: RememberDao) {
 
-    suspend fun addReminder(reminder: Reminder) = dao.addReminder(reminder = reminder)
+    suspend fun addReminder(reminder: Reminder): Long = dao.addReminder(reminder = reminder)
 
     suspend fun deleteReminder(reminder: Reminder) = dao.deleteReminder(reminder = reminder)
 
