@@ -64,20 +64,6 @@ fun AddScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 addViewModel.addReminder()
-
-                val delayInSeconds = getDelayInSeconds(
-                    addViewModel.reminder.value!!.y,
-                    addViewModel.reminder.value!!.m -1, //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
-                    addViewModel.reminder.value!!.d,
-                    addViewModel.reminder.value!!.h,
-                    addViewModel.reminder.value!!.min,
-                    )
-                createWorkRequest(
-                    id = addViewModel.id.value!!,
-                    title = addViewModel.reminder.value!!.title,
-                    message = addViewModel.reminder.value!!.text,
-                    timeDelayInSeconds = delayInSeconds,
-                    context = context)
                 navController.navigate(route = RememberScreens.HomeScreen.name)
             },
                 backgroundColor = Green600,
@@ -261,32 +247,3 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             .fillMaxWidth()
     )
 }
-
-//TODO: Move to viewmodel?
-/**
- * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
- */
-private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long, context: Context) {
-    val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
-        .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
-        .setInputData(
-            workDataOf(
-                "title" to title,
-                "message" to message
-            )
-        )
-        .addTag(id.toString())
-        .build()
-    WorkManager.getInstance(context).enqueue(workRequest)
-    Log.i("Delete Add", "enqueuing work with tag: $id")
-}
-
-fun getDelayInSeconds(year: Int, month: Int, day: Int, hour: Int, min: Int): Long {
-    val userDateTime = Calendar.getInstance()
-    userDateTime.set(year, month, day, hour, min)
-    val now = Calendar.getInstance()
-    return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
-}
-/**
- * End
- */

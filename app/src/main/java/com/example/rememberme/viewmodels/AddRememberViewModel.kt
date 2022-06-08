@@ -1,18 +1,26 @@
 package com.example.rememberme.viewmodels
 
+import android.content.Context
+import android.icu.util.Calendar
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
+import com.example.rememberme.utils.RememberWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class AddRememberViewModel(
-    private val repository: RememberRepository
+    private val repository: RememberRepository,
+    private val context: Context
     ): ViewModel() {
 
     // val reminder: Reminder
@@ -20,9 +28,6 @@ class AddRememberViewModel(
     private var _reminder: MutableLiveData<Reminder?> =
         MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
     val reminder: LiveData<Reminder?> = _reminder
-
-    private var _id: MutableLiveData<Long> = MutableLiveData(5)
-    val id: LiveData<Long> = _id
 
 /* von mir mit leon erarbeitet
     fun setText(text: String) {
@@ -62,15 +67,64 @@ class AddRememberViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             reminder.value?.let { // call block only if not null
-                if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-                    val tempid = repository.addReminder(reminder.value!!)
-                    delay(2000)
-                    _id.postValue(tempid) // Ula was here! TODO: block until done? otherwise wrong id gets passed to workmanager.
-                    Log.d("Delete AddVM", "reminder added: id = ${id.value}")
+                /*
+                ab hier geändert oder neu von Ula
+                 */
+                if (it.title.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
+                    val tempID = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
+                    //_id.postValue(tempID) //takes too long, old value will be written to workrequest
+                    Log.d("Delete AddVM", "reminder added: id = $tempID")
+
+                    // calculate time interval for notification
+                    val delayInSeconds = getDelayInSeconds(
+                        reminder.value!!.y,
+                        reminder.value!!.m -1, //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+                        reminder.value!!.d,
+                        reminder.value!!.h,
+                        reminder.value!!.min,
+                    )
+                    createWorkRequest(
+                        id = tempID,
+                        title = reminder.value!!.title,
+                        message = reminder.value!!.text,
+                        timeDelayInSeconds = delayInSeconds,
+                        context = context)
                 }
             }
         }
     }
+/*
+Ende Ula
+ */
+
+    /**
+     * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+     */
+    private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long, context: Context) {
+        val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
+            .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
+            .setInputData(
+                workDataOf(
+                    "title" to title,
+                    "message" to message
+                )
+            )
+            .addTag(id.toString())
+            .build()
+        WorkManager.getInstance(context).enqueue(workRequest)
+        Log.i("Delete Add", "enqueuing work with tag: $id")
+    }
+
+    fun getDelayInSeconds(year: Int, month: Int, day: Int, hour: Int, min: Int): Long {
+        val userDateTime = Calendar.getInstance()
+        userDateTime.set(year, month, day, hour, min)
+        val now = Calendar.getInstance()
+        return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
+    }
+    /**
+     * End
+     */
+
 }
 
 

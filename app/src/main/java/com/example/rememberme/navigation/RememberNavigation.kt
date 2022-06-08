@@ -26,7 +26,7 @@ fun RememberNavigation() {
         factory = RememberViewModelFactory(repository = repository, context = context)
     )
     val addViewModel: AddRememberViewModel = viewModel(
-        factory = AddRememberViewModelFactory(repository = repository)
+        factory = AddRememberViewModelFactory(repository = repository, context = context)
     )
     val detailViewModel: DetailRememberViewModel = viewModel(
         factory = DetailRememberViewModelFactory(repository = repository, context = context)
