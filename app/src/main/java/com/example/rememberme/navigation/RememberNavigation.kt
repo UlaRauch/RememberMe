@@ -27,9 +27,6 @@ fun RememberNavigation() {
     val addViewModel: AddRememberViewModel = viewModel(
         factory = AddRememberViewModelFactory(repository = repository)
     )
-    val detailViewModel: DetailRememberViewModel = viewModel(
-        factory = DetailRememberViewModelFactory(repository = repository)
-    )
 
     rememberViewModel.reminders
     addViewModel.reminder
@@ -54,7 +51,7 @@ fun RememberNavigation() {
             DetailScreen(
                 reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
                 navController = navController,
-                viewModel = detailViewModel
+                repository = repository
             )
         }
         composable(RememberScreens.AddScreen.name) {

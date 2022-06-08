@@ -8,25 +8,34 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.DetailRememberViewModel
+import com.example.rememberme.viewmodels.DetailRememberViewModelFactory
 //import com.example.rememberme.models.getReminders
 import com.example.rememberme.viewmodels.RememberViewModel
 
 @Composable
 fun DetailScreen(
     navController: NavController,
-    viewModel: DetailRememberViewModel,
+    repository: RememberRepository,
     reminderID: Long = 1
 ) {
-    viewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = viewModel.reminder
+    val viewModel: DetailRememberViewModel = viewModel(
+        factory = DetailRememberViewModelFactory(repository = repository, rememberId = reminderID)
+    )
+
+    val reminder by viewModel.reminder.observeAsState() // observe the reminder state
+
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Purple600){
@@ -41,21 +50,28 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.value!!.title)
 
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete",
-                        modifier = Modifier.clickable {
-                            viewModel.removeReminder(reminder = reminder.value!!)
-                        }
-                    )
+                    // save wrapping possible null values
+                    reminder?.let {
+                        Text(text = it.title)
+
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            modifier = Modifier.clickable {
+                                viewModel.removeReminder(reminder = it)
+                            }
+                        )
+                    }
                 }
             }
         }) {
-        MainContentD(
-            reminder = reminder.value!!
-        )
+
+        reminder?.let {
+            MainContentD(
+                reminder = it
+            )
+        }
     }
 }
 

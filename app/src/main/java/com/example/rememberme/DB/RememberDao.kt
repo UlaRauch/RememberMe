@@ -22,7 +22,7 @@ interface RememberDao {
     fun getReminders(): Flow<List<Reminder>> //Flow: stream of data, can be read continuously
 
     @Query("SELECT * from reminders where id=:id")
-    fun getReminderByID(id: Long): Reminder?
+    fun getReminderByID(id: Long): LiveData<Reminder>
 
     @Query("DELETE FROM reminders")
     fun deleteAll()
