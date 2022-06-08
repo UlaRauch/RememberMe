@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.rememberme.repositories.RememberRepository
 
-class DetailRememberViewModelFactory(private val repository: RememberRepository, private val context: Context): ViewModelProvider.Factory {
+class DetailRememberViewModelFactory(private val repository: RememberRepository, private val context: Context, private val reminderID: Long): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(DetailRememberViewModel::class.java)) {
-            return DetailRememberViewModel(repository = repository, context = context) as T
+            return DetailRememberViewModel(repository = repository, context = context, reminderID = reminderID) as T
         }
         throw  IllegalArgumentException("Unknown ViewModel class")
     }

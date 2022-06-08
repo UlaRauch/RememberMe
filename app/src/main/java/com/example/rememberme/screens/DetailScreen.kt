@@ -1,5 +1,6 @@
 package com.example.rememberme.screens
 
+import android.content.Context
 import android.text.Layout
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
@@ -17,12 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.DetailRememberViewModel
+import com.example.rememberme.viewmodels.DetailRememberViewModelFactory
 import com.example.rememberme.viewmodels.EditRememberViewModel
 //import com.example.rememberme.models.getReminders
 import com.example.rememberme.viewmodels.RememberViewModel
@@ -30,11 +36,15 @@ import com.example.rememberme.viewmodels.RememberViewModel
 @Composable
 fun DetailScreen(
     navController: NavController,
-    viewModel: DetailRememberViewModel,
+    repository: RememberRepository,
+    context: Context,
     reminderID: Long = 1
 ) {
-    viewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = viewModel.reminder
+    val viewModel: DetailRememberViewModel = viewModel(
+        factory = DetailRememberViewModelFactory(repository = repository, context = context, reminderID = reminderID)
+    )
+    val reminder by viewModel.reminder.observeAsState() // observe the reminder state
+    
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Purple600){
@@ -48,29 +58,36 @@ fun DetailScreen(
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = reminder.value!!.title)
+                    reminder?.let {
+                        Text(text = it.title)
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete Reminder",
+                            modifier = Modifier.clickable {
+                                viewModel.removeReminder(reminder = it, tag = reminderID.toString())
+                            }
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit Reminder",
+                            modifier = Modifier.clickable {
+                                navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
+                                //TODO
+                            }
+                        )
+                    }
 
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete Reminder",
-                        modifier = Modifier.clickable {
-                            viewModel.removeReminder(reminder = reminder.value!!, tag = reminder.value!!.id.toString())
-                        }
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Reminder",
-                        modifier = Modifier.clickable {
-                            navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
-                            //TODO
-                        }
-                    )
+
+
                 }
             }
         }) {
-        MainContentD(
-            reminder = reminder.value!!
-        )
+        reminder?.let {
+            MainContentD(
+                reminder = it
+            )
+        }
+
     }
 }
 
@@ -90,7 +107,8 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
                 text = reminder.title,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
                     .padding(0.dp, 10.dp)
             )
 

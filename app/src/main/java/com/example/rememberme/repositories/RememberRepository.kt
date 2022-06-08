@@ -1,5 +1,6 @@
 package com.example.rememberme.repositories
 
+import androidx.lifecycle.LiveData
 import com.example.rememberme.DB.RememberDao
 import com.example.rememberme.models.Reminder
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,7 @@ class RememberRepository(private val dao: RememberDao) {
 
     fun getAllReminders(): Flow<List<Reminder>> = dao.getReminders()
 
-    fun filterReminder(id: Long) = dao.getReminderByID(id = id)
+    fun filterReminder(id: Long): LiveData<Reminder> = dao.getReminderByID(id = id)
 
     suspend fun deleteAll() = dao.deleteAll()
 

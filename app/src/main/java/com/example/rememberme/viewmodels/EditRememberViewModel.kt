@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 class EditRememberViewModel (
     private val repository: RememberRepository
 ) : ViewModel() {
-    private var _reminder: MutableLiveData<Reminder?> =
+    private var _reminder: MutableLiveData<Reminder> =
         MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
-    val reminder: LiveData<Reminder?> = _reminder
+    val reminder: LiveData<Reminder> = _reminder
 
     fun updateReminder(reminder:Reminder) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,7 +46,7 @@ class EditRememberViewModel (
 
     fun getReminderbyID(reminderID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
+            _reminder.postValue(repository.filterReminder(id = reminderID).value) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
         }
     }
 
