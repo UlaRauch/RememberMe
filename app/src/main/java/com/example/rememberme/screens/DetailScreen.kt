@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
@@ -40,8 +41,9 @@ fun DetailScreen(
     context: Context,
     reminderID: Long = 1
 ) {
+    val workManager = WorkManager.getInstance(context)
     val viewModel: DetailRememberViewModel = viewModel(
-        factory = DetailRememberViewModelFactory(repository = repository, context = context, reminderID = reminderID)
+        factory = DetailRememberViewModelFactory(repository = repository, workManager = workManager, reminderID = reminderID)
     )
     val reminder by viewModel.reminder.observeAsState() // observe the reminder state
     

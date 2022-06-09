@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class DetailRememberViewModel(
     private val repository: RememberRepository,
-    private val context: Context, //TODO: This field leaks a context object - was ist das Problem?
+    private val workManager: WorkManager,
     private val reminderID: Long
 ) : ViewModel() {
 
@@ -39,8 +39,8 @@ class DetailRememberViewModel(
             repository.deleteReminder(reminder)
         }
         Log.i("Delete Detail", "deleting work with tag: $tag")
-        WorkManager.getInstance(context).cancelAllWorkByTag(tag) //TODO: funktioniert nicht...
-        val workinfo = WorkManager.getInstance(context).getWorkInfosByTag("5").toString()
+        workManager.cancelAllWorkByTag(tag) //TODO: funktioniert nicht...
+        val workinfo = workManager.getWorkInfosByTag("5").toString()
         Log.i("Delete Detail", "get info for for work nr $tag: $workinfo")
     }
 
