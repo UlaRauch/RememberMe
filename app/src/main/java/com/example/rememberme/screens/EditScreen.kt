@@ -45,8 +45,9 @@ fun EditScreen(
     //editViewModel.getReminderbyID(reminderID = reminderID)
     val reminder by editViewModel.reminder.observeAsState()
 
+    Log.d("editscreen", "reminderID in edit: $reminderID")
     Log.d("editscreen", "reminder in edit: ${reminder?.title}")
-    editViewModel.getRemindersDEBUG()
+    editViewModel.getRemindersDEBUG(reminderID)
     //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
         topBar = {

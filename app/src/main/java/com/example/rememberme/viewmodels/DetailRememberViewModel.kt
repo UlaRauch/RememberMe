@@ -23,9 +23,8 @@ class DetailRememberViewModel(
     val reminder: LiveData<Reminder> = repository.filterReminder(id = reminderID)
 
     fun getRemindersDEBUG() {
-        //Log.i("edit", "bridge: ${_reminderBridge.value}")
         //Log.i("edit", "_reminder: ${_reminder.value}")
-        Log.i("edit", "reminder: ${reminder.value?.title}")
+        Log.i("edit", "reminder in detailVM: ${reminder.value?.title}")
     }
 
     /*
