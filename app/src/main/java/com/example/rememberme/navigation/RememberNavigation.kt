@@ -24,26 +24,18 @@ fun RememberNavigation() {
     val db = RememberDB.getDatabase(context = context)
     val repository = RememberRepository(db.remindersDao())
     val navController = rememberNavController()
-    val rememberViewModel: RememberViewModel = viewModel(
-        factory = RememberViewModelFactory(repository = repository, context = context)
-    )
-    val addViewModel: AddRememberViewModel = viewModel(
-        factory = AddRememberViewModelFactory(repository = repository, workManager = workManager)
-    )
+
     val editViewModel: EditRememberViewModel = viewModel(
         factory = EditRememberViewModelFactory(repository = repository)
     )
 
-    rememberViewModel.reminders
-    addViewModel.reminder
-
-
     NavHost(
         navController = navController,
-        startDestination = RememberScreens.HomeScreen.name)
+        startDestination = RememberScreens.HomeScreen.name
+    )
     {
         composable(RememberScreens.HomeScreen.name) {
-            HomeScreen(navController = navController, viewModel = rememberViewModel)
+            HomeScreen(navController = navController, repository = repository, workManager = workManager)
         }
 
         composable(
@@ -63,7 +55,12 @@ fun RememberNavigation() {
         }
 
         composable(RememberScreens.AddScreen.name) {
-            AddScreen(navController = navController, repository = repository, workManager = workManager, context = context)
+            AddScreen(
+                navController = navController,
+                repository = repository,
+                workManager = workManager,
+                context = context
+            )
         }
 
         composable(

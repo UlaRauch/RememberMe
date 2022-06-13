@@ -20,21 +20,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Purple100
 import com.example.rememberme.ui.theme.Purple200
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.ui.theme.Teal900
 import com.example.rememberme.viewmodels.RememberViewModel
+import com.example.rememberme.viewmodels.RememberViewModelFactory
 import com.example.rememberme.widgets.RememberRow
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: RememberViewModel
+    repository: RememberRepository,
+    workManager: WorkManager,
 ) {
+    val viewModel: RememberViewModel = viewModel(
+        factory = RememberViewModelFactory(repository = repository, workManager = workManager)
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(

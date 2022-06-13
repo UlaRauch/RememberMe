@@ -19,16 +19,17 @@ import kotlinx.coroutines.launch
 
 class RememberViewModel(
     private val repository: RememberRepository,
-    private val context: Context //TODO: This field leaks a context object - was ist das Problem?
-    ) : ViewModel() {
+    private val workManager: WorkManager
+) : ViewModel() {
     private var _reminders = MutableStateFlow<List<Reminder>>(emptyList())
     val reminders = _reminders.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllReminders().collect { listofReminders ->
-                if(listofReminders.isNullOrEmpty()) {
-                    _reminders.value = emptyList() //TODO: still causes app to crash after deleting single reminder when going back to homescreen
+                if (listofReminders.isNullOrEmpty()) {
+                    _reminders.value =
+                        emptyList() //TODO: still causes app to crash after deleting single reminder when going back to homescreen
                     Log.d("Delete ViewModel", "No reminders")
                 } else {
                     _reminders.value = listofReminders
@@ -40,7 +41,7 @@ class RememberViewModel(
     }
 
 
-    fun getAllReminders(): Flow<List<Reminder>>{ //TODO: brauchen wir das noch?
+    fun getAllReminders(): Flow<List<Reminder>> { //TODO: brauchen wir das noch?
         return repository.getAllReminders()
     }
 
@@ -49,6 +50,6 @@ class RememberViewModel(
             repository.deleteAll()
             Thread.sleep(1000)
         }
-        WorkManager.getInstance(context).cancelAllWork()
+        workManager.cancelAllWork()
     }
 }
