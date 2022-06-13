@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 
 class AddRememberViewModel(
     private val repository: RememberRepository,
-    private val context: Context
+    private val workManager: WorkManager,
     ): ViewModel() {
 
     // val reminder: Reminder
@@ -87,8 +87,7 @@ class AddRememberViewModel(
                         id = tempID,
                         title = reminder.value!!.title,
                         message = reminder.value!!.text,
-                        timeDelayInSeconds = delayInSeconds,
-                        context = context)
+                        timeDelayInSeconds = delayInSeconds)
                 }
             }
         }
@@ -100,7 +99,7 @@ Ende Ula
     /**
      * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
      */
-    private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long, context: Context) {
+    private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long) {
         val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
             .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
             .setInputData(
@@ -111,7 +110,7 @@ Ende Ula
             )
             .addTag(id.toString())
             .build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        workManager.enqueue(workRequest)
         Log.i("Delete Add", "enqueuing work with tag: $id")
     }
 

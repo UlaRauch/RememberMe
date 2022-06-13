@@ -63,7 +63,7 @@ fun RememberNavigation() {
         }
 
         composable(RememberScreens.AddScreen.name) {
-            AddScreen(navController = navController, addViewModel = addViewModel, context = context)
+            AddScreen(navController = navController, repository = repository, workManager = workManager, context = context)
         }
 
         composable(

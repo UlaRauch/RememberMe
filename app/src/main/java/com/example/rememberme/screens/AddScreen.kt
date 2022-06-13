@@ -20,16 +20,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Green600
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.utils.RememberWorker
 import com.example.rememberme.viewmodels.AddRememberViewModel
+import com.example.rememberme.viewmodels.AddRememberViewModelFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -37,9 +40,13 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun AddScreen(
     navController: NavController,
-    addViewModel: AddRememberViewModel,
+    repository: RememberRepository,
+    workManager: WorkManager,
     context: Context
 ) {
+    val addViewModel: AddRememberViewModel = viewModel(
+        factory = AddRememberViewModelFactory(repository = repository, workManager = workManager)
+    )
     //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
         topBar = {
@@ -131,7 +138,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         label = { Text(text = "Title of your Reminder") },
         placeholder = { Text(text = "Enter Title") },
         modifier = Modifier
-            .padding(20.dp,30.dp)
+            .padding(20.dp, 30.dp)
             .fillMaxWidth()
     )
 
@@ -157,7 +164,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp,110.dp),
+            .padding(20.dp, 110.dp),
         verticalArrangement = Arrangement.Center,
         // horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -211,7 +218,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp,155.dp),
+            .padding(20.dp, 155.dp),
         verticalArrangement = Arrangement.Center,
         // horizontalAlignment = Alignment.CenterHorizontally
     ) {
