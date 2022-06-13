@@ -11,19 +11,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditRememberViewModel (
-    private val repository: RememberRepository
+    private val repository: RememberRepository,
+    reminderID: Long,
 ) : ViewModel() {
+    //private val _reminderBridge = repository.filterReminder(id = reminderID)
     private var _reminder: MutableLiveData<Reminder> =
-        MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
+        MutableLiveData(repository.filterReminder(id = reminderID).value)
     val reminder: LiveData<Reminder> = _reminder
+
+    fun getRemindersDEBUG() {
+        //Log.i("editVM", "bridge: ${_reminderBridge.value?.title}")
+        Log.i("editVM", "_reminder: ${_reminder.value?.title}")
+        Log.i("editVM", "reminder: ${reminder.value?.title}")
+    }
 
     fun updateReminder(reminder:Reminder) {
         viewModelScope.launch(Dispatchers.IO) {
             //reminder.let { // call block only if not null
-              //  if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-                    repository.updateReminder(reminder)//
-                    Log.d("ViewModel", "reminder updated")
-                //}
+            //  if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
+            repository.updateReminder(reminder)//
+            Log.d("ViewModel", "reminder updated")
+            //}
             //}
         }
     }
@@ -43,12 +51,14 @@ class EditRememberViewModel (
     fun setTitle(title: String) {
         _reminder.value?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
     }
-
+/*
     fun getReminderbyID(reminderID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _reminder.postValue(repository.filterReminder(id = reminderID).value) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
+            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
         }
     }
+
+ */
 
 
 }

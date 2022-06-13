@@ -13,36 +13,47 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Green600
 import com.example.rememberme.ui.theme.Purple600
+import com.example.rememberme.viewmodels.DetailRememberViewModel
+import com.example.rememberme.viewmodels.DetailRememberViewModelFactory
 import com.example.rememberme.viewmodels.EditRememberViewModel
+import com.example.rememberme.viewmodels.EditRememberViewModelFactory
 import java.util.*
 
 
 @Composable
 fun EditScreen(
     navController: NavController,
-    editViewModel: EditRememberViewModel,
+    repository: RememberRepository,
     reminderID: Long = 1,
     context: Context
 ) {
 
-    editViewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = editViewModel.reminder
+    val editViewModel: EditRememberViewModel = viewModel(
+        factory = EditRememberViewModelFactory(repository = repository, reminderID = reminderID)
+    )
 
-    Log.d("editscreen", "you're in the editscreen")
+    //editViewModel.getReminderbyID(reminderID = reminderID)
+    val reminder by editViewModel.reminder.observeAsState()
+
+    Log.d("editscreen", "reminder in edit: ${reminder?.title}")
+    editViewModel.getRemindersDEBUG()
     //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Edit ${reminder.value?.title}",
+                        text = "Edit ${reminder?.title}",
                         color = Color.White
                     )
                 },
@@ -55,7 +66,7 @@ fun EditScreen(
                 contentColor = Color.White
             )},floatingActionButton = {
             FloatingActionButton(onClick = {
-                reminder.value?.let { editViewModel.updateReminder(reminder = it) }
+                reminder?.let { editViewModel.updateReminder(reminder = it) }
                 navController.popBackStack()
             },
                 backgroundColor = Green600,
@@ -75,7 +86,7 @@ fun EditScreen(
         content = {
 
             EditReminderCard(editViewModel = editViewModel, context =  context)
-             //ReminderCard(addViewModel = addViewModel, context = context)
+            //ReminderCard(addViewModel = addViewModel, context = context)
         })
 }
 
@@ -85,11 +96,11 @@ fun EditReminderCard(
     reminderID: Long = 1,
     context: Context,
 ) {
-    editViewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = editViewModel.reminder //to access text, title, date or time of the selected reminder
+    //editViewModel.getReminderbyID(reminderID = reminderID)
+    val reminder by editViewModel.reminder.observeAsState() //to access text, title, date or time of the selected reminder
     Log.d("EditReminderCard", "EditReminderCard called")
     //vars text, title
-    var text by remember { mutableStateOf("${reminder.value?.text}") }
+    var text by remember { mutableStateOf("${reminder?.text}") }
     var title by remember { mutableStateOf("") }
 
     //vars for date
@@ -120,9 +131,9 @@ fun EditReminderCard(
         // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
         onValueChange = { value ->
             title = value    // update text value inside field
-           editViewModel.setTitle(value) // update value in viewmodel
+            editViewModel.setTitle(value) // update value in viewmodel
         },
-        label = { Text(text = "${reminder.value?.title}") },
+        label = { Text(text = "${reminder?.title}") },
         placeholder = { Text(text = "Edit Title") },
         modifier = Modifier
             .padding(20.dp, 30.dp)
@@ -158,7 +169,7 @@ fun EditReminderCard(
         Button(onClick = {
             datePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${reminder.value?.d}.${reminder.value?.m}.${reminder.value?.y}")
+            Text(text = "${reminder?.d}.${reminder?.m}.${reminder?.y}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -189,7 +200,7 @@ fun EditReminderCard(
         Button(onClick = {
             mTimePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${reminder.value?.h}:${reminder.value?.min}")
+            Text(text = "${reminder?.h}:${reminder?.min}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -198,7 +209,7 @@ fun EditReminderCard(
 
     //Text
     /* von leons Branch*/
-   // val reminder: Reminder? by editViewModel.reminder.observeAsState(null)
+    // val reminder: Reminder? by editViewModel.reminder.observeAsState(null)
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
         value = text,
@@ -209,7 +220,7 @@ fun EditReminderCard(
             text = value    // update text value inside field
             editViewModel.setText(value) // update value in viewmodel
         },
-        label = { Text(text = "${reminder.value?.text}") },
+        label = { Text(text = "${reminder?.text}") },
         placeholder = { Text(text = "Edit Text") },
         modifier = Modifier
             .padding(20.dp, 200.dp)
