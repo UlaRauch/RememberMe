@@ -2,6 +2,7 @@ package com.example.rememberme.screens
 
 import android.content.Context
 import android.text.Layout
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -45,7 +46,10 @@ fun DetailScreen(
         factory = DetailRememberViewModelFactory(repository = repository, workManager = workManager, reminderID = reminderID)
     )
     val reminder by viewModel.reminder.observeAsState() // observe the reminder state
-    
+
+    Log.i("edit", "reminder in detail: ${reminder?.title}")
+    viewModel.getRemindersDEBUG()
+
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Purple600){
