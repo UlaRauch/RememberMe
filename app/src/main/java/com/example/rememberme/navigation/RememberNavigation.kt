@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.work.WorkManager
 import com.example.rememberme.DB.RememberDB
 import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.screens.AddScreen
@@ -19,6 +20,7 @@ import com.example.rememberme.viewmodels.*
 @Composable
 fun RememberNavigation() {
     val context = LocalContext.current
+    val workManager = WorkManager.getInstance(context)
     val db = RememberDB.getDatabase(context = context)
     val repository = RememberRepository(db.remindersDao())
     val navController = rememberNavController()
@@ -26,7 +28,7 @@ fun RememberNavigation() {
         factory = RememberViewModelFactory(repository = repository, context = context)
     )
     val addViewModel: AddRememberViewModel = viewModel(
-        factory = AddRememberViewModelFactory(repository = repository, context = context)
+        factory = AddRememberViewModelFactory(repository = repository, workManager = workManager)
     )
     val editViewModel: EditRememberViewModel = viewModel(
         factory = EditRememberViewModelFactory(repository = repository)
@@ -56,7 +58,7 @@ fun RememberNavigation() {
                 reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
                 navController = navController,
                 repository = repository,
-                context = context
+                workManager = workManager
             )
         }
 

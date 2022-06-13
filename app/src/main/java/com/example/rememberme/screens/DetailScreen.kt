@@ -38,10 +38,9 @@ import com.example.rememberme.viewmodels.RememberViewModel
 fun DetailScreen(
     navController: NavController,
     repository: RememberRepository,
-    context: Context,
+    workManager: WorkManager,
     reminderID: Long = 1
 ) {
-    val workManager = WorkManager.getInstance(context)
     val viewModel: DetailRememberViewModel = viewModel(
         factory = DetailRememberViewModelFactory(repository = repository, workManager = workManager, reminderID = reminderID)
     )
