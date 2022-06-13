@@ -22,7 +22,7 @@ class EditRememberViewModel (
     fun getRemindersDEBUG(reminderID: Long) {
         Log.d("editVM", "reminderID in editVM: $reminderID")
         Log.i("editVM", "_reminder in editVM: ${_reminder.value?.title}")
-        Log.i("editVM", "reminder editVM: ${reminder.value?.title}")
+        Log.i("editVM", "filterReminder in editVM: ${(repository.filterReminder(id = reminderID).value?.title)}")
     }
 
     fun updateReminder(reminder:Reminder) {
