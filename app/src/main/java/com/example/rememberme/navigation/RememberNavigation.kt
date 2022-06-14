@@ -71,8 +71,8 @@ fun RememberNavigation() {
                 backStackEntry ->
             EditScreen(
                 reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
-                navController = navController,
                 repository = repository,
+                navController = navController,
                 context = context
             )
         }

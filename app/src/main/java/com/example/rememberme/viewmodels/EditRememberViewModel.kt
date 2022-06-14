@@ -12,53 +12,52 @@ import kotlinx.coroutines.launch
 
 class EditRememberViewModel (
     private val repository: RememberRepository,
-    reminderID: Long,
+    reminderID: Long
 ) : ViewModel() {
+    val reminder: LiveData<Reminder> = repository.filterReminder(id = reminderID)
+    private var _updatedReminder: Reminder? = reminder.value
 
-    private var _reminder: MutableLiveData<Reminder> =
-        MutableLiveData(repository.filterReminder(id = reminderID).value)
-    val reminder: LiveData<Reminder> = _reminder
-
-    fun getRemindersDEBUG(reminderID: Long) {
-        Log.d("editVM", "reminderID in editVM: $reminderID")
-        Log.i("editVM", "_reminder in editVM: ${_reminder.value?.title}")
-        Log.i("editVM", "filterReminder in editVM: ${(repository.filterReminder(id = reminderID).value?.title)}")
+    fun initializeReminder(){
+        _updatedReminder = reminder.value
     }
 
-    fun updateReminder(reminder:Reminder) {
-        viewModelScope.launch(Dispatchers.IO) {
-            //reminder.let { // call block only if not null
-            //  if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-            repository.updateReminder(reminder)//
-            Log.d("ViewModel", "reminder updated")
-            //}
-            //}
+    fun updateReminder() {
+        _updatedReminder?.let { reminder ->
+            viewModelScope.launch(Dispatchers.IO) {
+                //reminder.let { // call block only if not null
+                //  if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
+                repository.updateReminder(reminder = reminder)//
+                Log.d("ViewModel", "reminder updated")
+                //}
+                //}
+            }
         }
     }
     fun setText(text: String) {
-        _reminder.value?.text = text //wenn string übergeben wird wird geschaut ob eh nicht null
+        _updatedReminder?.text = text //wenn string übergeben wird wird geschaut ob eh nicht null
     }
     fun setDate(d: Int, m: Int, y: Int) {
-        _reminder.value?.d = d //wenn string übergeben wird wird geschaut ob eh nicht null
-        _reminder.value?.m = m
-        _reminder.value?.y = y
+        _updatedReminder?.d = d //wenn string übergeben wird wird geschaut ob eh nicht null
+        _updatedReminder?.m = m
+        _updatedReminder?.y = y
     }
     fun setTime(h:Int, min: Int) {
-        _reminder.value?.h = h //wenn string übergeben wird wird geschaut ob eh nicht null
-        _reminder.value?.min = min
+        _updatedReminder?.h = h //wenn string übergeben wird wird geschaut ob eh nicht null
+        _updatedReminder?.min = min
 
     }
     fun setTitle(title: String) {
-        _reminder.value?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
+        _updatedReminder?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
     }
-/*
+
+    /*
     fun getReminderbyID(reminderID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
+            _updatedReminder.postValue(repository.filterReminder(id = reminderID).value) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
         }
     }
 
- */
+     */
 
 
 }
