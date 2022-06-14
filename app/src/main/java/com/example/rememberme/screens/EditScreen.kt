@@ -13,27 +13,35 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.rememberme.models.Reminder
+import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Green600
 import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.EditRememberViewModel
+import com.example.rememberme.viewmodels.EditRememberViewModelFactory
 import java.util.*
 
 
 @Composable
 fun EditScreen(
     navController: NavController,
-    editViewModel: EditRememberViewModel,
+    repository: RememberRepository,
     reminderID: Long = 1,
     context: Context
 ) {
 
-    editViewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = editViewModel.reminder
+    val editViewModel: EditRememberViewModel = viewModel(
+        factory = EditRememberViewModelFactory(repository = repository, reminderId = reminderID)
+    )
+
+    val reminder = editViewModel.reminder.observeAsState()  // observe the livedata as state for recomposition
 
     Log.d("editscreen", "you're in the editscreen")
     //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
@@ -55,7 +63,7 @@ fun EditScreen(
                 contentColor = Color.White
             )},floatingActionButton = {
             FloatingActionButton(onClick = {
-                reminder.value?.let { editViewModel.updateReminder(reminder = it) }
+                editViewModel.updateReminder()
                 navController.popBackStack()
             },
                 backgroundColor = Green600,
@@ -73,35 +81,33 @@ fun EditScreen(
             }
         },
         content = {
-
-            EditReminderCard(editViewModel = editViewModel, context =  context)
-             //ReminderCard(addViewModel = addViewModel, context = context)
+            // only show card if reminder is not null
+            reminder.value?.let { reminder ->
+                EditReminderCard(editViewModel = editViewModel, context =  context, reminder = reminder)
+            }
         })
 }
 
 @Composable
 fun EditReminderCard(
     editViewModel: EditRememberViewModel,
-    reminderID: Long = 1,
+    reminder: Reminder,
     context: Context,
 ) {
-    editViewModel.getReminderbyID(reminderID = reminderID)
-    val reminder = editViewModel.reminder //to access text, title, date or time of the selected reminder
-    Log.d("EditReminderCard", "EditReminderCard called")
+    editViewModel.initializeReminder()
     //vars text, title
-    var text by remember { mutableStateOf("${reminder.value?.text}") }
-    var title by remember { mutableStateOf("") }
-
+    var text by remember { mutableStateOf(reminder.text) }
+    var title by remember { mutableStateOf(reminder.title) }
     //vars for date
-    var y: Int
-    var m: Int
-    var d: Int
-    val nowDate = Calendar.getInstance()
+    var y: Int by remember { mutableStateOf(reminder.y)}
+    var m: Int by remember { mutableStateOf(reminder.m)}
+    var d: Int by remember { mutableStateOf(reminder.d)}
 
     //vals and vars for Time
     // Fetching local context
     val mContext = LocalContext.current
 
+    // TODO make time stateful too!
     // Declaring and initializing a calendar
     val nowTime = Calendar.getInstance() //cal means Calendar
     var h = nowTime[Calendar.HOUR_OF_DAY]
@@ -109,7 +115,6 @@ fun EditReminderCard(
 
     // Value for storing time as a string
     val mTime = remember { mutableStateOf("") }
-
 
     //Title
     OutlinedTextField(
@@ -120,26 +125,19 @@ fun EditReminderCard(
         // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
         onValueChange = { value ->
             title = value    // update text value inside field
-           editViewModel.setTitle(value) // update value in viewmodel
+            editViewModel.setTitle(value)
         },
-        label = { Text(text = "${reminder.value?.title}") },
+        label = { Text(text = reminder.title) },
         placeholder = { Text(text = "Edit Title") },
         modifier = Modifier
             .padding(20.dp, 30.dp)
             .fillMaxWidth()
     )
-
     //Date
-    y = nowDate.get(Calendar.YEAR)
-    m = nowDate.get(Calendar.MONTH)
-    d = nowDate.get(Calendar.DAY_OF_MONTH)
-    nowDate.time = Date()
 
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            val calDate = Calendar.getInstance()
-            calDate.set(year, month, dayOfMonth)
             y = year
             m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
@@ -158,7 +156,7 @@ fun EditReminderCard(
         Button(onClick = {
             datePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${reminder.value?.d}.${reminder.value?.m}.${reminder.value?.y}")
+            Text(text = "${d}.${m}.${y}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -189,16 +187,12 @@ fun EditReminderCard(
         Button(onClick = {
             mTimePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${reminder.value?.h}:${reminder.value?.min}")
+            Text(text = "${reminder.h}:${reminder.min}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
     }
 
-
-    //Text
-    /* von leons Branch*/
-   // val reminder: Reminder? by editViewModel.reminder.observeAsState(null)
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
         value = text,
@@ -209,7 +203,7 @@ fun EditReminderCard(
             text = value    // update text value inside field
             editViewModel.setText(value) // update value in viewmodel
         },
-        label = { Text(text = "${reminder.value?.text}") },
+        label = { Text(text = reminder.text) },
         placeholder = { Text(text = "Edit Text") },
         modifier = Modifier
             .padding(20.dp, 200.dp)
