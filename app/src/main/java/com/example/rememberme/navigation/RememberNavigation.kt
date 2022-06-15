@@ -73,6 +73,7 @@ fun RememberNavigation() {
                 reminderID = backStackEntry.arguments?.getLong("reminderID")!!,
                 repository = repository,
                 navController = navController,
+                workManager = workManager,
                 context = context
             )
         }

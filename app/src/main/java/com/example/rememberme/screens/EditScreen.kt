@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.ui.theme.Green600
@@ -33,12 +34,12 @@ import java.util.*
 fun EditScreen(
     navController: NavController,
     repository: RememberRepository,
+    workManager: WorkManager,
     reminderID: Long = 1,
     context: Context
 ) {
-
     val editViewModel: EditRememberViewModel = viewModel(
-        factory = EditRememberViewModelFactory(repository = repository, reminderId = reminderID)
+        factory = EditRememberViewModelFactory(repository = repository, workManager = workManager, reminderId = reminderID)
     )
 
     val reminder = editViewModel.reminder.observeAsState()  // observe the livedata as state for recomposition
@@ -141,7 +142,7 @@ fun EditReminderCard(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
             y = year
-            m = month-1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+            m = month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
             editViewModel.setDate(d = d,m = m, y = y)
             //date = "$dayOfMonth/$month/$year"

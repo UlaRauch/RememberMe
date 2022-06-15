@@ -236,7 +236,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
 
     //Text
     /* von leons Branch*/
-    //val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
+    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
         value = text,
