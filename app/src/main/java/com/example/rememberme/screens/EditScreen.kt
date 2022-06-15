@@ -107,14 +107,14 @@ fun EditReminderCard(
     //vals and vars for Time
     // Fetching local context
     val mContext = LocalContext.current
-
+    val calTime = Calendar.getInstance()
     var hReminder: Int by remember { mutableStateOf(reminder.h)}
     var minReminder: Int by remember { mutableStateOf(reminder.min)}
     // TODO make time stateful too!
     // Declaring and initializing a calendar
     val nowTime = Calendar.getInstance() //cal means Calendar
-    var h = nowTime[Calendar.HOUR_OF_DAY]
-    var min = nowTime[Calendar.MINUTE]
+    //var h = nowTime[Calendar.HOUR_OF_DAY]
+    //var min = nowTime[Calendar.MINUTE]
 
     // Value for storing time as a string
     val mTime = remember { mutableStateOf("") }
@@ -159,7 +159,7 @@ fun EditReminderCard(
         Button(onClick = {
             datePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${d}.${m}.${y}")
+            Text(text = "${d}.${m+1}.${y}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -172,12 +172,11 @@ fun EditReminderCard(
     val mTimePickerDialog = TimePickerDialog(
         mContext,
         {_, mHour : Int, mMinute: Int ->
-            val calTime = Calendar.getInstance()
             calTime.set(mHour,mMinute)
-            h = mHour
-            min = mMinute
-            editViewModel.setTime(h = h, min = min)
-        }, h, min, false
+            hReminder = mHour
+            minReminder = mMinute
+            editViewModel.setTime(h = hReminder, min = minReminder)
+        }, hReminder, minReminder, false
     )
 
     Column(

@@ -154,7 +154,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             val calDate = Calendar.getInstance()
             calDate.set(year, month, dayOfMonth)
             y = year
-            m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+            m = month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
             addViewModel.setDate(d = d,m = m, y = y)
             //date = "$dayOfMonth/$month/$year"

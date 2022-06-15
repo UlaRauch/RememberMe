@@ -119,7 +119,7 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
 
             Row() {
                 Text(
-                    text = "Date: ${reminder.d}.${reminder.m}.${reminder.y}",
+                    text = "Date: ${reminder.d}.${reminder.m+1}.${reminder.y}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)

@@ -58,7 +58,7 @@ fun RememberRow(
                             fontWeight = FontWeight.Light
                         )
                         Text(
-                            text = "${reminder.m}.",
+                            text = "${reminder.m+1}.",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Light
                         )
