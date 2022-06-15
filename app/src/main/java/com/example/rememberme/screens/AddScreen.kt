@@ -180,9 +180,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     }
 
     //Time
-    // Fetching local context
-    val mContext = LocalContext.current
-
     // Declaring and initializing a calendar
     val nowTime = Calendar.getInstance() //cal means Calendar
     var h = nowTime[Calendar.HOUR_OF_DAY]
@@ -193,7 +190,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
 
     // Creating a TimePicker dialog
     val mTimePickerDialog = TimePickerDialog(
-        mContext,
+        context,
         {_, mHour : Int, mMinute: Int ->
             val calTime = Calendar.getInstance()
             calTime.set(mHour,mMinute)

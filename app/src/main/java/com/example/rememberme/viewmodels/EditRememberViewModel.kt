@@ -37,7 +37,7 @@ class EditRememberViewModel (
                 Log.d("ViewModel", "reminder updated")
                 workManager.cancelAllWorkByTag(reminder.id.toString())
                 createWorkRequest(reminder = reminder)
-                Log.d("ViewModel", "workrequest for: Month: ${reminder.m-1}, Day: ${reminder.d}:")
+                Log.d("ViewModel", "workrequest for: Month: ${reminder.m}(calendar index), Day: ${reminder.d}:")
                 //}
                 //}
             }

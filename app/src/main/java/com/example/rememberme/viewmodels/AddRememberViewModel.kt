@@ -71,23 +71,11 @@ class AddRememberViewModel(
                 ab hier geändert oder neu von Ula
                  */
                 if (it.title.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
-                    val tempID = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
+                    _reminder.value?.id = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
                     //_id.postValue(tempID) //takes too long, old value will be written to workrequest
-                    Log.d("Delete AddVM", "reminder added: id = $tempID")
-
-                    // calculate time interval for notification
-                    val delayInSeconds = getDelayInSeconds(
-                        reminder.value!!.y,
-                        reminder.value!!.m -1, //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
-                        reminder.value!!.d,
-                        reminder.value!!.h,
-                        reminder.value!!.min,
-                    )
-                    createWorkRequest(
-                        id = tempID,
-                        title = reminder.value!!.title,
-                        message = reminder.value!!.text,
-                        timeDelayInSeconds = delayInSeconds)
+                    Log.d("Delete AddVM", "reminder added: id = ${reminder.value?.id}")
+                    createWorkRequest(reminder.value!!)
+                    Log.d("ViewModel", "workrequest for: Month: ${reminder.value?.m} (calendar index), Day: ${reminder.value?.d}:")
                 }
             }
         }
@@ -98,32 +86,33 @@ Ende Ula
 
     /**
      * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+     * adapted to less params by Ula Rauch
      */
-    private fun createWorkRequest(id: Long, title: String, message: String, timeDelayInSeconds: Long) {
+    private fun createWorkRequest(reminder: Reminder) {
+        val timeDelayInSeconds = getDelayInSeconds(reminder)
         val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
             .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
             .setInputData(
                 workDataOf(
-                    "title" to title,
-                    "message" to message
+                    "title" to reminder.title,
+                    "message" to reminder.text
                 )
             )
-            .addTag(id.toString())
+            .addTag(reminder.id.toString())
             .build()
         workManager.enqueue(workRequest)
-        Log.i("Delete Add", "enqueuing work with tag: $id")
+        Log.i("Delete Add", "enqueuing work with tag: ${reminder.id}")
     }
 
-    fun getDelayInSeconds(year: Int, month: Int, day: Int, hour: Int, min: Int): Long {
+    fun getDelayInSeconds(reminder: Reminder): Long {
         val userDateTime = Calendar.getInstance()
-        userDateTime.set(year, month, day, hour, min)
+        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.m)
         val now = Calendar.getInstance()
         return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
     }
     /**
      * End
      */
-
 }
 
 

@@ -106,7 +106,6 @@ fun EditReminderCard(
 
     //vals and vars for Time
     // Fetching local context
-    val mContext = LocalContext.current
     val calTime = Calendar.getInstance()
     var hReminder: Int by remember { mutableStateOf(reminder.h)}
     var minReminder: Int by remember { mutableStateOf(reminder.min)}
@@ -170,7 +169,7 @@ fun EditReminderCard(
     //Time
     // Creating a TimePicker dialog
     val mTimePickerDialog = TimePickerDialog(
-        mContext,
+        context,
         {_, mHour : Int, mMinute: Int ->
             calTime.set(mHour,mMinute)
             hReminder = mHour

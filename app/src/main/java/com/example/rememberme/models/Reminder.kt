@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "reminders")
 data class Reminder(
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
+    var id: Long? = null,
     var title: String,
     var d: Int,
     var m: Int,
