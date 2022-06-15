@@ -171,7 +171,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         Button(onClick = {
             datePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Open Date Picker")
+            Text(text = "${addViewModel.reminder.value?.d}.${addViewModel.reminder.value?.m}.${addViewModel.reminder.value?.y}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -225,7 +225,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         Button(onClick = {
             mTimePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Open Time Picker")
+            Text(text = "${addViewModel.reminder.value?.h}:${addViewModel.reminder.value?.min}")
         }
         Spacer(modifier = Modifier.size(16.dp))
 

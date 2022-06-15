@@ -2,10 +2,7 @@ package com.example.rememberme.screens
 
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -53,10 +50,12 @@ fun HomeScreen(
                 contentColor = Color.White
             ) {
                 Row() {
-                    Text(text = "RememberMe", textAlign = TextAlign.Center)
+                    Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(140.dp, 0.dp,110.dp,0.dp))
                     Icon(imageVector = Icons.Default.Delete,
                         contentDescription = "delete all reminders",
-                        modifier = Modifier.clickable {
+                        modifier = Modifier
+                            .absolutePadding(0.dp,0.dp,0.dp,0.dp)
+                            .clickable {
                             viewModel.deleteAll()
                         })
 

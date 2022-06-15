@@ -64,18 +64,21 @@ fun DetailScreen(
 
                     Spacer(modifier = Modifier.width(20.dp))
                     reminder?.let {
-                        Text(text = it.title)
+                        Text(text = it.title, textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(10.dp,0.dp,20.dp,0.dp))
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Delete Reminder",
                             modifier = Modifier.clickable {
-                                viewModel.removeReminder(reminder = it, tag = reminderID.toString())
-                            }
+                                    viewModel.removeReminder(reminder = it, tag = reminderID.toString())
+                                    navController.popBackStack()
+                                }
                         )
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit Reminder",
-                            modifier = Modifier.clickable {
+                            modifier = Modifier
+                                .absolutePadding(10.dp,0.dp,0.dp,0.dp)
+                                .clickable {
                                 navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
                                 //TODO
                             }
@@ -114,7 +117,7 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                    .padding(0.dp, 10.dp)
+
             )
 
             Row() {
