@@ -13,6 +13,7 @@ import androidx.work.workDataOf
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.utils.RememberWorker
+import com.example.rememberme.utils.WorkRequestUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -74,47 +75,15 @@ class AddRememberViewModel(
                     _reminder.value?.id = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
                     //_id.postValue(tempID) //takes too long, old value will be written to workrequest
                     //Log.d("Delete AddVM", "reminder added: id = ${reminder.value?.id}")
-                    createWorkRequest(reminder.value!!)
+                    WorkRequestUtils.createWorkRequest(reminder.value!!, workManager = workManager)
                     //Log.d("ViewModel", "workrequest for: Month: ${reminder.value?.m} (calendar index), Day: ${reminder.value?.d}:")
                 }
             }
         }
     }
-/*
-Ende Ula
- */
-
-    /**
-     * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
-     * adapted to less params by Ula Rauch
-     */
-    private fun createWorkRequest(reminder: Reminder) {
-        val timeDelayInSeconds = getDelayInSeconds(reminder)
-        val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
-            .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
-            .setInputData(
-                workDataOf(
-                    "title" to reminder.title,
-                    "message" to reminder.text
-                )
-            )
-            .addTag(reminder.id.toString())
-            .build()
-        workManager.enqueue(workRequest)
-        Log.i("Delete Add", "enqueuing work with tag: ${reminder.id}")
-    }
-
-    fun getDelayInSeconds(reminder: Reminder): Long {
-        val userDateTime = Calendar.getInstance()
-        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.min)
-        val now = Calendar.getInstance()
-        Log.i("ViewModel Add", "usertime: $userDateTime")
-        Log.i("ViewModel Add", "seconds left: ${(userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)}")
-        return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
-    }
-    /**
-     * End
-     */
+            /*
+            Ende Ula
+             */
 }
 
 
