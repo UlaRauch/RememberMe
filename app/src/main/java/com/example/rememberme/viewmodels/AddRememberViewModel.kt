@@ -73,9 +73,9 @@ class AddRememberViewModel(
                 if (it.title.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
                     _reminder.value?.id = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
                     //_id.postValue(tempID) //takes too long, old value will be written to workrequest
-                    Log.d("Delete AddVM", "reminder added: id = ${reminder.value?.id}")
+                    //Log.d("Delete AddVM", "reminder added: id = ${reminder.value?.id}")
                     createWorkRequest(reminder.value!!)
-                    Log.d("ViewModel", "workrequest for: Month: ${reminder.value?.m} (calendar index), Day: ${reminder.value?.d}:")
+                    //Log.d("ViewModel", "workrequest for: Month: ${reminder.value?.m} (calendar index), Day: ${reminder.value?.d}:")
                 }
             }
         }
@@ -106,8 +106,10 @@ Ende Ula
 
     fun getDelayInSeconds(reminder: Reminder): Long {
         val userDateTime = Calendar.getInstance()
-        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.m)
+        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.min)
         val now = Calendar.getInstance()
+        Log.i("ViewModel Add", "usertime: $userDateTime")
+        Log.i("ViewModel Add", "seconds left: ${(userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)}")
         return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
     }
     /**

@@ -90,8 +90,10 @@ class EditRememberViewModel (
 
     fun getDelayInSeconds(reminder: Reminder): Long {
         val userDateTime = Calendar.getInstance()
-        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.m)
+        userDateTime.set(reminder.y, reminder.m, reminder.d, reminder.h, reminder.min)
         val now = Calendar.getInstance()
+        Log.i("ViewModel Add", "usertime: $userDateTime")
+        Log.i("ViewModel Add", "seconds left: ${(userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)}")
         return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
     }
     /**
