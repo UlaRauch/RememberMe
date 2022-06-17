@@ -114,15 +114,27 @@ fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwa
 
 @Composable
 fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
+
+    val nowDate = Calendar.getInstance()
+    var y: Int by remember { mutableStateOf(nowDate.get(Calendar.YEAR))}
+    var m: Int by remember { mutableStateOf(nowDate.get(Calendar.MONTH))}
+    var d: Int by remember { mutableStateOf(nowDate.get(Calendar.DAY_OF_MONTH))}
+    nowDate.time = Date() //TODO: brauchts das? was passiert, wenn mans weglasst?
+    addViewModel.setDate(d = d,m = m, y = y) //set reminder in VM to current date as default
+
+    //Log.i("Add", "Calendar.getinstance(): $nowDate")
+    /*
+    y = nowDate.get(Calendar.YEAR)
+    m = nowDate.get(Calendar.MONTH)
+    d = nowDate.get(Calendar.DAY_OF_MONTH)
+  */
+
     var text by remember { mutableStateOf("") }
     // add more properties if you need
-    var date by remember { mutableStateOf("") }
+    var date by remember { mutableStateOf(nowDate) }
     var title by remember { mutableStateOf("") }
 
-    var y: Int
-    var m: Int
-    var d: Int
-    val nowDate = Calendar.getInstance()
+
 
     //Title
     OutlinedTextField(
@@ -142,22 +154,13 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
             .fillMaxWidth()
     )
 
-    //Date
-    y = nowDate.get(Calendar.YEAR)
-    m = nowDate.get(Calendar.MONTH)
-    d = nowDate.get(Calendar.DAY_OF_MONTH)
-    nowDate.time = Date()
-
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            val calDate = Calendar.getInstance()
-            calDate.set(year, month, dayOfMonth)
             y = year
             m = month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
             d = dayOfMonth
             addViewModel.setDate(d = d,m = m, y = y)
-            //date = "$dayOfMonth/$month/$year"
         }, y, m, d
     )
 
@@ -171,7 +174,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         Button(onClick = {
             datePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${addViewModel.reminder.value?.d}.${addViewModel.reminder.value?.m}.${addViewModel.reminder.value?.y}")
+            Text(text = "${d.toString().padStart(2, '0')}.${(m+1).toString().padStart(2, '0')}.$y")
         }
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -181,7 +184,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
 
     //Time
     // Declaring and initializing a calendar
-    val nowTime = Calendar.getInstance() //cal means Calendar
+    val nowTime = Calendar.getInstance() //TODO: ist das gleiche wie nowDate, wiederverwenden!
     var h = nowTime[Calendar.HOUR_OF_DAY]
     var min = nowTime[Calendar.MINUTE]
 
@@ -212,6 +215,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
     }, y, m, d
 
  */
+    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -222,6 +226,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
         Button(onClick = {
             mTimePickerDialog.show()
         }, modifier = Modifier.fillMaxWidth()) {
+
             Text(text = "${addViewModel.reminder.value?.h}:${addViewModel.reminder.value?.min}")
         }
         Spacer(modifier = Modifier.size(16.dp))
@@ -233,7 +238,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context){
 
     //Text
     /* von leons Branch*/
-    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
     OutlinedTextField(
         //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
         value = text,
