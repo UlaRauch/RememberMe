@@ -123,6 +123,20 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     nowDate.time = Date() //TODO: brauchts das? was passiert, wenn mans weglasst?
     addViewModel.setDate(d = d, m = m, y = y) //set reminder in VM to current date as default
 
+    // Declaring and initializing a calendar
+    val nowTime =
+        Calendar.getInstance() //TODO: ist das gleiche wie nowDate, wiederverwenden!
+    var h = nowTime[Calendar.HOUR_OF_DAY]
+    var min = nowTime[Calendar.MINUTE]
+
+    var hReminder: Int by remember { mutableStateOf(nowDate.get(Calendar.HOUR_OF_DAY))}
+    var minReminder: Int by remember { mutableStateOf(nowDate.get(Calendar.MINUTE))}
+    addViewModel.setTime(h = hReminder, min = minReminder) //set reminder in VM to current time as default
+
+    // Value for storing time as a string
+    val mTime = remember { mutableStateOf("") }
+
+
     //Log.i("Add", "Calendar.getinstance(): $nowDate")
     /*
     y = nowDate.get(Calendar.YEAR)
@@ -204,25 +218,15 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
 
             //Time
-            // Declaring and initializing a calendar
-            val nowTime =
-                Calendar.getInstance() //TODO: ist das gleiche wie nowDate, wiederverwenden!
-            var h = nowTime[Calendar.HOUR_OF_DAY]
-            var min = nowTime[Calendar.MINUTE]
-
-            // Value for storing time as a string
-            val mTime = remember { mutableStateOf("") }
 
             // Creating a TimePicker dialog
             val mTimePickerDialog = TimePickerDialog(
                 context,
                 { _, mHour: Int, mMinute: Int ->
-                    val calTime = Calendar.getInstance()
-                    calTime.set(mHour, mMinute)
-                    h = mHour
-                    min = mMinute
-                    addViewModel.setTime(h = h, min = min)
-                }, h, min, false
+                    hReminder = mHour
+                    minReminder = mMinute
+                    addViewModel.setTime(h = hReminder, min = minReminder)
+                }, hReminder, minReminder, false
             )
 
 /*
@@ -246,8 +250,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .padding(20.dp, 5.dp)
                     .fillMaxWidth()
             ) {
-
-                Text(text = "${addViewModel.reminder.value?.h}:${addViewModel.reminder.value?.min}")
+                Text(
+                    text = "${hReminder.toString().padStart(2, '0')}:${
+                        (minReminder).toString().padStart(2, '0')
+                    }"
+                )
             }
             Spacer(modifier = Modifier.size(16.dp))
 
