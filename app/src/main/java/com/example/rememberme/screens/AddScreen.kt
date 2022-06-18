@@ -122,7 +122,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     var d: Int by remember { mutableStateOf(nowDate.get(Calendar.DAY_OF_MONTH)) }
     nowDate.time = Date() //TODO: brauchts das? was passiert, wenn mans weglasst?
     addViewModel.setDate(d = d, m = m, y = y) //set reminder in VM to current date as default
-
     //Log.i("Add", "Calendar.getinstance(): $nowDate")
     /*
     y = nowDate.get(Calendar.YEAR)
@@ -132,8 +131,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
 
     var text by remember { mutableStateOf("") }
     // add more properties if you need
-    var date by remember { mutableStateOf(nowDate) }
+    val date by remember { mutableStateOf(nowDate) }
     var title by remember { mutableStateOf("") }
+    var isSurprise by remember { mutableStateOf(false) }
+    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
+    //var isSelected by remember { mutableStateOf(false) }
 
 
     Card(
@@ -183,6 +185,8 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                         month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
                     d = dayOfMonth
                     addViewModel.setDate(d = d, m = m, y = y)
+                    addViewModel.setSurprise(false) // is not a surprise reminder
+                    isSurprise = false
                 }, y, m, d
             )
             Button(
@@ -192,11 +196,15 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .padding(20.dp, 5.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = "${d.toString().padStart(2, '0')}.${
-                        (m + 1).toString().padStart(2, '0')
-                    }.$y"
-                )
+                if (isSurprise == true) {
+                    Text(text = "Click to select a date (no surprises!)")
+                } else {
+                    Text(
+                        text = "${d.toString().padStart(2, '0')}.${
+                            (m + 1).toString().padStart(2, '0')
+                        }.$y"
+                    )
+                }
             }
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -222,6 +230,8 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     h = mHour
                     min = mMinute
                     addViewModel.setTime(h = h, min = min)
+                    addViewModel.setSurprise(false)
+                    isSurprise = false
                 }, h, min, false
             )
 
@@ -237,7 +247,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     }, y, m, d
 
  */
-            val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
 
             Button(
                 onClick = {
@@ -246,8 +255,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .padding(20.dp, 5.dp)
                     .fillMaxWidth()
             ) {
-
-                Text(text = "${addViewModel.reminder.value?.h}:${addViewModel.reminder.value?.min}")
+                if (isSurprise) {
+                    Text(text = "Click to select a time (no surprises!)")
+                } else {
+                    Text(text = "${addViewModel.reminder.value?.h}:${addViewModel.reminder.value?.min}")
+                }
             }
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -255,12 +267,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                var isSelected by remember { mutableStateOf(false) }
                 RadioButton(
                     modifier = Modifier.padding(30.dp, 5.dp),
-                    selected = isSelected,
+                    selected = isSurprise,
                     onClick = {
-                        if (!isSelected) {
+                        if (!isSurprise) {
                             //Reset to current date/time is important to prevent cumulating dates when the radiobutton is clicked several times
                             date.set(
                                 nowDate.get(Calendar.YEAR),
@@ -269,7 +280,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                                 nowDate.get(Calendar.HOUR_OF_DAY),
                                 nowDate.get(Calendar.MINUTE)
                             )
-                            // set new random date + time
+                            // set new random date + time within interval minDays - maxDays
                             val minDays = 2
                             val maxDays = 61
                             val randomDays = kotlin.random.Random.nextInt(minDays, maxDays)
@@ -277,7 +288,8 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                             // a limitation to daytime notifications is possible by setting minHours and MaxHours to the desired interval
                             val minHours = 0
                             val maxHours = 24
-                            val randomMinutes = kotlin.random.Random.nextInt(minHours, ((maxHours * 60) - 1))
+                            val randomMinutes =
+                                kotlin.random.Random.nextInt(minHours, ((maxHours * 60) - 1))
                             date.add(Calendar.MINUTE, randomMinutes)
                             Log.i("Add", "New surprise date: ${date.time}")
 
@@ -289,10 +301,18 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                             min = date.get(Calendar.MINUTE)
                             addViewModel.setDate(d, m, y)
                             addViewModel.setTime(h, min)
+                            addViewModel.setSurprise(true) // is a surprise reminder
+                        } else {
+                            addViewModel.setSurprise(false)
                         }
-                        isSelected = !isSelected
+                        isSurprise = !isSurprise
+                        Log.i(
+                            "Add",
+                            "isSurprise in VM is now: ${addViewModel.reminder.value?.isSurprise}"
+                        )
                     }
                 )
+
                 Text(
                     text = "Surprise me!",
                     modifier = Modifier.fillMaxWidth()

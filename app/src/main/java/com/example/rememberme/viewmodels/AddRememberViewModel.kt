@@ -27,7 +27,7 @@ class AddRememberViewModel(
     // val reminder: Reminder
 
     private var _reminder: MutableLiveData<Reminder?> =
-        MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
+        MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = "", isSurprise = false))
     val reminder: LiveData<Reminder?> = _reminder
 
 /* von mir mit leon erarbeitet
@@ -62,6 +62,13 @@ class AddRememberViewModel(
 
     fun setTitle(title: String) {
         _reminder.value?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
+    }
+
+    fun setSurprise(isSurprise: Boolean) {
+        _reminder.value?.isSurprise = isSurprise
+    }
+    fun toggleSurprise(){
+        _reminder.value?.isSurprise = !_reminder.value?.isSurprise!!
     }
 
     fun addReminder() { //brauche keinen parameter weil alles im viewmodel is

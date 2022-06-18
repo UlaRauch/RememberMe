@@ -13,5 +13,6 @@ data class Reminder(
     var y: Int,
     var h: Int = 0,
     var min: Int = 0,
-    var text: String
+    var text: String,
+    var isSurprise: Boolean = false
     )
