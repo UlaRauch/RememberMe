@@ -251,7 +251,37 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             }
             Spacer(modifier = Modifier.size(16.dp))
 
-            //TODO: Radiobutton here!
+            var isSelected by remember { mutableStateOf(false) }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    modifier = Modifier.padding(30.dp, 5.dp),
+                    selected = isSelected,
+                    onClick = {
+                        if (!isSelected) {
+                            //TODO: reset to current date with each click!
+                            date.set(y, m, d)
+                            val randomDays = kotlin.random.Random.nextInt(2, 30)
+                            date.add(Calendar.DAY_OF_MONTH, randomDays)
+                            val randomMinutes = kotlin.random.Random.nextInt(0, ((12*60)-1))
+                            date.add(Calendar.MINUTE, randomMinutes)
+                            Log.i("Add", "New surprise date: ${date.time}")
+
+                            y = date.get(Calendar.YEAR)
+                            m = date.get(Calendar.MONTH)
+                            d = date.get(Calendar.DAY_OF_MONTH)
+                            //TODO: set hour/min!
+                            addViewModel.setDate(d, m, y)
+                        }
+                        isSelected = !isSelected
+                    }
+                )
+                Text(
+                    text = "Surprise me!",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
             //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
             //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
