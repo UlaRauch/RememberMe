@@ -7,8 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.*
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,14 +49,22 @@ fun HomeScreen(
                 contentColor = Color.White
             ) {
                 Row() {
-                    Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(140.dp, 0.dp,110.dp,0.dp))
+                    //Icon for dark light mode, modifier = Modifier.absolutePadding(0.dp, 0.dp,110.dp,0.dp)
+                    Icon(imageVector = Icons.Default.Star,
+                        contentDescription = "Button Dark/Light Mode",
+                        modifier = Modifier
+                            .absolutePadding(0.dp, 0.dp,110.dp,0.dp)
+                            .clickable {
+
+                            })
+                    Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(0.dp, 0.dp,110.dp,0.dp))
                     Icon(imageVector = Icons.Default.Delete,
                         contentDescription = "delete all reminders",
                         modifier = Modifier
-                            .absolutePadding(0.dp,0.dp,0.dp,0.dp)
                             .clickable {
                             viewModel.deleteAll()
                         })
+
 
                 }
             }
