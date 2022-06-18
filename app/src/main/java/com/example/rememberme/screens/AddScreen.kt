@@ -251,28 +251,44 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             }
             Spacer(modifier = Modifier.size(16.dp))
 
-            var isSelected by remember { mutableStateOf(false) }
+            //Radiobutton for surprise reminder within the next 30 days
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                var isSelected by remember { mutableStateOf(false) }
                 RadioButton(
                     modifier = Modifier.padding(30.dp, 5.dp),
                     selected = isSelected,
                     onClick = {
                         if (!isSelected) {
-                            //TODO: reset to current date with each click!
-                            date.set(y, m, d)
-                            val randomDays = kotlin.random.Random.nextInt(2, 30)
+                            //Reset to current date/time is important to prevent cumulating dates when the radiobutton is clicked several times
+                            date.set(
+                                nowDate.get(Calendar.YEAR),
+                                nowDate.get(Calendar.MONTH),
+                                nowDate.get(Calendar.DAY_OF_MONTH),
+                                nowDate.get(Calendar.HOUR_OF_DAY),
+                                nowDate.get(Calendar.MINUTE)
+                            )
+                            // set new random date + time
+                            val minDays = 2
+                            val maxDays = 61
+                            val randomDays = kotlin.random.Random.nextInt(minDays, maxDays)
                             date.add(Calendar.DAY_OF_MONTH, randomDays)
-                            val randomMinutes = kotlin.random.Random.nextInt(0, ((12*60)-1))
+                            // a limitation to daytime notifications is possible by setting minHours and MaxHours to the desired interval
+                            val minHours = 0
+                            val maxHours = 24
+                            val randomMinutes = kotlin.random.Random.nextInt(minHours, ((maxHours * 60) - 1))
                             date.add(Calendar.MINUTE, randomMinutes)
                             Log.i("Add", "New surprise date: ${date.time}")
 
+                            // set surprise time for reminder
                             y = date.get(Calendar.YEAR)
                             m = date.get(Calendar.MONTH)
                             d = date.get(Calendar.DAY_OF_MONTH)
-                            //TODO: set hour/min!
+                            h = date.get(Calendar.HOUR_OF_DAY)
+                            min = date.get(Calendar.MINUTE)
                             addViewModel.setDate(d, m, y)
+                            addViewModel.setTime(h, min)
                         }
                         isSelected = !isSelected
                     }

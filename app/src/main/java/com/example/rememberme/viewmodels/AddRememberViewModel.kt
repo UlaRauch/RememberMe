@@ -74,7 +74,7 @@ class AddRememberViewModel(
                 if (it.title.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
                     _reminder.value?.id = repository.addReminder(reminder.value!!)// insert new reminder an get the new id
                     //_id.postValue(tempID) //takes too long, old value will be written to workrequest
-                    //Log.d("Delete AddVM", "reminder added: id = ${reminder.value?.id}")
+                    Log.d("Delete AddVM", "reminder added: id = ${reminder.value}")
                     WorkRequestUtils.createWorkRequest(reminder.value!!, workManager = workManager)
                     //Log.d("ViewModel", "workrequest for: Month: ${reminder.value?.m} (calendar index), Day: ${reminder.value?.d}:")
                 }
