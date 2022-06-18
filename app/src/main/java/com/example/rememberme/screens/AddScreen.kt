@@ -212,7 +212,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .fillMaxWidth()
             ) {
                 if (isSurprise == true) {
-                    Text(text = "Click to select a date (no surprises!)")
+                    Text(text = "Select date")
                 } else {
                     Text(
                         text = "${d.toString().padStart(2, '0')}.${
@@ -261,7 +261,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .fillMaxWidth()
             ) {
                 if (isSurprise) {
-                    Text(text = "Click to select a time (no surprises!)")
+                    Text(text = "Select time")
                 } else {
                     Text(
                         text = "${hReminder.toString().padStart(2, '0')}:${

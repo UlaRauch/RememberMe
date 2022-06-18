@@ -61,6 +61,9 @@ class EditRememberViewModel (
         _updatedReminder?.title = title //wenn string übergeben wird wird geschaut ob eh nicht null
     }
 
+    fun setSurprise(isSurprise: Boolean) {
+        _updatedReminder?.isSurprise = isSurprise
+    }
     /*
     fun getReminderbyID(reminderID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
