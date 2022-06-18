@@ -22,7 +22,9 @@ import com.example.rememberme.utils.RememberWorker
 import com.example.rememberme.viewmodels.*
 
 @Composable
-fun RememberNavigation() {
+fun RememberNavigation(
+    onDarkModeToggle: () -> Unit ={}
+) {
     val context = LocalContext.current
     val workManager = WorkManager.getInstance(context)
     val db = RememberDB.getDatabase(context = context)
@@ -34,7 +36,7 @@ fun RememberNavigation() {
     )
     {
         composable(RememberScreens.HomeScreen.name) {
-            HomeScreen(navController = navController, repository = repository, workManager = workManager)
+            HomeScreen(navController = navController, repository = repository, workManager = workManager, onDarkModeToggle = onDarkModeToggle)
         }
 
         composable(

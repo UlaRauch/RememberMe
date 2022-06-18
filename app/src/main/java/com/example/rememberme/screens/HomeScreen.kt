@@ -23,9 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
-import com.example.rememberme.design.JetPackTheme
-import com.example.rememberme.design.ThemesData
-import com.example.rememberme.design.ThemesMode
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
@@ -42,6 +39,7 @@ fun HomeScreen(
     navController: NavController,
     repository: RememberRepository,
     workManager: WorkManager,
+    onDarkModeToggle: () -> Unit = {}
 ) {
     val viewModel: RememberViewModel = viewModel(
         factory = RememberViewModelFactory(repository = repository, workManager = workManager)
@@ -62,7 +60,8 @@ fun HomeScreen(
                         modifier = Modifier
                             .absolutePadding(0.dp, 0.dp, 110.dp, 0.dp)
                             .clickable {
-
+                                Log.i("Home", "dark mode toggle clicked")
+                                onDarkModeToggle()
                             })
                     Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(0.dp, 0.dp,110.dp,0.dp))
                     Icon(imageVector = Icons.Default.Delete,
@@ -71,8 +70,6 @@ fun HomeScreen(
                             .clickable {
                             viewModel.deleteAll()
                         })
-
-
                 }
             }
         },
@@ -98,8 +95,10 @@ fun HomeScreen(
 
     ) {
         val reminders: List<Reminder> by viewModel.reminders.collectAsState()
-        ThemeDemo(navController = navController,
-            reminders = reminders)
+        MainContent(
+            navController = navController,
+            reminders = reminders
+        )
 
 
 
@@ -137,64 +136,4 @@ fun MainContent(
         }
 
     }
-}
-
-@Composable
-fun ThemeDemo(navController: NavController,
-              reminders: List<Reminder>){
-    val mode = remember { mutableStateOf(ThemesData(ThemesMode.Light, false)) }
-// mostly from: https://rrtutors.com/tutorials/Compose-material-design-themes-set-dark-and-Light-theme-with-compose
-    JetPackTheme(
-        darkTheme = mode.value.value,
-        content = {
-
-            val value = isSystemInDarkTheme()
-            Scaffold(content = {
-                Column(content = {
-                    Row {
-                        RadioButton(
-                            selected = mode.value.title == ThemesMode.Dark,
-                            onClick = {
-                                mode.value = ThemesData(ThemesMode.Dark, true)
-                            })
-                        Spacer(modifier = Modifier.size(16.dp))
-                        Text(
-                            ThemesMode.Dark,
-                            color = MaterialTheme.colors.onBackground,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.size(16.dp))
-                        RadioButton(
-                            selected = mode.value.title == ThemesMode.Light,
-                            onClick = {
-                                mode.value = ThemesData(ThemesMode.Light, false)
-                            })
-                        Spacer(modifier = Modifier.size(16.dp))
-                        Text(
-                            ThemesMode.Light,
-                            color = MaterialTheme.colors.onBackground,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.size(16.dp))
-                        RadioButton(
-                            selected = mode.value.title == ThemesMode.System,
-                            onClick = {
-                                mode.value = ThemesData(ThemesMode.System, value)
-                            })
-                        Spacer(modifier = Modifier.size(16.dp))
-                        Text(
-                            ThemesMode.System,
-                            color = MaterialTheme.colors.onBackground,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(16.dp))
-                    MainContent(
-                        navController = navController,
-                        reminders = reminders
-                    )
-            })
-        }
-    )
-})
 }
