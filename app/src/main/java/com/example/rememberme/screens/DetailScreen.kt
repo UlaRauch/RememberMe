@@ -119,25 +119,27 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
                     .align(alignment = Alignment.CenterHorizontally)
 
             )
+            if (reminder.isSurprise) {
+                Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
+            } else {
+                Row() {
+                    Text(
+                        text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Light,
+                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
+                    )
+                }
+                Row() {
+                    Text(
+                        text = "Time: ${reminder.h}:${reminder.min}",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Light,
+                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+                    )
 
-            Row() {
-                Text(
-                    text = "Date: ${reminder.d}.${reminder.m+1}.${reminder.y}",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Light,
-                    modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
-                )
+                }
             }
-            Row() {
-                Text(
-                    text = "Time: ${reminder.h}:${reminder.min}",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Light,
-                    modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-                )
-
-            }
-
             //if (reminder.text != null)
             Divider(modifier = Modifier.padding(7.dp))
             Text(

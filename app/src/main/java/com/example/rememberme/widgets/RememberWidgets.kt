@@ -52,7 +52,7 @@ fun RememberRow(
                         fontWeight = FontWeight.SemiBold
                     )
                     if (reminder.isSurprise) {
-                        Text(text = "Surprise reminder")
+                        Text(text = "Surprise date")
                     } else {
                         Row() {
                             Text(
