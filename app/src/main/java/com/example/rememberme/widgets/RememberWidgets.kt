@@ -34,7 +34,7 @@ fun RememberRow(
             .padding(4.dp)
             .fillMaxWidth()
             .heightIn(min = 0.dp)
-            .clickable {onItemClick(reminder.id)},
+            .clickable { onItemClick(reminder.id) },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 6.dp
     ) {
@@ -51,36 +51,40 @@ fun RememberRow(
                         fontSize = 23.sp,
                         fontWeight = FontWeight.SemiBold
                     )
-                    Row() {
-                        Text(
-                            text = "Date: ${reminder.d}.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Text(
-                            text = "${reminder.m+1}.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Text(
-                            text = "${reminder.y}",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                    }
-                    Row() {
-                        Text(
-                            text = "Time: ${reminder.h}:",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                        Text(
-                            text = "${reminder.min}",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
-                        )
-                    }
+                    if (reminder.isSurprise) {
+                        Text(text = "Surprise reminder")
+                    } else {
+                        Row() {
+                            Text(
+                                text = "Date: ${reminder.d}.",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                            Text(
+                                text = "${reminder.m + 1}.",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                            Text(
+                                text = "${reminder.y}",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light
+                            )
 
+                        }
+                        Row() {
+                            Text(
+                                text = "Time: ${reminder.h}:",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                            Text(
+                                text = "${reminder.min}",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                        }
+                    }
 /*
                     Text(
                         text = "Text: ${reminder.text}",

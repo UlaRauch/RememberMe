@@ -67,9 +67,6 @@ class AddRememberViewModel(
     fun setSurprise(isSurprise: Boolean) {
         _reminder.value?.isSurprise = isSurprise
     }
-    fun toggleSurprise(){
-        _reminder.value?.isSurprise = !_reminder.value?.isSurprise!!
-    }
 
     fun addReminder() { //brauche keinen parameter weil alles im viewmodel is
 
