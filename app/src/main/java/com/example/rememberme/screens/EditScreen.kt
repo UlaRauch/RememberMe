@@ -7,6 +7,8 @@ import android.icu.util.Calendar
 import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -118,97 +120,120 @@ fun EditReminderCard(
     // Value for storing time as a string
     val mTime = remember { mutableStateOf("") }
 
-    //Title
-    OutlinedTextField(
-        //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
-        value = title,
-        leadingIcon = { Icon(imageVector = Icons.Default.Edit, contentDescription = "EditIcon") },
-        // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-        // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
-        onValueChange = { value ->
-            title = value    // update text value inside field
-            editViewModel.setTitle(value)
-        },
-        label = { Text(text = reminder.title) },
-        placeholder = { Text(text = "Edit Title") },
+    Card(
         modifier = Modifier
-            .padding(20.dp, 30.dp)
+            .padding(4.dp)
             .fillMaxWidth()
-    )
-    //Date
-
-    val datePickerDialog = DatePickerDialog(
-        context,
-        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            y = year
-            m = month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
-            d = dayOfMonth
-            editViewModel.setDate(d = d,m = m, y = y)
-            //date = "$dayOfMonth/$month/$year"
-        }, y, m, d
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp, 110.dp),
-        verticalArrangement = Arrangement.Center,
-        // horizontalAlignment = Alignment.CenterHorizontally
+        //.height(130.dp) //remove this to keep height flexible
+        ,
+        shape = RoundedCornerShape(corner = CornerSize(4.dp)),
+        elevation = 4.dp
     ) {
-        Button(onClick = {
-            datePickerDialog.show()
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${d}.${m+1}.${y}")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            verticalArrangement = Arrangement.Center,
+            // horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            //Title
+            OutlinedTextField(
+                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
+                value = title,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "EditIcon"
+                    )
+                },
+                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
+                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
+                onValueChange = { value ->
+                    title = value    // update text value inside field
+                    editViewModel.setTitle(value)
+                },
+                label = { Text(text = reminder.title) },
+                placeholder = { Text(text = "Edit Title") },
+                modifier = Modifier
+                    .padding(20.dp, 30.dp)
+                    .fillMaxWidth()
+            )
+            //Date
+
+            val datePickerDialog = DatePickerDialog(
+                context,
+                { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+                    y = year
+                    m =
+                        month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+                    d = dayOfMonth
+                    editViewModel.setDate(d = d, m = m, y = y)
+                    //date = "$dayOfMonth/$month/$year"
+                }, y, m, d
+            )
+
+
+                Button(onClick = {
+                    datePickerDialog.show()
+                }, modifier = Modifier
+                    .padding(20.dp, 5.dp)
+                    .fillMaxWidth()
+                ) {
+                    Text(text = "${d}.${m + 1}.${y}")
+                }
+                Spacer(modifier = Modifier.size(16.dp))
+
+                //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
+                //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
+
+
+            //Time
+            // Creating a TimePicker dialog
+            val mTimePickerDialog = TimePickerDialog(
+                context,
+                { _, mHour: Int, mMinute: Int ->
+                    calTime.set(mHour, mMinute)
+                    hReminder = mHour
+                    minReminder = mMinute
+                    editViewModel.setTime(h = hReminder, min = minReminder)
+                }, hReminder, minReminder, false
+            )
+
+
+                Button(onClick = {
+                    mTimePickerDialog.show()
+                }, modifier = Modifier
+                    .padding(20.dp, 5.dp)
+                    .fillMaxWidth()
+                ) {
+                    Text(text = "${hReminder}:${minReminder}")
+                }
+                Spacer(modifier = Modifier.size(16.dp))
+
+
+
+            OutlinedTextField(
+                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
+                value = text,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "EditIcon"
+                    )
+                },
+                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
+                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
+                onValueChange = { value ->
+                    text = value    // update text value inside field
+                    editViewModel.setText(value) // update value in viewmodel
+                },
+                label = { Text(text = reminder.text) },
+                placeholder = { Text(text = "Edit Text") },
+                modifier = Modifier
+                    .padding(20.dp, 5.dp)
+                    .fillMaxWidth()
+            )
         }
-        Spacer(modifier = Modifier.size(16.dp))
-
-        //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
-        //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
     }
-
-    //Time
-    // Creating a TimePicker dialog
-    val mTimePickerDialog = TimePickerDialog(
-        context,
-        {_, mHour : Int, mMinute: Int ->
-            calTime.set(mHour,mMinute)
-            hReminder = mHour
-            minReminder = mMinute
-            editViewModel.setTime(h = hReminder, min = minReminder)
-        }, hReminder, minReminder, false
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp, 155.dp),
-        verticalArrangement = Arrangement.Center,
-        // horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(onClick = {
-            mTimePickerDialog.show()
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "${hReminder}:${minReminder}")
-        }
-        Spacer(modifier = Modifier.size(16.dp))
-
-    }
-
-    OutlinedTextField(
-        //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
-        value = text,
-        leadingIcon = { Icon(imageVector = Icons.Default.Edit, contentDescription = "EditIcon") },
-        // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-        // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
-        onValueChange = { value ->
-            text = value    // update text value inside field
-            editViewModel.setText(value) // update value in viewmodel
-        },
-        label = { Text(text = reminder.text) },
-        placeholder = { Text(text = "Edit Text") },
-        modifier = Modifier
-            .padding(20.dp, 200.dp)
-            .fillMaxWidth()
-    )
 }
 
