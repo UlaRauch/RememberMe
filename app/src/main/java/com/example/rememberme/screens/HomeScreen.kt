@@ -1,24 +1,31 @@
 package com.example.rememberme.screens
 
 import android.util.Log
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.*
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
+import com.example.rememberme.design.JetPackTheme
+import com.example.rememberme.design.ThemesData
+import com.example.rememberme.design.ThemesMode
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
@@ -53,7 +60,7 @@ fun HomeScreen(
                     Icon(imageVector = Icons.Default.Star,
                         contentDescription = "Button Dark/Light Mode",
                         modifier = Modifier
-                            .absolutePadding(0.dp, 0.dp,110.dp,0.dp)
+                            .absolutePadding(0.dp, 0.dp, 110.dp, 0.dp)
                             .clickable {
 
                             })
@@ -91,10 +98,11 @@ fun HomeScreen(
 
     ) {
         val reminders: List<Reminder> by viewModel.reminders.collectAsState()
-        MainContent(
-            navController = navController,
-            reminders = reminders
-        )
+        ThemeDemo(navController = navController,
+            reminders = reminders)
+
+
+
     }
     
 }
@@ -129,4 +137,64 @@ fun MainContent(
         }
 
     }
+}
+
+@Composable
+fun ThemeDemo(navController: NavController,
+              reminders: List<Reminder>){
+    val mode = remember { mutableStateOf(ThemesData(ThemesMode.Light, false)) }
+// mostly from: https://rrtutors.com/tutorials/Compose-material-design-themes-set-dark-and-Light-theme-with-compose
+    JetPackTheme(
+        darkTheme = mode.value.value,
+        content = {
+
+            val value = isSystemInDarkTheme()
+            Scaffold(content = {
+                Column(content = {
+                    Row {
+                        RadioButton(
+                            selected = mode.value.title == ThemesMode.Dark,
+                            onClick = {
+                                mode.value = ThemesData(ThemesMode.Dark, true)
+                            })
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(
+                            ThemesMode.Dark,
+                            color = MaterialTheme.colors.onBackground,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.size(16.dp))
+                        RadioButton(
+                            selected = mode.value.title == ThemesMode.Light,
+                            onClick = {
+                                mode.value = ThemesData(ThemesMode.Light, false)
+                            })
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(
+                            ThemesMode.Light,
+                            color = MaterialTheme.colors.onBackground,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.size(16.dp))
+                        RadioButton(
+                            selected = mode.value.title == ThemesMode.System,
+                            onClick = {
+                                mode.value = ThemesData(ThemesMode.System, value)
+                            })
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(
+                            ThemesMode.System,
+                            color = MaterialTheme.colors.onBackground,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(16.dp))
+                    MainContent(
+                        navController = navController,
+                        reminders = reminders
+                    )
+            })
+        }
+    )
+})
 }
