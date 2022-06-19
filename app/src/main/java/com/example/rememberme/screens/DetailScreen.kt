@@ -46,7 +46,11 @@ fun DetailScreen(
     reminderID: Long = 1
 ) {
     val viewModel: DetailRememberViewModel = viewModel(
-        factory = DetailRememberViewModelFactory(repository = repository, workManager = workManager, reminderID = reminderID)
+        factory = DetailRememberViewModelFactory(
+            repository = repository,
+            workManager = workManager,
+            reminderID = reminderID
+        )
     )
     val reminder by viewModel.reminder.observeAsState() // observe the reminder state
 
@@ -55,13 +59,13 @@ fun DetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(){
+            TopAppBar() {
                 Row {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Arrow Back",
                         modifier = Modifier
-                            .padding(12.dp,0.dp)
+                            .padding(12.dp, 0.dp)
                             .clickable {
                                 navController.popBackStack()
                             }
@@ -69,10 +73,12 @@ fun DetailScreen(
 
                     Spacer(modifier = Modifier.width(20.dp))
                     reminder?.let {
-                        Text(text = it.title,
+                        Text(
+                            text = it.title,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
-                                .absolutePadding(10.dp,0.dp,30.dp,0.dp))
+                                .absolutePadding(10.dp, 0.dp, 30.dp, 0.dp)
+                        )
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Delete Reminder",
@@ -85,7 +91,7 @@ fun DetailScreen(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit Reminder",
                             modifier = Modifier
-                                .padding(15.dp,0.dp)
+                                .padding(15.dp, 0.dp)
                                 .clickable {
                                     navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
                                     //TODO
@@ -108,7 +114,7 @@ fun DetailScreen(
  * @param reminder: Reminder
  */
 @Composable
-fun MainContentD(reminder:Reminder) {
+fun MainContentD(reminder: Reminder) {
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -124,24 +130,29 @@ fun MainContentD(reminder:Reminder) {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
+                    .padding(20.dp)
             )
             if (reminder.isSurprise) {
-                Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
+                Text(text = "Surprise date", modifier = Modifier.padding(8.dp))
             } else {
                 Row() {
                     Text(
-                        text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
+                        text = "Date: ${
+                            reminder.d.toString().padStart(2, '0')
+                        }.${(reminder.m + 1).toString().padStart(2, '0')}.${reminder.y}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
-                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
+                        modifier = Modifier.padding(5.dp)
                     )
                 }
                 Row() {
                     Text(
-                        text = "Time: ${reminder.h}:${reminder.min}",
+                        text = "Time: ${
+                            reminder.h.toString().padStart(2, '0')
+                        }:${reminder.min.toString().padStart(2, '0')}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
-                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+                        modifier = Modifier.padding(5.dp)
                     )
 
                 }
@@ -149,7 +160,7 @@ fun MainContentD(reminder:Reminder) {
             Divider(modifier = Modifier.padding(7.dp))
             Text(
                 text = reminder.text,
-                modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+                modifier = Modifier.padding(10.dp)
             )
         }
     }

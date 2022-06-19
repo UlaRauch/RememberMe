@@ -29,7 +29,7 @@ import com.example.rememberme.models.Reminder
 fun RememberRow(
     reminder: Reminder,
     onItemClick: (Long?) -> Unit = {}
-    ){
+) {
     //Log.d("RememberWidgets", "Reminder widget called")
 
     Card(
@@ -46,7 +46,7 @@ fun RememberRow(
                 modifier = Modifier
                     .padding(12.dp)
 
-                ) {
+            ) {
                 Column() {
                     Text(
                         text = reminder.title,
@@ -58,14 +58,18 @@ fun RememberRow(
                     } else {
                         Row() {
                             Text(
-                                text = "Date: ${reminder.d.toString().padStart(2, '0')}.${(reminder.m + 1).toString().padStart(2, '0')}.${reminder.y}",
+                                text = "Date: ${
+                                    reminder.d.toString().padStart(2, '0')
+                                }.${(reminder.m + 1).toString().padStart(2, '0')}.${reminder.y}",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Light
                             )
                         }
                         Row() {
                             Text(
-                                text = "Time: ${reminder.h.toString().padStart(2, '0')}:${reminder.min.toString().padStart(2, '0')}",
+                                text = "Time: ${
+                                    reminder.h.toString().padStart(2, '0')
+                                }:${reminder.min.toString().padStart(2, '0')}",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Light
                             )
