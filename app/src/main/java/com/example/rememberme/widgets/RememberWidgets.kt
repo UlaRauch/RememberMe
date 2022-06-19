@@ -20,6 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rememberme.models.Reminder
 
+/**
+ * Card for a reminder
+ * @param reminder
+ * @param onItemClick
+ */
 @Composable
 fun RememberRow(
     reminder: Reminder,
