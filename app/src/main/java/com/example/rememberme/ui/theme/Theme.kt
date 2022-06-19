@@ -27,8 +27,8 @@ private val LightColorPalette = lightColors(
     secondary = Purple200,
     surface = Purple60,
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onSurface = Color.White,
+    onSecondary = Color.Black,
+    onSurface = Color.Black,
 //    isLight = true
 
 
