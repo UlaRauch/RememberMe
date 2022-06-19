@@ -1,7 +1,5 @@
 package com.example.rememberme.screens
 
-import android.content.Context
-import android.text.Layout
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,13 +10,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,13 +25,18 @@ import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
-import com.example.rememberme.ui.theme.Purple200
-import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.DetailRememberViewModel
 import com.example.rememberme.viewmodels.DetailRememberViewModelFactory
-import com.example.rememberme.viewmodels.EditRememberViewModel
-//import com.example.rememberme.models.getReminders
-import com.example.rememberme.viewmodels.RememberViewModel
+
+
+/**
+ * Creats a TopAppBar for Detail screen
+ *
+ * @param navController
+ * @param repository: RemeberRepository
+ * @param workManager
+ * @param reminderID: Long
+ */
 
 @Composable
 fun DetailScreen(
@@ -49,7 +50,7 @@ fun DetailScreen(
     )
     val reminder by viewModel.reminder.observeAsState() // observe the reminder state
 
-    Log.i("edit", "reminder in detail: ${reminder?.title}")
+    //Log.i("edit", "reminder in detail: ${reminder?.title}")
     viewModel.getRemindersDEBUG()
 
     Scaffold(
@@ -99,13 +100,15 @@ fun DetailScreen(
                 reminder = it
             )
         }
-
     }
 }
 
-
+/**
+ * Content for detail screen
+ * @param reminder: Reminder
+ */
 @Composable
-fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
+fun MainContentD(reminder:Reminder) {
     Card(
         modifier = Modifier
             .padding(4.dp)

@@ -23,6 +23,16 @@ import com.example.rememberme.viewmodels.RememberViewModelFactory
 import com.example.rememberme.viewmodels.ThemeViewModel
 import com.example.rememberme.widgets.RememberRow
 
+/**
+ * Creats a TopAppBar for Home screen
+ *
+ * @param navController
+ * @param repository: RemeberRepository
+ * @param workManager
+ * @param onDarkModeToggle
+ * @param themeViewModel
+ */
+
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -70,6 +80,11 @@ fun HomeScreen(
     }
 }
 
+/**
+ * For Dark and Light Theme
+ * @param onDarkModeToggle
+ * @param themeViewModel
+ */
 @Composable
 fun DarkModeDropDown(
     onDarkModeToggle: () -> Unit = {},
@@ -120,6 +135,11 @@ fun DarkModeDropDown(
     }
 }
 
+/**
+ * Content for Home screen
+ * @param navController
+ * @param reminders to display the reminders
+ */
 @Composable
 fun MainContent(
     navController: NavController,

@@ -10,9 +10,9 @@ import com.example.rememberme.models.Reminder
 import java.util.concurrent.TimeUnit
 
 object WorkRequestUtils {
-    /**
-     * Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
-     * adapted to less params by Ula Rauch
+    /*
+     Begin code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+     adapted to less params by Ula Rauch
      */
     fun createWorkRequest(reminder: Reminder, workManager: WorkManager) {
         val timeDelayInSeconds = getDelayInSeconds(reminder)
@@ -27,7 +27,7 @@ object WorkRequestUtils {
             .addTag(reminder.id.toString())
             .build()
         workManager.enqueue(workRequest)
-        Log.i("Delete Add", "enqueuing work with tag: ${reminder.id}")
+        // Log.i("Delete Add", "enqueuing work with tag: ${reminder.id}")
     }
 
     fun getDelayInSeconds(reminder: Reminder): Long {
@@ -38,7 +38,7 @@ object WorkRequestUtils {
         //Log.i("ViewModel Add", "seconds left: ${(userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)}")
         return (userDateTime.timeInMillis / 1000L) - (now.timeInMillis / 1000L)
     }
-    /**
-     * End
+    /*
+     End
      */
 }
