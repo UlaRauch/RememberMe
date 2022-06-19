@@ -30,7 +30,7 @@ import com.example.rememberme.viewmodels.DetailRememberViewModelFactory
 
 
 /**
- * Creats a TopAppBar for Detail screen
+ * Creates a TopAppBar for Detail screen
  *
  * @param navController
  * @param repository: RemeberRepository
@@ -65,39 +65,44 @@ fun DetailScreen(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Arrow Back",
                         modifier = Modifier
-                            .padding(12.dp, 0.dp)
+                            .padding(5.dp)
                             .clickable {
                                 navController.popBackStack()
                             }
                     )
-
-                    Spacer(modifier = Modifier.width(20.dp))
-                    reminder?.let {
-                        Text(
-                            text = it.title,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .absolutePadding(10.dp, 0.dp, 30.dp, 0.dp)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete Reminder",
-                            modifier = Modifier.clickable {
-                                viewModel.removeReminder(reminder = it, tag = reminderID.toString())
-                                navController.popBackStack()
-                            }
-                        )
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit Reminder",
-                            modifier = Modifier
-                                .padding(15.dp, 0.dp)
-                                .clickable {
-                                    navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
-                                    //TODO
-                                }
-                        )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.End,
+                    )
+                    {
+                        Row() {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete Reminder",
+                                modifier = Modifier
+                                    .padding(5.dp)
+                                    .clickable {
+                                        reminder?.let {
+                                            viewModel.removeReminder(
+                                                reminder = it,
+                                                tag = reminderID.toString()
+                                            )
+                                        }
+                                        navController.popBackStack()
+                                    }
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Edit Reminder",
+                                modifier = Modifier
+                                    .padding(5.dp)
+                                    .clickable {
+                                        navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
+                                    }
+                            )
+                        }
                     }
+
                 }
             }
         }) {
@@ -133,26 +138,24 @@ fun MainContentD(reminder: Reminder) {
                     .padding(20.dp)
             )
             if (reminder.isSurprise) {
-                Text(text = "Surprise date", modifier = Modifier.padding(8.dp))
+                Text(text = "Surprise date", modifier = Modifier.padding(12.dp))
             } else {
-                Row() {
+                Row(modifier = Modifier.padding(12.dp, 5.dp)) {
                     Text(
                         text = "Date: ${
                             reminder.d.toString().padStart(2, '0')
                         }.${(reminder.m + 1).toString().padStart(2, '0')}.${reminder.y}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
-                        modifier = Modifier.padding(5.dp)
                     )
                 }
-                Row() {
+                Row(modifier = Modifier.padding(12.dp, 5.dp)) {
                     Text(
                         text = "Time: ${
                             reminder.h.toString().padStart(2, '0')
                         }:${reminder.min.toString().padStart(2, '0')}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
-                        modifier = Modifier.padding(5.dp)
                     )
 
                 }
@@ -160,7 +163,7 @@ fun MainContentD(reminder: Reminder) {
             Divider(modifier = Modifier.padding(7.dp))
             Text(
                 text = reminder.text,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(12.dp)
             )
         }
     }
