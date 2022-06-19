@@ -95,24 +95,25 @@ fun EditReminderCard(
     reminder: Reminder,
     context: Context,
 ) {
+    //Load reminder into ViewModel
     editViewModel.initializeReminder()
 
-    //vars text, title
-    var text by remember { mutableStateOf(reminder.text) }
-    var title by remember { mutableStateOf(reminder.title) }
+    // initialize calendar with current date
+    val calDateTime = Calendar.getInstance()
+    // for surprise reminder
+    val surpriseDate by remember { mutableStateOf(calDateTime) } //TODO: muss das stateful sein?
+    var isSurprise by remember { mutableStateOf(reminder.isSurprise) }
 
-    //vars for date
+    // initialize stateful vars from reminder
     var y: Int by remember { mutableStateOf(reminder.y) }
     var m: Int by remember { mutableStateOf(reminder.m) }
     var d: Int by remember { mutableStateOf(reminder.d) }
 
-    //vals and vars for Time
-    var hReminder: Int by remember { mutableStateOf(reminder.h) }
-    var minReminder: Int by remember { mutableStateOf(reminder.min) }
-    val calTime = Calendar.getInstance()
-    val date by remember { mutableStateOf(calTime) } //TODO: muss das stateful sein?
-    var isSurprise by remember { mutableStateOf(reminder.isSurprise) }
+    var h: Int by remember { mutableStateOf(reminder.h) }
+    var min: Int by remember { mutableStateOf(reminder.min) }
 
+    var text by remember { mutableStateOf(reminder.text) }
+    var title by remember { mutableStateOf(reminder.title) }
 
     Card(
         modifier = Modifier
@@ -159,11 +160,12 @@ fun EditReminderCard(
                 context,
                 { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
                     y = year
-                    m =
-                        month //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+                    //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
+                    m = month
                     d = dayOfMonth
                     editViewModel.setDate(d = d, m = m, y = y)
-                    editViewModel.setSurprise(false) // is not a surprise reminder
+                    // is not a surprise reminder
+                    editViewModel.setSurprise(false)
                     isSurprise = false
                 }, y, m, d
             )
@@ -186,7 +188,9 @@ fun EditReminderCard(
                 }
             }
             Spacer(modifier = Modifier.size(16.dp))
-            //End
+            /*
+            End
+             */
 
             /*
              made with Tutorial: https://www.geeksforgeeks.org/time-picker-in-android-using-jetpack-compose/
@@ -196,12 +200,13 @@ fun EditReminderCard(
             val mTimePickerDialog = TimePickerDialog(
                 context,
                 { _, mHour: Int, mMinute: Int ->
-                    hReminder = mHour
-                    minReminder = mMinute
-                    editViewModel.setTime(h = hReminder, min = minReminder)
+                    h = mHour
+                    min = mMinute
+                    editViewModel.setTime(h = h, min = min)
+                    // is not a surprise reminder
                     editViewModel.setSurprise(false)
                     isSurprise = false
-                }, hReminder, minReminder, false
+                }, h, min, false
             )
 
             Button(
@@ -215,14 +220,16 @@ fun EditReminderCard(
                     Text(text = "Change time")
                 } else {
                     Text(
-                        text = "${hReminder.toString().padStart(2, '0')}:${
-                            (minReminder).toString().padStart(2, '0')
+                        text = "${h.toString().padStart(2, '0')}:${
+                            (min).toString().padStart(2, '0')
                         }"
                     )
                 }
             }
             Spacer(modifier = Modifier.size(16.dp))
-            //End
+            /*
+            END
+             */
 
             //Random -> Surprise
             Row(
@@ -234,41 +241,41 @@ fun EditReminderCard(
                     onClick = {
                         if (!isSurprise) {
                             //Reset to current date/time is important to prevent cumulating dates when the radiobutton is clicked several times
-                            date.set(
-                                calTime.get(Calendar.YEAR),
-                                calTime.get(Calendar.MONTH),
-                                calTime.get(Calendar.DAY_OF_MONTH),
-                                calTime.get(Calendar.HOUR_OF_DAY),
-                                calTime.get(Calendar.MINUTE)
+                                surpriseDate.set(
+                                calDateTime.get(Calendar.YEAR),
+                                calDateTime.get(Calendar.MONTH),
+                                calDateTime.get(Calendar.DAY_OF_MONTH),
+                                calDateTime.get(Calendar.HOUR_OF_DAY),
+                                calDateTime.get(Calendar.MINUTE)
                             )
                             // set new random date + time within interval minDays - maxDays
                             val minDays = 2
                             val maxDays = 61
                             val randomDays = kotlin.random.Random.nextInt(minDays, maxDays)
-                            date.add(Calendar.DAY_OF_MONTH, randomDays)
+                            surpriseDate.add(Calendar.DAY_OF_MONTH, randomDays)
                             // a limitation to daytime notifications is possible by setting minHours and MaxHours to the desired interval
                             val minHours = 0
                             val maxHours = 24
                             val randomMinutes =
                                 kotlin.random.Random.nextInt(minHours, ((maxHours * 60) - 1))
-                            date.add(Calendar.MINUTE, randomMinutes)
-                            Log.i("Add", "New surprise date: ${date.time}")
+                            surpriseDate.add(Calendar.MINUTE, randomMinutes)
+                            Log.i("Add", "New surprise date: ${surpriseDate.time}")
 
                             // set surprise time for reminder
-                            y = date.get(Calendar.YEAR)
-                            m = date.get(Calendar.MONTH)
-                            d = date.get(Calendar.DAY_OF_MONTH)
-                            hReminder = date.get(Calendar.HOUR_OF_DAY)
-                            minReminder = date.get(Calendar.MINUTE)
+                            y = surpriseDate.get(Calendar.YEAR)
+                            m = surpriseDate.get(Calendar.MONTH)
+                            d = surpriseDate.get(Calendar.DAY_OF_MONTH)
+                            h = surpriseDate.get(Calendar.HOUR_OF_DAY)
+                            min = surpriseDate.get(Calendar.MINUTE)
                             editViewModel.setDate(d, m, y)
-                            editViewModel.setTime(hReminder, minReminder)
+                            editViewModel.setTime(h, min)
                             editViewModel.setSurprise(true) // is a surprise reminder
                         } else {
                             editViewModel.setSurprise(false)
                         }
                         isSurprise = !isSurprise
                         Log.i(
-                            "Add",
+                            "Edit",
                             "isSurprise in VM is now: ${editViewModel.reminder.value?.isSurprise}"
                         )
                     }
@@ -301,6 +308,9 @@ fun EditReminderCard(
                     .padding(20.dp)
                     .fillMaxWidth()
             )
+            /*
+            END
+             */
         }
     }
 }
