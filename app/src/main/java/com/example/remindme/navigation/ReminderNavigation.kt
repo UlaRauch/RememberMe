@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.work.WorkManager
-import com.example.remindme.DB.RememberDB
+import com.example.remindme.DB.ReminderDB
 import com.example.remindme.repositories.ReminderRepository
 import com.example.remindme.screens.AddScreen
 import com.example.remindme.screens.DetailScreen
@@ -20,7 +20,7 @@ import com.example.remindme.viewmodels.*
 fun RememberNavigation(themeViewModel: ThemeViewModel) {
     val context = LocalContext.current
     val workManager = WorkManager.getInstance(context)
-    val db = RememberDB.getDatabase(context = context)
+    val db = ReminderDB.getDatabase(context = context)
     val repository = ReminderRepository(db.remindersDao())
     val navController = rememberNavController()
     NavHost(

@@ -12,14 +12,14 @@ import com.example.remindme.models.Reminder
     version = 3, //update with each change in db
     exportSchema = false
 )
-abstract class RememberDB : RoomDatabase() {
+abstract class ReminderDB : RoomDatabase() {
 
-    abstract fun remindersDao(): RememberDao
+    abstract fun remindersDao(): ReminderDao
 
     companion object {
-        private var INSTANCE: RememberDB? = null
+        private var INSTANCE: ReminderDB? = null
 
-        fun getDatabase(context: Context): RememberDB {
+        fun getDatabase(context: Context): ReminderDB {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: buildDatabase(context).also { //if DB doesn't exist yet, create DB
                     INSTANCE = it
@@ -27,9 +27,9 @@ abstract class RememberDB : RoomDatabase() {
             }
         }
 
-        private fun buildDatabase(context: Context): RememberDB {
+        private fun buildDatabase(context: Context): ReminderDB {
             return Room
-                .databaseBuilder(context, RememberDB::class.java, "reminders_database")
+                .databaseBuilder(context, ReminderDB::class.java, "reminders_database")
                 .addCallback(
                     object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
