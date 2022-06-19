@@ -47,7 +47,7 @@ fun HomeScreen(
 
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text(text = "RememberMe") },
+            title = { Text(text = "RemindMe") },
             actions = {
                 IconButton(onClick = { viewModel.deleteAll() }) {
                     Icon(
