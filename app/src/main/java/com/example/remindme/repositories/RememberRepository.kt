@@ -18,6 +18,4 @@ class RememberRepository(private val dao: RememberDao) {
     fun filterReminder(id: Long): LiveData<Reminder> = dao.getReminderByID(id = id)
 
     suspend fun deleteAll() = dao.deleteAll()
-
-    //TODO: add functions here for editReminder oder deleteAllReminders
 }

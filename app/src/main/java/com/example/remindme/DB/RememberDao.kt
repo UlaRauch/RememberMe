@@ -27,9 +27,4 @@ interface RememberDao {
     @Query("DELETE FROM reminders")
     fun deleteAll()
 
-    //TODO: add functions for editReminder etc.
-    /*
-    @Update
-    fun editReminder(reminder: Reminder)
-     */
 }

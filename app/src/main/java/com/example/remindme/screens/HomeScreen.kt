@@ -101,7 +101,6 @@ fun DarkModeDropDown(
         contentDescription = "Dropdown menu for dark/light mode settings",
         modifier = Modifier.clickable {
             showMenu = !showMenu
-            //TODO
         })
     DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
         //Toggle manually

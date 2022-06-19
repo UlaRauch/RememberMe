@@ -103,7 +103,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     var y: Int by remember { mutableStateOf(calNow.get(Calendar.YEAR)) }
     var m: Int by remember { mutableStateOf(calNow.get(Calendar.MONTH)) }
     var d: Int by remember { mutableStateOf(calNow.get(Calendar.DAY_OF_MONTH)) }
-    //nowDate.time = Date() //TODO: brauchts das? was passiert, wenn mans weglasst?
     //set reminder in VM to current date as default
     addViewModel.setDate(d = d, m = m, y = y)
 

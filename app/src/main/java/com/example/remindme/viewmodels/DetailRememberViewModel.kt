@@ -32,8 +32,8 @@ class DetailRememberViewModel(
             repository.deleteReminder(reminder)
         }
         //Log.i("Delete Detail", "deleting work with tag: $tag")
-        workManager.cancelAllWorkByTag(tag) //TODO: funktioniert nicht...
-        val workinfo = workManager.getWorkInfosByTag("5").toString()
+        workManager.cancelAllWorkByTag(tag)
+        //val workinfo = workManager.getWorkInfosByTag("5").toString()
         //Log.i("Delete Detail", "get info for for work nr $tag: $workinfo")
     }
 

@@ -115,7 +115,7 @@ fun EditReminderCard(
     // initialize calendar with current date
     val calDateTime = Calendar.getInstance()
     // for surprise reminder
-    val surpriseDate by remember { mutableStateOf(calDateTime) } //TODO: muss das stateful sein?
+    val surpriseDate by remember { mutableStateOf(calDateTime) }
     var isSurprise by remember { mutableStateOf(reminder.isSurprise) }
 
     // initialize stateful vars from reminder

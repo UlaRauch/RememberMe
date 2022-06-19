@@ -23,7 +23,7 @@ class RememberViewModel(
             repository.getAllReminders().collect { listofReminders ->
                 if (listofReminders.isNullOrEmpty()) {
                     _reminders.value =
-                        emptyList() //TODO: still causes app to crash after deleting single reminder when going back to homescreen
+                        emptyList()
                    // Log.d("Delete ViewModel", "No reminders")
                 } else {
                     _reminders.value = listofReminders
