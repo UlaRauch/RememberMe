@@ -93,7 +93,6 @@ fun DarkModeDropDown(
     //onDarkModeToggle: () -> Unit = {},
     themeViewModel: ThemeViewModel
 ) {
-    //TODO: make this stateful, so system change will be recognized immediately
     val isSystemInDarkTheme = isSystemInDarkTheme()
     var showMenu by remember { mutableStateOf(false) }
     Icon(
@@ -120,6 +119,7 @@ fun DarkModeDropDown(
                 Text(text = "Toggle dark mode")
             }
         }
+        /*
         //Use System Theme
         DropdownMenuItem(onClick = {
             Log.i("Home", "system mode clicked")
@@ -136,6 +136,8 @@ fun DarkModeDropDown(
                 Text(text = "Use system mode")
             }
         }
+
+         */
     }
 }
 
