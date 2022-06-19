@@ -26,6 +26,14 @@ import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.viewmodels.AddRememberViewModel
 import com.example.rememberme.viewmodels.AddRememberViewModelFactory
 
+/**
+ * Creats a topAppBar for add screen and actionButton at the bottom of the screen
+ *
+ * @param navController
+ * @param repository: RemeberRepository
+ * @param workManager
+ * @param context
+ */
 @Composable
 fun AddScreen(
     navController: NavController,
@@ -52,7 +60,8 @@ fun AddScreen(
                     }
                 }
             )
-        }, floatingActionButton = {
+        },
+        floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     addViewModel.addReminder()
@@ -74,6 +83,11 @@ fun AddScreen(
     )
 }
 
+/**
+ * Content for add screen with date/timepicker, outlined textfields and a radiobutton for a surprise date
+ * @param addViewModel
+ * @param context
+ */
 @Composable
 fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
 
@@ -84,7 +98,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     // for surprise reminder
     val surpriseDate by remember { mutableStateOf(calNow) }
     var isSurprise by remember { mutableStateOf(false) }
-
 
     // initialize date with current date
     var y: Int by remember { mutableStateOf(calNow.get(Calendar.YEAR)) }
@@ -103,7 +116,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     var text by remember { mutableStateOf("") }
     var title by remember { mutableStateOf("") }
     //val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
-
 
     Card(
         modifier = Modifier

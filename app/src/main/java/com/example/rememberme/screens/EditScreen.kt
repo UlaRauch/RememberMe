@@ -27,7 +27,15 @@ import com.example.rememberme.repositories.RememberRepository
 import com.example.rememberme.viewmodels.EditRememberViewModel
 import com.example.rememberme.viewmodels.EditRememberViewModelFactory
 
-
+/**
+ * Creats a atopAppBar for edit screen and actionButton at the bottom of the screen
+ *
+ * @param navController
+ * @param repository: RemeberRepository
+ * @param workManager
+ * @param reminderID: Long
+ * @param context
+ */
 @Composable
 fun EditScreen(
     navController: NavController,
@@ -89,6 +97,12 @@ fun EditScreen(
         })
 }
 
+/**
+ * Content for edit screen with date/timepicker, outlined textfields and a radiobutton for a surprise date
+ * @param editViewModel
+ * @param reminder
+ * @param context
+ */
 @Composable
 fun EditReminderCard(
     editViewModel: EditRememberViewModel,
