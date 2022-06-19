@@ -23,9 +23,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.example.remindme.models.Reminder
-import com.example.remindme.repositories.RememberRepository
-import com.example.remindme.viewmodels.EditRememberViewModel
-import com.example.remindme.viewmodels.EditRememberViewModelFactory
+import com.example.remindme.repositories.ReminderRepository
+import com.example.remindme.viewmodels.EditReminderViewModel
+import com.example.remindme.viewmodels.EditReminderViewModelFactory
 
 /**
  * Creats a atopAppBar for edit screen and actionButton at the bottom of the screen
@@ -39,13 +39,13 @@ import com.example.remindme.viewmodels.EditRememberViewModelFactory
 @Composable
 fun EditScreen(
     navController: NavController,
-    repository: RememberRepository,
+    repository: ReminderRepository,
     workManager: WorkManager,
     reminderID: Long = 1,
     context: Context
 ) {
-    val editViewModel: EditRememberViewModel = viewModel(
-        factory = EditRememberViewModelFactory(
+    val editViewModel: EditReminderViewModel = viewModel(
+        factory = EditReminderViewModelFactory(
             repository = repository,
             workManager = workManager,
             reminderId = reminderID
@@ -105,7 +105,7 @@ fun EditScreen(
  */
 @Composable
 fun EditReminderCard(
-    editViewModel: EditRememberViewModel,
+    editViewModel: EditReminderViewModel,
     reminder: Reminder,
     context: Context,
 ) {

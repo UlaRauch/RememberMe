@@ -1,23 +1,17 @@
 package com.example.remindme.viewmodels
 
-import android.icu.util.Calendar
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.workDataOf
 import com.example.remindme.models.Reminder
-import com.example.remindme.repositories.RememberRepository
+import com.example.remindme.repositories.ReminderRepository
 import com.example.remindme.utils.WorkRequestUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
-class EditRememberViewModel (
-    private val repository: RememberRepository,
+class EditReminderViewModel (
+    private val repository: ReminderRepository,
     private val workManager: WorkManager,
     reminderID: Long
 ) : ViewModel() {

@@ -5,7 +5,7 @@ import com.example.remindme.DB.RememberDao
 import com.example.remindme.models.Reminder
 import kotlinx.coroutines.flow.Flow
 
-class RememberRepository(private val dao: RememberDao) {
+class ReminderRepository(private val dao: RememberDao) {
 
     suspend fun addReminder(reminder: Reminder): Long = dao.addReminder(reminder = reminder)
 

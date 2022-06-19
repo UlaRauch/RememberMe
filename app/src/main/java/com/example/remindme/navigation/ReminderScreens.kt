@@ -1,6 +1,6 @@
 package com.example.remindme.navigation
 
-enum class RememberScreens {
+enum class ReminderScreens {
     HomeScreen,
     DetailScreen,
     AddScreen,

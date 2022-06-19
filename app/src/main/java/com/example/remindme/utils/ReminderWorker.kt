@@ -7,7 +7,7 @@ import androidx.work.*
  * code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
  * insertion for id by Ula Rauch
  */
-class RememberWorker(val context: Context, val params: WorkerParameters) : Worker(context, params) {
+class ReminderWorker(val context: Context, val params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
         NotificationHelper(context = context).createNotification(

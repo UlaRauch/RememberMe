@@ -21,10 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
-import com.example.remindme.navigation.RememberScreens
-import com.example.remindme.repositories.RememberRepository
-import com.example.remindme.viewmodels.AddRememberViewModel
-import com.example.remindme.viewmodels.AddRememberViewModelFactory
+import com.example.remindme.navigation.ReminderScreens
+import com.example.remindme.repositories.ReminderRepository
+import com.example.remindme.viewmodels.AddReminderViewModel
+import com.example.remindme.viewmodels.AddReminderViewModelFactory
 
 /**
  * Creats a topAppBar for add screen and actionButton at the bottom of the screen
@@ -37,12 +37,12 @@ import com.example.remindme.viewmodels.AddRememberViewModelFactory
 @Composable
 fun AddScreen(
     navController: NavController,
-    repository: RememberRepository,
+    repository: ReminderRepository,
     workManager: WorkManager,
     context: Context
 ) {
-    val addViewModel: AddRememberViewModel = viewModel(
-        factory = AddRememberViewModelFactory(repository = repository, workManager = workManager)
+    val addViewModel: AddReminderViewModel = viewModel(
+        factory = AddReminderViewModelFactory(repository = repository, workManager = workManager)
     )
 
     Scaffold(
@@ -65,7 +65,7 @@ fun AddScreen(
             FloatingActionButton(
                 onClick = {
                     addViewModel.addReminder()
-                    navController.navigate(route = RememberScreens.HomeScreen.name)
+                    navController.navigate(route = ReminderScreens.HomeScreen.name)
                 },
                 modifier = Modifier.size(80.dp)
             ) {
@@ -89,7 +89,7 @@ fun AddScreen(
  * @param context
  */
 @Composable
-fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
+fun ReminderCard(addViewModel: AddReminderViewModel, context: Context) {
 
     // Declaring and initializing a calendar with current date/time - stays on current
     val calNow = Calendar.getInstance()

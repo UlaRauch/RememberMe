@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.example.remindme.models.Reminder
-import com.example.remindme.repositories.RememberRepository
+import com.example.remindme.repositories.ReminderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class RememberViewModel(
-    private val repository: RememberRepository,
+class ReminderViewModel(
+    private val repository: ReminderRepository,
     private val workManager: WorkManager
 ) : ViewModel() {
     private var _reminders = MutableStateFlow<List<Reminder>>(emptyList())

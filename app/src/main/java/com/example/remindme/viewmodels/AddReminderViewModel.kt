@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.example.remindme.models.Reminder
-import com.example.remindme.repositories.RememberRepository
+import com.example.remindme.repositories.ReminderRepository
 import com.example.remindme.utils.WorkRequestUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AddRememberViewModel(
-    private val repository: RememberRepository,
+class AddReminderViewModel(
+    private val repository: ReminderRepository,
     private val workManager: WorkManager,
     ): ViewModel() {
 

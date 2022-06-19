@@ -1,6 +1,5 @@
 package com.example.remindme.screens
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -16,17 +15,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.example.remindme.models.Reminder
-import com.example.remindme.navigation.RememberScreens
-import com.example.remindme.repositories.RememberRepository
-import com.example.remindme.viewmodels.DetailRememberViewModel
-import com.example.remindme.viewmodels.DetailRememberViewModelFactory
+import com.example.remindme.navigation.ReminderScreens
+import com.example.remindme.repositories.ReminderRepository
+import com.example.remindme.viewmodels.DetailReminderViewModel
+import com.example.remindme.viewmodels.DetailReminderViewModelFactory
 
 
 /**
@@ -41,12 +39,12 @@ import com.example.remindme.viewmodels.DetailRememberViewModelFactory
 @Composable
 fun DetailScreen(
     navController: NavController,
-    repository: RememberRepository,
+    repository: ReminderRepository,
     workManager: WorkManager,
     reminderID: Long = 1
 ) {
-    val viewModel: DetailRememberViewModel = viewModel(
-        factory = DetailRememberViewModelFactory(
+    val viewModel: DetailReminderViewModel = viewModel(
+        factory = DetailReminderViewModelFactory(
             repository = repository,
             workManager = workManager,
             reminderID = reminderID
@@ -97,7 +95,7 @@ fun DetailScreen(
                                 modifier = Modifier
                                     .padding(5.dp)
                                     .clickable {
-                                        navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
+                                        navController.navigate(ReminderScreens.EditScreen.name + "/$reminderID")
                                     }
                             )
                         }

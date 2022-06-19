@@ -1,8 +1,6 @@
 package com.example.remindme.utils
 
-import android.content.Context
 import android.icu.util.Calendar
-import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -16,7 +14,7 @@ object WorkRequestUtils {
      */
     fun createWorkRequest(reminder: Reminder, workManager: WorkManager) {
         val timeDelayInSeconds = getDelayInSeconds(reminder)
-        val workRequest = OneTimeWorkRequestBuilder<RememberWorker>()
+        val workRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
             .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
             .setInputData(
                 workDataOf(

@@ -16,10 +16,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.example.remindme.models.Reminder
-import com.example.remindme.navigation.RememberScreens
-import com.example.remindme.repositories.RememberRepository
-import com.example.remindme.viewmodels.RememberViewModel
-import com.example.remindme.viewmodels.RememberViewModelFactory
+import com.example.remindme.navigation.ReminderScreens
+import com.example.remindme.repositories.ReminderRepository
+import com.example.remindme.viewmodels.ReminderViewModel
+import com.example.remindme.viewmodels.ReminderViewModelFactory
 import com.example.remindme.viewmodels.ThemeViewModel
 import com.example.remindme.widgets.RememberRow
 
@@ -36,13 +36,13 @@ import com.example.remindme.widgets.RememberRow
 @Composable
 fun HomeScreen(
     navController: NavController,
-    repository: RememberRepository,
+    repository: ReminderRepository,
     workManager: WorkManager,
     //onDarkModeToggle: () -> Unit = {},
     themeViewModel: ThemeViewModel
 ) {
-    val viewModel: RememberViewModel = viewModel(
-        factory = RememberViewModelFactory(repository = repository, workManager = workManager)
+    val viewModel: ReminderViewModel = viewModel(
+        factory = ReminderViewModelFactory(repository = repository, workManager = workManager)
     )
 
     Scaffold(topBar = {
@@ -62,7 +62,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(route = RememberScreens.AddScreen.name)
+                    navController.navigate(route = ReminderScreens.AddScreen.name)
                 },
                 modifier = Modifier.size(80.dp)
             ) {
@@ -159,7 +159,7 @@ fun MainContent(
             { reminderID ->
                 //navController.navigate("HomeScreen")
                 if (reminderID != null) {
-                    navController.navigate(RememberScreens.DetailScreen.name + "/$reminderID")
+                    navController.navigate(ReminderScreens.DetailScreen.name + "/$reminderID")
                     Log.d("Navigation", "Reminder clicked. ID: ${reminder.id}")
                 } else Log.d("Navigation", "No ID")
             }

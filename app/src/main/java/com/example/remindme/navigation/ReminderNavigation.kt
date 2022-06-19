@@ -1,24 +1,19 @@
 package com.example.remindme.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.work.WorkManager
-import androidx.work.WorkerParameters
 import com.example.remindme.DB.RememberDB
-import com.example.remindme.models.Reminder
-import com.example.remindme.repositories.RememberRepository
+import com.example.remindme.repositories.ReminderRepository
 import com.example.remindme.screens.AddScreen
 import com.example.remindme.screens.DetailScreen
 import com.example.remindme.screens.EditScreen
 import com.example.remindme.screens.HomeScreen
-import com.example.remindme.utils.RememberWorker
 import com.example.remindme.viewmodels.*
 
 @Composable
@@ -26,14 +21,14 @@ fun RememberNavigation(themeViewModel: ThemeViewModel) {
     val context = LocalContext.current
     val workManager = WorkManager.getInstance(context)
     val db = RememberDB.getDatabase(context = context)
-    val repository = RememberRepository(db.remindersDao())
+    val repository = ReminderRepository(db.remindersDao())
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = RememberScreens.HomeScreen.name
+        startDestination = ReminderScreens.HomeScreen.name
     )
     {
-        composable(RememberScreens.HomeScreen.name) {
+        composable(ReminderScreens.HomeScreen.name) {
             HomeScreen(
                 navController = navController,
                 repository = repository,
@@ -43,7 +38,7 @@ fun RememberNavigation(themeViewModel: ThemeViewModel) {
         }
 
         composable(
-            route = RememberScreens.DetailScreen.name + "/{reminderID}",
+            route = ReminderScreens.DetailScreen.name + "/{reminderID}",
             arguments = listOf(navArgument("reminderID") {
                 type = NavType.LongType
             })
@@ -58,7 +53,7 @@ fun RememberNavigation(themeViewModel: ThemeViewModel) {
             )
         }
 
-        composable(RememberScreens.AddScreen.name) {
+        composable(ReminderScreens.AddScreen.name) {
             AddScreen(
                 navController = navController,
                 repository = repository,
@@ -68,7 +63,7 @@ fun RememberNavigation(themeViewModel: ThemeViewModel) {
         }
 
         composable(
-            route = RememberScreens.EditScreen.name + "/{reminderID}",
+            route = ReminderScreens.EditScreen.name + "/{reminderID}",
             arguments = listOf(navArgument("reminderID") {
                 type = NavType.LongType
             })
