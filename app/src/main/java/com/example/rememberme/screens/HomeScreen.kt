@@ -38,7 +38,7 @@ fun HomeScreen(
     navController: NavController,
     repository: RememberRepository,
     workManager: WorkManager,
-    onDarkModeToggle: () -> Unit = {},
+    //onDarkModeToggle: () -> Unit = {},
     themeViewModel: ThemeViewModel
 ) {
     val viewModel: RememberViewModel = viewModel(
@@ -46,16 +46,19 @@ fun HomeScreen(
     )
 
     Scaffold(topBar = {
-            TopAppBar(
-                title = { Text(text = "RememberMe") },
-                actions = {
-                    IconButton(onClick = { viewModel.deleteAll() }) {
-                        Icon(imageVector = Icons.Default.Delete, contentDescription = "delete all reminders")
-                    }
-                    DarkModeDropDown(themeViewModel = themeViewModel, onDarkModeToggle = onDarkModeToggle )
+        TopAppBar(
+            title = { Text(text = "RememberMe") },
+            actions = {
+                IconButton(onClick = { viewModel.deleteAll() }) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "delete all reminders"
+                    )
                 }
-            )
-        },
+                DarkModeDropDown(themeViewModel = themeViewModel)
+            }
+        )
+    },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -81,16 +84,16 @@ fun HomeScreen(
 }
 
 /**
- * For Dark and Light Theme
+ * Dropdown menu for dark and light theme
  * @param onDarkModeToggle
  * @param themeViewModel
  */
 @Composable
 fun DarkModeDropDown(
-    onDarkModeToggle: () -> Unit = {},
+    //onDarkModeToggle: () -> Unit = {},
     themeViewModel: ThemeViewModel
 ) {
-    //TODO: make this stateful, so system change will be recognized immediately - how? isSystemInDarkTheme() is nowhere allowed
+    //TODO: make this stateful, so system change will be recognized immediately
     val isSystemInDarkTheme = isSystemInDarkTheme()
     var showMenu by remember { mutableStateOf(false) }
     Icon(
@@ -104,15 +107,17 @@ fun DarkModeDropDown(
         //Toggle manually
         DropdownMenuItem(onClick = {
             Log.i("Home", "dark mode toggle clicked")
-            onDarkModeToggle()
+            themeViewModel.toggleDarkMode()
+            //onDarkModeToggle()
         }) {
             Row() {
                 //Icon for toggle dark light mode
-                Icon(imageVector = Icons.Default.Star,
+                Icon(
+                    imageVector = Icons.Default.Star,
                     contentDescription = "Button Dark/Light Mode",
                     modifier = Modifier
                         .padding(12.dp)
-                        )
+                )
                 Text(text = "Toggle dark mode")
             }
         }
@@ -122,7 +127,7 @@ fun DarkModeDropDown(
             themeViewModel.setToSystemMode(isSystemInDarkTheme)
         }) {
             Row() {
-            //Icon for system dark light mode
+                //Icon for system dark light mode
                 Icon(
                     imageVector = Icons.Default.Build,
                     contentDescription = "Button system dark/light mode",

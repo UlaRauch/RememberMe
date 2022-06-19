@@ -21,9 +21,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            //for dark/light mode settings
             val themeViewModel = ThemeViewModel()
             val isDarkMode = themeViewModel.isDarkMode.observeAsState(initial = true)
-                RememberMeTheme(
+
+            RememberMeTheme(
                     darkTheme = isDarkMode
                 ) {
                     // A surface container using the 'background' color from the theme
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        RememberNavigation(onDarkModeToggle = {themeViewModel.toggleDarkMode()}, themeViewModel = themeViewModel)
+                        RememberNavigation(themeViewModel = themeViewModel)
                     }
                 }
             }
