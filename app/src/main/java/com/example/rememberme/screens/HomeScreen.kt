@@ -117,22 +117,25 @@ fun DarkModeDropDown(
         })
     DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
         //Toggle manually
-        DropdownMenuItem(onClick = { /*TODO toggle action here*/ }) {
+        DropdownMenuItem(onClick = {
+            Log.i("Home", "dark mode toggle clicked")
+            onDarkModeToggle()
+        }) {
             Row() {
                 //Icon for toggle dark light mode
                 Icon(imageVector = Icons.Default.Star,
                     contentDescription = "Button Dark/Light Mode",
                     modifier = Modifier
                         .padding(12.dp)
-                        .clickable {
-                            Log.i("Home", "dark mode toggle clicked")
-                            onDarkModeToggle()
-                        })
+                        )
                 Text(text = "Toggle dark mode")
             }
         }
         //Use System Theme
-        DropdownMenuItem(onClick = { /*TODO toggle action here*/ }) {
+        DropdownMenuItem(onClick = {
+            Log.i("Home", "system mode clicked")
+            themeViewModel.setToSystemMode(isSystemInDarkTheme)
+        }) {
             Row() {
 //Icon for system dark light mode
                 Icon(
@@ -140,10 +143,7 @@ fun DarkModeDropDown(
                     contentDescription = "Button system dark/light mode",
                     modifier = Modifier
                         .padding(12.dp)
-                        .clickable {
-                            Log.i("Home", "system mode clicked")
-                            themeViewModel.setToSystemMode(isSystemInDarkTheme)
-                        })
+                )
                 Text(text = "Use system mode")
             }
         }
