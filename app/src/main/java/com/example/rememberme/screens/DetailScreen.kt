@@ -5,6 +5,8 @@ import android.text.Layout
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -107,53 +109,57 @@ fun DetailScreen(
 
 @Composable
 fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
-    Surface(
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-    ) {
+
         //editViewModel.getReminderbyID(reminderID = reminderID)
         //val reminder2 = editViewModel.reminder
 
-        Column() {
+        Card(
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+                .heightIn(min = 0.dp),
+            shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+            elevation = 6.dp
+        ) {
+            Column() {
 
-            Text(
-                text = reminder.title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
+                Text(
+                    text = reminder.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
 
-            )
-            if (reminder.isSurprise) {
-                Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
-            } else {
-                Row() {
-                    Text(
-                        text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light,
-                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
-                    )
+                )
+                if (reminder.isSurprise) {
+                    Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
+                } else {
+                    Row() {
+                        Text(
+                            text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light,
+                            modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
+                        )
+                    }
+                    Row() {
+                        Text(
+                            text = "Time: ${reminder.h}:${reminder.min}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Light,
+                            modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+                        )
+
+                    }
                 }
-                Row() {
-                    Text(
-                        text = "Time: ${reminder.h}:${reminder.min}",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light,
-                        modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-                    )
-
-                }
-            }
-            //if (reminder.text != null)
-            Divider(modifier = Modifier.padding(7.dp))
-            Text(
-                text = reminder.text,
-                modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-            )
+                //if (reminder.text != null)
+                Divider(modifier = Modifier.padding(7.dp))
+                Text(
+                    text = reminder.text,
+                    modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+                )
                 //TODO: geht das besser mit "?" ? - wie?
-            /*if (reminder != reminder2.value) {
+                /*if (reminder != reminder2.value) {
                 Text(
                     text = reminder2.value!!.title,
                     fontSize = 20.sp,
@@ -186,8 +192,9 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
                     modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
                 )
             */
-            }
+
         }
+    }
 }
 
 
