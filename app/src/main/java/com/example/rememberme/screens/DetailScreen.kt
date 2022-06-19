@@ -52,36 +52,41 @@ fun DetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(backgroundColor = Purple600){
+            TopAppBar(){
                 Row {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Arrow Back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()
-                        }
+                        modifier = Modifier
+                            .padding(12.dp,0.dp)
+                            .clickable {
+                                navController.popBackStack()
+                            }
                     )
 
                     Spacer(modifier = Modifier.width(20.dp))
                     reminder?.let {
-                        Text(text = it.title, textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(10.dp,0.dp,20.dp,0.dp))
+                        Text(text = it.title,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .absolutePadding(10.dp,0.dp,30.dp,0.dp))
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Delete Reminder",
                             modifier = Modifier.clickable {
-                                    viewModel.removeReminder(reminder = it, tag = reminderID.toString())
-                                    navController.popBackStack()
-                                }
+                                viewModel.removeReminder(reminder = it, tag = reminderID.toString())
+                                navController.popBackStack()
+                            }
                         )
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit Reminder",
                             modifier = Modifier
-                                .absolutePadding(10.dp,0.dp,0.dp,0.dp)
+                                .padding(15.dp,0.dp)
                                 .clickable {
-                                navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
-                                //TODO
-                            }
+                                    navController.navigate(RememberScreens.EditScreen.name + "/$reminderID")
+                                    //TODO
+                                }
                         )
                     }
 
@@ -98,6 +103,7 @@ fun DetailScreen(
 
     }
 }
+
 
 @Composable
 fun MainContentD(reminder:Reminder, reminderID: Long = 1) {

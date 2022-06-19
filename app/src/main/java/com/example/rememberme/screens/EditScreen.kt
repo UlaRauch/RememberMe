@@ -60,7 +60,7 @@ fun EditScreen(
                 title = {
                     Text(
                         text = "Edit ${reminder.value?.title}",
-                        color = Color.White
+                       // color = Color.White
                     )
                 },
                 navigationIcon = {
@@ -68,8 +68,8 @@ fun EditScreen(
                         Icon(Icons.Default.ArrowBack, "Arrow Back")
                     }
                 },
-                backgroundColor = Purple600,
-                contentColor = Color.White
+              //  backgroundColor = Purple600,
+              //  contentColor = Color.White
             )
         }, floatingActionButton = {
             FloatingActionButton(
@@ -77,12 +77,9 @@ fun EditScreen(
                     editViewModel.updateReminder()
                     navController.popBackStack()
                 },
-                backgroundColor = Green600,
+                //backgroundColor = Green600,
                 modifier = Modifier.size(80.dp)
             ) {
-
-                //if() { wenn bei zeit und datum nihts geklickt dann soll datum und zeit zum erstellpunkt genommen werden
-
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "Add Button",
@@ -119,7 +116,6 @@ fun EditReminderCard(
     var d: Int by remember { mutableStateOf(reminder.d) }
 
     //vals and vars for Time
-    // Fetching local context
     var hReminder: Int by remember { mutableStateOf(reminder.h) }
     var minReminder: Int by remember { mutableStateOf(reminder.min) }
     val calTime = Calendar.getInstance()
@@ -129,9 +125,7 @@ fun EditReminderCard(
 
     // TODO make time stateful too!
     // Declaring and initializing a calendar
-    val nowTime = Calendar.getInstance() //cal means Calendar
-    //var h = nowTime[Calendar.HOUR_OF_DAY]
-    //var min = nowTime[Calendar.MINUTE]
+    val nowTime = Calendar.getInstance()
 
     // Value for storing time as a string
     val mTime = remember { mutableStateOf("") }
@@ -150,11 +144,9 @@ fun EditReminderCard(
                 .fillMaxWidth()
                 .padding(4.dp),
             verticalArrangement = Arrangement.Center,
-            // horizontalAlignment = Alignment.CenterHorizontally
         ) {
             //Title
             OutlinedTextField(
-                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
                 value = title,
                 leadingIcon = {
                     Icon(
@@ -162,8 +154,6 @@ fun EditReminderCard(
                         contentDescription = "EditIcon"
                     )
                 },
-                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
                 onValueChange = { value ->
                     title = value    // update text value inside field
                     editViewModel.setTitle(value)
@@ -209,12 +199,7 @@ fun EditReminderCard(
             }
             Spacer(modifier = Modifier.size(16.dp))
 
-            //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
-            //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
-
-
             //Time
-            // Creating a TimePicker dialog
             val mTimePickerDialog = TimePickerDialog(
                 context,
                 { _, mHour: Int, mMinute: Int ->

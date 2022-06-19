@@ -44,41 +44,33 @@ fun AddScreen(
     val addViewModel: AddRememberViewModel = viewModel(
         factory = AddRememberViewModelFactory(repository = repository, workManager = workManager)
     )
-    //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
+
     Scaffold(
+
         topBar = {
             TopAppBar(
-                backgroundColor = Purple600, contentColor = Color.White
-            ) {
-                Row() {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Arrow Back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()
-                        }
-                    )
-
+                title = {
                     Text(
                         text = "New Reminder",
-                        modifier = Modifier.absolutePadding(110.dp, 0.dp, 110.dp, 0.dp)
-                    )
 
+                        )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            Icons.Default.ArrowBack, "Arrow Back"
+                        )
+                    }
                 }
-
-            }
-        },
-        floatingActionButton = {
+            )
+        }, floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     addViewModel.addReminder()
                     navController.navigate(route = RememberScreens.HomeScreen.name)
                 },
-                backgroundColor = Green600,
                 modifier = Modifier.size(80.dp)
             ) {
-
-                //if() { wenn bei zeit und datum nihts geklickt dann soll datum und zeit zum erstellpunkt genommen werden
 
                 Icon(
                     imageVector = Icons.Default.Check,
@@ -86,32 +78,14 @@ fun AddScreen(
                     tint = Color.White,
                     modifier = Modifier.size(30.dp)
                 )
-                //  }
 
             }
+        },
+        content = {
+            ReminderCard(addViewModel = addViewModel, context = context)
         }
-    ) {
-        ReminderCard(addViewModel = addViewModel, context = context)
-    }
-
-}
-/* Von mir mit leon bearbeitet
-@Composable
-fun ReminderCard(addViewModel: AddRememberViewModel) { //daweil kopiert und etwas geaendert muss ich mir genauer anschauen!!
-    //var text by remember { mutableStateOf("") }
-    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
-    //addViewModel.reminder.observe(LocalContext.current,{x -> Log.d("AddScreen","In ReminderCard")})
-    OutlinedTextField(
-        value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
-        leadingIcon = { Icon(imageVector = Icons.Default.Edit, contentDescription = "EditIcon") },
-        //trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-        onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
-        label = { Text(text = "Reminder") },
-        placeholder = { Text(text = "Enter Text") },
     )
-
 }
- */
 
 @Composable
 fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
@@ -157,7 +131,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-        //.height(130.dp) //remove this to keep height flexible
         ,
         shape = RoundedCornerShape(corner = CornerSize(4.dp)),
         elevation = 4.dp
@@ -166,12 +139,10 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp),
-            verticalArrangement = Arrangement.Center,
-            // horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.Center
         ) {
             //Title
             OutlinedTextField(
-                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
                 value = title,
                 leadingIcon = {
                     Icon(
@@ -179,8 +150,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                         contentDescription = "EditIcon"
                     )
                 },
-                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
                 onValueChange = { value ->
                     title = value    // update text value inside field
                     addViewModel.setTitle(value) // update value in viewmodel
@@ -223,9 +192,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
             }
             Spacer(modifier = Modifier.size(16.dp))
 
-            //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
-            //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
-
             //Time
 
             // Creating a TimePicker dialog
@@ -239,19 +205,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     isSurprise = false
                 }, hReminder, minReminder, false
             )
-
-/*
-    { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-        val cal = Calendar.getInstance()
-        cal.set(year, month, dayOfMonth)
-        y = year
-        m = month+1 //months are represented as index https://developer.android.com/reference/java/util/Date.html#Date%28int,%20int,%20int,%20int,%20int,%20int%29
-        d = dayOfMonth
-        addViewModel.setDate(d = d,m = m, y = y)
-        //date = "$dayOfMonth/$month/$year"
-    }, y, m, d
-
- */
 
             Button(
                 onClick = {
@@ -327,14 +280,9 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                 )
             }
 
-            //addViewModel.setDate(d,m,y) // gives the date of day not selected date but i dunno how
-            //Text(text = "Selected date: ${mDay.value}.${mMonth.value}.${mYear.value}") //--> date.value is teh selected date
-
-
             //Text
             /* von leons Branch*/
             OutlinedTextField(
-                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
                 value = text,
                 leadingIcon = {
                     Icon(
@@ -342,8 +290,6 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                         contentDescription = "EditIcon"
                     )
                 },
-                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
                 onValueChange = { value ->
                     text = value    // update text value inside field
                     addViewModel.setText(value) // update value in viewmodel

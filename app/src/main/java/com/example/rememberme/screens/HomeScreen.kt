@@ -47,18 +47,13 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                //title = "RememberMe",
-                //title = { Text(text = "RememberMe") },
-                backgroundColor = Purple600,
-                contentColor = Color.White
-            ) {
+            TopAppBar() {
                 Row() {
-                    //Icon for dark light mode, modifier = Modifier.absolutePadding(0.dp, 0.dp,110.dp,0.dp)
+                    //Icon for dark light mode
                     Icon(imageVector = Icons.Default.Star,
                         contentDescription = "Button Dark/Light Mode",
                         modifier = Modifier
-                            .absolutePadding(0.dp, 0.dp, 110.dp, 0.dp)
+                            .absolutePadding(12.dp, 0.dp, 100.dp, 0.dp)
                             .clickable {
                                 Log.i("Home", "dark mode toggle clicked")
                                 onDarkModeToggle()
@@ -68,8 +63,8 @@ fun HomeScreen(
                         contentDescription = "delete all reminders",
                         modifier = Modifier
                             .clickable {
-                            viewModel.deleteAll()
-                        })
+                                viewModel.deleteAll()
+                            })
                 }
             }
         },
@@ -78,7 +73,7 @@ fun HomeScreen(
                 onClick = {
                     navController.navigate(route = RememberScreens.AddScreen.name)
                 },
-                backgroundColor = Purple200,
+                //backgroundColor = Purple200,
                 modifier = Modifier.size(80.dp)
             ) {
 
@@ -100,10 +95,8 @@ fun HomeScreen(
             reminders = reminders
         )
 
-
-
     }
-    
+
 }
 
 @Composable

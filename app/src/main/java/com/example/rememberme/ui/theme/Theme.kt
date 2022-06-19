@@ -1,23 +1,36 @@
 package com.example.rememberme.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 
+@SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-    primary = Teal200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Orange700,
+    primaryVariant = Orange600,
+    secondary = Orange300,
+    surface = Orange500,
+    onPrimary = Color.Black,
+    onSurface = Color.Black,
+    onSecondary = Color.Black
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Purple600,
+    primaryVariant = Purple600,
+    secondary = Purple200,
+    surface = Purple60,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onSurface = Color.White,
+//    isLight = true
+
 
     /* Other default colors to override
     background = Color.White,
