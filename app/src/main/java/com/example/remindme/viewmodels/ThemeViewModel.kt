@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ThemeViewModel: ViewModel() {
-    private val _isDarkMode = MutableLiveData(false)
+class ThemeViewModel(
+    isSystemInDarkTheme: Boolean
+): ViewModel() {
+    private val _isDarkMode = MutableLiveData(isSystemInDarkTheme)
     val isDarkMode: LiveData<Boolean> = _isDarkMode
 
     fun toggleDarkMode() {
