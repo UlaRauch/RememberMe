@@ -83,7 +83,6 @@ fun EditScreen(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "Add Button",
-                    tint = Color.White,
                     modifier = Modifier.size(30.dp)
                 )
             }

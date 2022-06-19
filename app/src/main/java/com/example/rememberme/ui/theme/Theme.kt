@@ -12,13 +12,14 @@ import androidx.lifecycle.LiveData
 
 @SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-    primary = Orange700,
-    primaryVariant = Orange600,
-    secondary = Orange300,
-    surface = Orange500,
+    primary = Teal300,
+    primaryVariant = Teal300,
+    secondary = Teal200,
+    surface = Teal500,
     onPrimary = Color.Black,
     onSurface = Color.Black,
-    onSecondary = Color.Black
+    onSecondary = Color.Black,
+    onBackground = Color.Black
 )
 
 private val LightColorPalette = lightColors(
@@ -27,7 +28,7 @@ private val LightColorPalette = lightColors(
     secondary = Purple200,
     surface = Purple60,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
+    onSecondary = Color.White,
     onSurface = Color.Black,
 //    isLight = true
 

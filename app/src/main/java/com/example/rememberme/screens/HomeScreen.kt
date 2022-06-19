@@ -47,34 +47,23 @@ fun HomeScreen(
         factory = RememberViewModelFactory(repository = repository, workManager = workManager)
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar() {
-                Row() {
+    Scaffold(topBar = {
+            TopAppBar(
+                title = { Text(text = "RememberMe") },
+                actions = {
+                    IconButton(onClick = { viewModel.deleteAll() }) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "delete all reminders")
+                    }
                     DarkModeDropDown(themeViewModel = themeViewModel, onDarkModeToggle = onDarkModeToggle )
-                    //Screen title
-                    Text(
-                        text = "RememberMe",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(10.dp)
-                    )
-
-                    //Delete button
-                    Icon(imageVector = Icons.Default.Delete,
-                        contentDescription = "delete all reminders",
-                        modifier = Modifier
-                            .clickable {
-                                viewModel.deleteAll()
-                            })
                 }
-            }
+
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     navController.navigate(route = RememberScreens.AddScreen.name)
                 },
-                //backgroundColor = Purple200,
                 modifier = Modifier.size(80.dp)
             ) {
 
@@ -82,13 +71,11 @@ fun HomeScreen(
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Button",
-                    tint = Color.White,
                     modifier = Modifier.size(30.dp)
                 )
 
             }
         }
-
     ) {
         val reminders: List<Reminder> by viewModel.reminders.collectAsState()
         MainContent(
@@ -109,7 +96,7 @@ fun DarkModeDropDown(
     val isSystemInDarkTheme = isSystemInDarkTheme()
     var showMenu by remember { mutableStateOf(false) }
     Icon(
-        imageVector = Icons.Default.MoreVert,
+        imageVector = Icons.Default.ArrowDropDown,
         contentDescription = "Dropdown menu for dark/light mode settings",
         modifier = Modifier.clickable {
             showMenu = !showMenu

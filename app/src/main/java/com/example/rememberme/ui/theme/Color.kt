@@ -8,16 +8,16 @@ val Purple200 = Color(0xFFBB86FC) //light
 val Purple600 = Color(0xFF673AB7) //light
 
 
-val Orange700 = Color(0xFFF57C00) // dark
-val Orange600 = Color(0xFFF57C00) // dark
-val Orange500 = Color(0xFFFF9800) // dark
-val Orange400 = Color(0xFFFFA726) // dark
-val Orange300 = Color(0xFFFFB74D) // dark
-val Orange200 = Color(0xFFFFCC80) // dark
-val Orange100 = Color(0xFFFFE0B2) // dark
+
 
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF80CBC4)
-val Teal900 = Color(0xFF004D40)
+
+val Teal100 = Color(0xFFB2DFDB) // dark
+val Teal200 = Color(0xFF80CBC4) // dark
+val Teal300 = Color(0xFF4DB6AC) // dark
+val Teal400 = Color(0xFF26A69A) // dark
+val Teal500 = Color(0xFF009688) // dark
+val Teal900 = Color(0xFF009E8C) // dark
+
 val Green600 = Color(0xFF43A047) //light and dark
