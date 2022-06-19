@@ -19,16 +19,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rememberme.models.Reminder
-//import com.example.rememberme.screens.reminderFilter
 
 @Composable
 fun RememberRow(
-    //reminder: Reminder = reminderFilter(reminderID = "1"),
     reminder: Reminder,
     onItemClick: (Long?) -> Unit = {}
     ){
-    Log.d("RememberWidgets", "Reminder widget called")
-//    val reminder= reminderFilter(reminderId = "1")
+    //Log.d("RememberWidgets", "Reminder widget called")
+
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -45,9 +43,8 @@ fun RememberRow(
 
                 ) {
                 Column() {
-
                     Text(
-                        text = reminder.title!!,
+                        text = reminder.title,
                         fontSize = 23.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -56,43 +53,19 @@ fun RememberRow(
                     } else {
                         Row() {
                             Text(
-                                text = "Date: ${reminder.d}.",
+                                text = "Date: ${reminder.d.toString().padStart(2, '0')}.${(reminder.m + 1).toString().padStart(2, '0')}.${reminder.y}",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Light
                             )
-                            Text(
-                                text = "${reminder.m + 1}.",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Light
-                            )
-                            Text(
-                                text = "${reminder.y}",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Light
-                            )
-
                         }
                         Row() {
                             Text(
-                                text = "Time: ${reminder.h}:",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Light
-                            )
-                            Text(
-                                text = "${reminder.min}",
+                                text = "Time: ${reminder.h.toString().padStart(2, '0')}:${reminder.min.toString().padStart(2, '0')}",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Light
                             )
                         }
                     }
-/*
-                    Text(
-                        text = "Text: ${reminder.text}",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
-                    )
-
- */
                 }
             }
         }
