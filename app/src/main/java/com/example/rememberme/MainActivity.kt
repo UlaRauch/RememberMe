@@ -3,11 +3,14 @@ package com.example.rememberme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.rememberme.navigation.RememberNavigation
@@ -28,7 +31,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        RememberNavigation(onDarkModeToggle = {themeViewModel.toggleDarkMode()})
+                        RememberNavigation(onDarkModeToggle = {themeViewModel.toggleDarkMode()}, themeViewModel = themeViewModel)
                     }
                 }
             }

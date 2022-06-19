@@ -32,6 +32,7 @@ import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.ui.theme.Teal900
 import com.example.rememberme.viewmodels.RememberViewModel
 import com.example.rememberme.viewmodels.RememberViewModelFactory
+import com.example.rememberme.viewmodels.ThemeViewModel
 import com.example.rememberme.widgets.RememberRow
 
 @Composable
@@ -39,26 +40,43 @@ fun HomeScreen(
     navController: NavController,
     repository: RememberRepository,
     workManager: WorkManager,
-    onDarkModeToggle: () -> Unit = {}
+    onDarkModeToggle: () -> Unit = {},
+    themeViewModel: ThemeViewModel
 ) {
     val viewModel: RememberViewModel = viewModel(
         factory = RememberViewModelFactory(repository = repository, workManager = workManager)
     )
-
+    val isSystemInDarkTheme = isSystemInDarkTheme() //TODO: make this stateful - how? isSystemInDarkTheme() is nowhere allowed
+    var showMenu by remember { mutableStateOf(false)}
     Scaffold(
         topBar = {
             TopAppBar() {
                 Row() {
-                    //Icon for dark light mode
+                    //Icon for toggle dark light mode
                     Icon(imageVector = Icons.Default.Star,
                         contentDescription = "Button Dark/Light Mode",
                         modifier = Modifier
-                            .absolutePadding(12.dp, 0.dp, 100.dp, 0.dp)
+                            .padding(12.dp)
                             .clickable {
                                 Log.i("Home", "dark mode toggle clicked")
                                 onDarkModeToggle()
                             })
-                    Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.absolutePadding(0.dp, 0.dp,110.dp,0.dp))
+                    //Icon for system dark light mode
+                    Icon(
+                        imageVector = Icons.Default.Build,
+                        contentDescription = "Button system dark/light mode",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .clickable {
+                                Log.i("Home", "system mode clicked")
+                                themeViewModel.setToSystemMode(isSystemInDarkTheme)
+                            }
+                    )
+
+                    //Screen title
+                    Text(text = "RememberMe", textAlign = TextAlign.Center, modifier = Modifier.padding(10.dp))
+
+                    //Delete button
                     Icon(imageVector = Icons.Default.Delete,
                         contentDescription = "delete all reminders",
                         modifier = Modifier

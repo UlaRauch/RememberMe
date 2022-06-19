@@ -23,6 +23,7 @@ import com.example.rememberme.viewmodels.*
 
 @Composable
 fun RememberNavigation(
+    themeViewModel: ThemeViewModel,
     onDarkModeToggle: () -> Unit ={}
 ) {
     val context = LocalContext.current
@@ -36,7 +37,7 @@ fun RememberNavigation(
     )
     {
         composable(RememberScreens.HomeScreen.name) {
-            HomeScreen(navController = navController, repository = repository, workManager = workManager, onDarkModeToggle = onDarkModeToggle)
+            HomeScreen(navController = navController, repository = repository, workManager = workManager, onDarkModeToggle = onDarkModeToggle, themeViewModel = themeViewModel)
         }
 
         composable(
