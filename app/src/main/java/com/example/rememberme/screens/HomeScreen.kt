@@ -1,35 +1,23 @@
 package com.example.rememberme.screens
 
 import android.util.Log
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
-import com.example.rememberme.ui.theme.Purple100
-import com.example.rememberme.ui.theme.Purple200
-import com.example.rememberme.ui.theme.Purple600
-import com.example.rememberme.ui.theme.Teal900
 import com.example.rememberme.viewmodels.RememberViewModel
 import com.example.rememberme.viewmodels.RememberViewModelFactory
 import com.example.rememberme.viewmodels.ThemeViewModel
@@ -56,7 +44,6 @@ fun HomeScreen(
                     }
                     DarkModeDropDown(themeViewModel = themeViewModel, onDarkModeToggle = onDarkModeToggle )
                 }
-
             )
         },
         floatingActionButton = {
@@ -67,13 +54,11 @@ fun HomeScreen(
                 modifier = Modifier.size(80.dp)
             ) {
 
-
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Button",
                     modifier = Modifier.size(30.dp)
                 )
-
             }
         }
     ) {
@@ -82,9 +67,7 @@ fun HomeScreen(
             navController = navController,
             reminders = reminders
         )
-
     }
-
 }
 
 @Composable
@@ -124,7 +107,7 @@ fun DarkModeDropDown(
             themeViewModel.setToSystemMode(isSystemInDarkTheme)
         }) {
             Row() {
-//Icon for system dark light mode
+            //Icon for system dark light mode
                 Icon(
                     imageVector = Icons.Default.Build,
                     contentDescription = "Button system dark/light mode",
@@ -154,16 +137,6 @@ fun MainContent(
                     Log.d("Navigation", "Reminder clicked. ID: ${reminder.id}")
                 } else Log.d("Navigation", "No ID")
             }
-
-            /*
-            Card() {
-                Column() {
-                    Text(text = reminder.title)
-                    Text(text = reminder.text)
-                }
-            }
-
-             */
         }
 
     }
