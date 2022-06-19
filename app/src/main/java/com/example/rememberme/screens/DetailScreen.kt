@@ -91,9 +91,6 @@ fun DetailScreen(
                                 }
                         )
                     }
-
-
-
                 }
             }
         }) {
@@ -109,68 +106,28 @@ fun DetailScreen(
 
 @Composable
 fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
-
-        //editViewModel.getReminderbyID(reminderID = reminderID)
-        //val reminder2 = editViewModel.reminder
-
-        Card(
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
-                .heightIn(min = 0.dp),
-            shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-            elevation = 6.dp
-        ) {
-            Column() {
-
-                Text(
-                    text = reminder.title,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .align(alignment = Alignment.CenterHorizontally)
-
-                )
-                if (reminder.isSurprise) {
-                    Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
-                } else {
-                    Row() {
-                        Text(
-                            text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light,
-                            modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
-                        )
-                    }
-                    Row() {
-                        Text(
-                            text = "Time: ${reminder.h}:${reminder.min}",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light,
-                            modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-                        )
-
-                    }
-                }
-                //if (reminder.text != null)
-                Divider(modifier = Modifier.padding(7.dp))
-                Text(
-                    text = reminder.text,
-                    modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-                )
-                //TODO: geht das besser mit "?" ? - wie?
-                /*if (reminder != reminder2.value) {
-                Text(
-                    text = reminder2.value!!.title,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                        .padding(0.dp, 10.dp)
-                )
-
+    Card(
+        modifier = Modifier
+            .padding(4.dp)
+            .fillMaxWidth()
+            .heightIn(min = 0.dp),
+        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+        elevation = 6.dp
+    ) {
+        Column() {
+            Text(
+                text = reminder.title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+            )
+            if (reminder.isSurprise) {
+                Text(text = "Surprise date", modifier = Modifier.padding(10.dp))
+            } else {
                 Row() {
                     Text(
-                        text = "Date: ${reminder2.value?.d}.${reminder2.value?.m}.${reminder2.value?.y}",
+                        text = "Date: ${reminder.d}.${reminder.m + 1}.${reminder.y}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
                         modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 5.dp)
@@ -178,30 +135,19 @@ fun MainContentD(reminder:Reminder, reminderID: Long = 1) {
                 }
                 Row() {
                     Text(
-                        text = "Time: ${reminder2.value?.h}:${reminder2.value?.min}",
+                        text = "Time: ${reminder.h}:${reminder.min}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
                         modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
                     )
 
                 }
-                    //if (reminder.text != null)
-                Divider(modifier = Modifier.padding(7.dp))
-                Text(
-                    text = reminder2.value!!.text,
-                    modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
-                )
-            */
-
+            }
+            Divider(modifier = Modifier.padding(7.dp))
+            Text(
+                text = reminder.text,
+                modifier = Modifier.absolutePadding(10.dp, 0.dp, 0.dp, 0.dp)
+            )
         }
     }
 }
-
-
-//TODO: not in use atm
-/*
-fun reminderFilter(reminderID: String?): Reminder {
-    return getReminders().filter { reminder -> reminder.id == reminderID }[0]
-}
-
- */

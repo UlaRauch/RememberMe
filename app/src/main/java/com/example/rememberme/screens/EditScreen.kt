@@ -18,19 +18,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
 import com.example.rememberme.repositories.RememberRepository
-import com.example.rememberme.ui.theme.Green600
-import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.EditRememberViewModel
 import com.example.rememberme.viewmodels.EditRememberViewModelFactory
-import java.util.*
 
 
 @Composable
@@ -53,14 +48,12 @@ fun EditScreen(
         editViewModel.reminder.observeAsState()  // observe the livedata as state for recomposition
 
     Log.d("editscreen", "you're in the editscreen")
-    //val reminder = Reminder(title = "next", d = 1, m = 1, y = 2023, h = 22, min = 0, text = "")
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Edit ${reminder.value?.title}",
-                       // color = Color.White
+                        text = "Edit ${reminder.value?.title}"
                     )
                 },
                 navigationIcon = {
@@ -68,8 +61,6 @@ fun EditScreen(
                         Icon(Icons.Default.ArrowBack, "Arrow Back")
                     }
                 },
-              //  backgroundColor = Purple600,
-              //  contentColor = Color.White
             )
         }, floatingActionButton = {
             FloatingActionButton(
@@ -77,7 +68,6 @@ fun EditScreen(
                     editViewModel.updateReminder()
                     navController.popBackStack()
                 },
-                //backgroundColor = Green600,
                 modifier = Modifier.size(80.dp)
             ) {
                 Icon(
@@ -106,9 +96,11 @@ fun EditReminderCard(
     context: Context,
 ) {
     editViewModel.initializeReminder()
+
     //vars text, title
     var text by remember { mutableStateOf(reminder.text) }
     var title by remember { mutableStateOf(reminder.title) }
+
     //vars for date
     var y: Int by remember { mutableStateOf(reminder.y) }
     var m: Int by remember { mutableStateOf(reminder.m) }
@@ -122,19 +114,10 @@ fun EditReminderCard(
     var isSurprise by remember { mutableStateOf(reminder.isSurprise) }
 
 
-    // TODO make time stateful too!
-    // Declaring and initializing a calendar
-    val nowTime = Calendar.getInstance()
-
-    // Value for storing time as a string
-    val mTime = remember { mutableStateOf("") }
-
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .fillMaxWidth()
-        //.height(130.dp) //remove this to keep height flexible
-        ,
+            .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(4.dp)),
         elevation = 4.dp
     ) {
@@ -144,7 +127,10 @@ fun EditReminderCard(
                 .padding(4.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            //Title
+            /*
+            BEGIN REFERENCE
+            Author: Leon Freudenthaler
+             */
             OutlinedTextField(
                 value = title,
                 leadingIcon = {
@@ -163,8 +149,12 @@ fun EditReminderCard(
                     .padding(20.dp, 30.dp)
                     .fillMaxWidth()
             )
-            //Date
 
+            /*
+             made with Tutorial: https://www.geeksforgeeks.org/date-picker-in-android-using-jetpack-compose/
+             edited by Ula Rauch and Anna Leitner
+             Beginn
+             */
             val datePickerDialog = DatePickerDialog(
                 context,
                 { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
@@ -177,7 +167,6 @@ fun EditReminderCard(
                     isSurprise = false
                 }, y, m, d
             )
-
 
             Button(
                 onClick = {
@@ -197,12 +186,16 @@ fun EditReminderCard(
                 }
             }
             Spacer(modifier = Modifier.size(16.dp))
+            //End
 
-            //Time
+            /*
+             made with Tutorial: https://www.geeksforgeeks.org/time-picker-in-android-using-jetpack-compose/
+             edited by Ula Rauch and Anna Leitner
+             Beginn
+             */
             val mTimePickerDialog = TimePickerDialog(
                 context,
                 { _, mHour: Int, mMinute: Int ->
-                    //calTime.set(mHour, mMinute)
                     hReminder = mHour
                     minReminder = mMinute
                     editViewModel.setTime(h = hReminder, min = minReminder)
@@ -210,7 +203,6 @@ fun EditReminderCard(
                     isSurprise = false
                 }, hReminder, minReminder, false
             )
-
 
             Button(
                 onClick = {
@@ -230,7 +222,9 @@ fun EditReminderCard(
                 }
             }
             Spacer(modifier = Modifier.size(16.dp))
+            //End
 
+            //Random -> Surprise
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -285,10 +279,11 @@ fun EditReminderCard(
                 )
             }
 
-
-
+            /*
+            BEGIN REFERENCE
+            Author: Leon Freudenthaler
+            */
             OutlinedTextField(
-                //value = if (reminder != null) reminder!!.text else "", //schaut is reminder nicht null wenns da is dann wird der vom viewmodel angezeigt
                 value = text,
                 leadingIcon = {
                     Icon(
@@ -296,8 +291,6 @@ fun EditReminderCard(
                         contentDescription = "EditIcon"
                     )
                 },
-                // trailingIcon = { Icon(imageVector = Icons.Default.Add, contentDescription = null) },
-                // onValueChange = {value -> addViewModel.setText(value)}, // immer wenn ich text änder dann ändert sich das im reminderobjekt aktuallisiert
                 onValueChange = { value ->
                     text = value    // update text value inside field
                     editViewModel.setText(value) // update value in viewmodel

@@ -6,7 +6,6 @@ import android.content.Context
 import android.icu.util.Calendar
 import android.util.Log
 import android.widget.DatePicker
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,19 +15,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.work.WorkManager
-import com.example.rememberme.models.Reminder
 import com.example.rememberme.navigation.RememberScreens
 import com.example.rememberme.repositories.RememberRepository
-import com.example.rememberme.ui.theme.Green600
-import com.example.rememberme.ui.theme.Purple600
 import com.example.rememberme.viewmodels.AddRememberViewModel
 import com.example.rememberme.viewmodels.AddRememberViewModelFactory
 import java.util.*
@@ -50,10 +44,7 @@ fun AddScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "New Reminder",
-
-                        )
+                    Text(text = "New Reminder")
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -75,10 +66,8 @@ fun AddScreen(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "Add Button",
-                    tint = Color.White,
                     modifier = Modifier.size(30.dp)
                 )
-
             }
         },
         content = {
@@ -107,24 +96,14 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
     var minReminder: Int by remember { mutableStateOf(nowDate.get(Calendar.MINUTE))}
     addViewModel.setTime(h = hReminder, min = minReminder) //set reminder in VM to current time as default
 
-    // Value for storing time as a string
-    val mTime = remember { mutableStateOf("") }
-
 
     //Log.i("Add", "Calendar.getinstance(): $nowDate")
-    /*
-    y = nowDate.get(Calendar.YEAR)
-    m = nowDate.get(Calendar.MONTH)
-    d = nowDate.get(Calendar.DAY_OF_MONTH)
-  */
 
     var text by remember { mutableStateOf("") }
-    // add more properties if you need
     val date by remember { mutableStateOf(nowDate) }
     var title by remember { mutableStateOf("") }
     var isSurprise by remember { mutableStateOf(false) }
-    val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
-    //var isSelected by remember { mutableStateOf(false) }
+    //val reminder: Reminder? by addViewModel.reminder.observeAsState(null)
 
 
     Card(
@@ -141,7 +120,10 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                 .padding(4.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            //Title
+            /*
+            BEGIN REFERENCE
+            Author: Leon Freudenthaler
+             */
             OutlinedTextField(
                 value = title,
                 leadingIcon = {
@@ -161,6 +143,11 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                     .fillMaxWidth()
             )
 
+            /*
+             made with Tutorial: https://www.geeksforgeeks.org/date-picker-in-android-using-jetpack-compose/
+             edited by Ula Rauch and Anna Leitner
+             Beginn
+             */
             val datePickerDialog = DatePickerDialog(
                 context,
                 { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
@@ -191,11 +178,14 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                 }
             }
             Spacer(modifier = Modifier.size(16.dp))
+            //End
 
-            //Time
-
-            // Creating a TimePicker dialog
-            val mTimePickerDialog = TimePickerDialog(
+            /*
+             made with Tutorial: https://www.geeksforgeeks.org/time-picker-in-android-using-jetpack-compose/
+             edited by Ula Rauch and Anna Leitner
+             Beginn
+             */
+            val timePickerDialog = TimePickerDialog(
                 context,
                 { _, mHour: Int, mMinute: Int ->
                     hReminder = mHour
@@ -208,7 +198,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
 
             Button(
                 onClick = {
-                    mTimePickerDialog.show()
+                    timePickerDialog.show()
                 }, modifier = Modifier
                     .padding(20.dp, 5.dp)
                     .fillMaxWidth()
@@ -224,6 +214,7 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
 
             }
             Spacer(modifier = Modifier.size(16.dp))
+            //End
 
             //Radiobutton for surprise reminder within the next 30 days
             Row(
@@ -280,8 +271,10 @@ fun ReminderCard(addViewModel: AddRememberViewModel, context: Context) {
                 )
             }
 
-            //Text
-            /* von leons Branch*/
+            /*
+            BEGIN REFERENCE
+            Author: Leon Freudenthaler
+             */
             OutlinedTextField(
                 value = text,
                 leadingIcon = {
