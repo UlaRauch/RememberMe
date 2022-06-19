@@ -118,7 +118,7 @@ fun EditReminderCard(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(corner = CornerSize(4.dp)),
+        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 4.dp
     ) {
         Column(
@@ -146,7 +146,7 @@ fun EditReminderCard(
                 label = { Text(text = reminder.title) },
                 placeholder = { Text(text = "Edit Title") },
                 modifier = Modifier
-                    .padding(20.dp, 30.dp)
+                    .padding(20.dp)
                     .fillMaxWidth()
             )
 
@@ -229,7 +229,7 @@ fun EditReminderCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    modifier = Modifier.padding(30.dp, 5.dp),
+                    modifier = Modifier.padding(20.dp, 5.dp),
                     selected = isSurprise,
                     onClick = {
                         if (!isSurprise) {
@@ -298,10 +298,11 @@ fun EditReminderCard(
                 label = { Text(text = reminder.text) },
                 placeholder = { Text(text = "Edit Text") },
                 modifier = Modifier
-                    .padding(20.dp, 5.dp)
+                    .padding(20.dp)
                     .fillMaxWidth()
             )
         }
     }
 }
+
 

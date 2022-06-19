@@ -1,17 +1,11 @@
 package com.example.rememberme.viewmodels
 
-import android.content.Context
-import android.provider.CalendarContract
-import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.example.rememberme.models.Reminder
-//import com.example.rememberme.models.getReminders
 import com.example.rememberme.repositories.RememberRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -30,19 +24,14 @@ class RememberViewModel(
                 if (listofReminders.isNullOrEmpty()) {
                     _reminders.value =
                         emptyList() //TODO: still causes app to crash after deleting single reminder when going back to homescreen
-                    Log.d("Delete ViewModel", "No reminders")
+                   // Log.d("Delete ViewModel", "No reminders")
                 } else {
                     _reminders.value = listofReminders
-                    Log.d("Delete ViewModel", "reminder list init ok")
+                   // Log.d("Delete ViewModel", "reminder list init ok")
                 }
-                Log.i("Delete ViewModel", "reminders left in list: ${reminders.value}")
+               // Log.i("Delete ViewModel", "reminders left in list: ${reminders.value}")
             }
         }
-    }
-
-
-    fun getAllReminders(): Flow<List<Reminder>> { //TODO: brauchen wir das noch?
-        return repository.getAllReminders()
     }
 
     fun deleteAll() {
