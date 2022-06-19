@@ -32,15 +32,11 @@ class EditRememberViewModel (
     fun updateReminder() {
         _updatedReminder?.let { reminder ->
             viewModelScope.launch(Dispatchers.IO) {
-                //reminder.let { // call block only if not null
-                //  if (it.text.isNotEmpty()) {  // add more "Pflichtfelder" here if necessary
                 repository.updateReminder(reminder = reminder)//
                 //Log.d("ViewModel", "reminder updated")
                 workManager.cancelAllWorkByTag(reminder.id.toString())
                 WorkRequestUtils.createWorkRequest(reminder, workManager)
                 //Log.d("ViewModel", "workrequest for: Month: ${reminder.m}(calendar index), Day: ${reminder.d}:")
-                //}
-                //}
             }
         }
     }
@@ -64,13 +60,5 @@ class EditRememberViewModel (
     fun setSurprise(isSurprise: Boolean) {
         _updatedReminder?.isSurprise = isSurprise
     }
-    /*
-    fun getReminderbyID(reminderID: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _updatedReminder.postValue(repository.filterReminder(id = reminderID).value) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
-        }
-    }
-
-     */
 
 }

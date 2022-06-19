@@ -27,26 +27,14 @@ class DetailRememberViewModel(
         Log.i("edit", "reminder in detailVM: ${reminder.value?.title}")
     }
 
-    /*
-    private var _reminder: MutableLiveData<Reminder?> =
-        MutableLiveData(Reminder(title = "", d = 0, m = 0, y = 0, h = 0, min = 0, text = ""))
-    val reminder: LiveData<Reminder?> = _reminder
-
-    fun getReminderbyID(reminderID: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _reminder.postValue(repository.filterReminder(id = reminderID)) //postvalue instead of value because of coroutine https://stackoverflow.com/questions/51299641/difference-of-setvalue-postvalue-in-mutablelivedata?rq=1
-        }
-    }
-*/
-
     fun removeReminder(reminder: Reminder, tag: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteReminder(reminder)
         }
-        Log.i("Delete Detail", "deleting work with tag: $tag")
+        //Log.i("Delete Detail", "deleting work with tag: $tag")
         workManager.cancelAllWorkByTag(tag) //TODO: funktioniert nicht...
         val workinfo = workManager.getWorkInfosByTag("5").toString()
-        Log.i("Delete Detail", "get info for for work nr $tag: $workinfo")
+        //Log.i("Delete Detail", "get info for for work nr $tag: $workinfo")
     }
 
 }

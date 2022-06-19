@@ -1,7 +1,5 @@
 package com.example.rememberme.viewmodels
 
-import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
