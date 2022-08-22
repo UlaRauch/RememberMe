@@ -1,3 +1,0 @@
-Hallo Anna
-
-Hallo Ula
