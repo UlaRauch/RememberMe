@@ -16,7 +16,8 @@ class NotificationHelper(val context: Context) {
     //private val NOTIFICATION_ID = 1
 
     /*
-     code with minor adaptions by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+     code by https://dev.to/blazebrain/building-a-reminder-app-with-local-notifications-using-workmanager-api-385f
+      minor adaptions by Ula Rauch
      */
     private fun createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
